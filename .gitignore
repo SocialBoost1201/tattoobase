@@ -1,0 +1,47 @@
+# === Dependencies ===
+node_modules/
+.pnpm-store/
+
+# === Build outputs ===
+.next/
+dist/
+out/
+build/
+.turbo/
+*.tsbuildinfo
+
+# === Environment variables ===
+.env
+.env.*
+!.env.example
+
+# === Test coverage ===
+coverage/
+
+# === Database ===
+prisma/dev.db
+prisma/dev.db-journal
+*.db
+*.sqlite
+
+# === Mobile builds ===
+ios/build/
+android/build/
+android/.gradle/
+
+# === OS / Editor ===
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# === Logs ===
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# === Misc ===
+*.local
+.cache/

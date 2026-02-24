@@ -1,0 +1,7 @@
+{
+    "name": "@tattoobase/i18n",
+    "private": true,
+    "scripts": {
+        "test": "node validate.js"
+    }
+}

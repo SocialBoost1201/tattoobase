@@ -1,0 +1,348 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum BookingStatus {
+  Draft
+  PendingPolicyAgree
+  PendingPayment
+  Confirmed
+  PendingConsent
+  PendingKYC
+  ReadyForCheckin
+  InProgress
+  Completed
+  CancelledByUser
+  CancelledByStudio
+  NoShow
+  Disputed
+  
+  // v2.2.1 追加分 (設計Doc-03,04,05準拠)
+  DepositRequired
+  RequireApproval
+  InDesign
+}
+
+enum PaymentStatus {
+  Pending
+  Succeeded
+  Failed
+  Refunded
+}
+
+enum PaymentType {
+  Full
+  Deposit
+  DesignDeposit
+}
+
+enum AccountType {
+  EXPRESS
+  STANDARD
+  CUSTOM
+}
+
+enum RiskTier {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum ReservationDecision {
+  ALLOW
+  REQUIRE_DEPOSIT
+  REQUIRE_APPROVAL
+  BLOCK
+}
+
+enum DesignStatus {
+  REQUESTED
+  DEPOSIT_REQUIRED
+  IN_PROGRESS
+  REVIEW_PENDING
+  APPROVED
+  DELIVERED
+}
+
+enum AssetVisibility {
+  PRIVATE
+  SHARED_PREVIEW
+  SHARED_FINAL
+}
+
+model Booking {
+  id               String        @id @default(uuid())
+  userId           String
+  studioId         String
+  status           BookingStatus @default(Draft)
+  
+  scheduledAtUtc   DateTime?
+  scheduledAtLocal DateTime?
+  studioTz         String?
+  policySnapshot   Json?
+
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  payments         Payment[]
+
+  // ----- v2.2.1 新規追加 (破壊を防ぐため全てOptionalで関連) -----
+  artistId                    String?
+  notes                       String?
+  pricingSnapshotId           String?
+  reservationPolicyDecisionId String?
+
+  // 追加リレーション定義
+  studio   Studio? @relation(fields: [studioId], references: [id])
+  user     User?   @relation(fields: [userId], references: [id])
+  artist   ArtistProfile? @relation(fields: [artistId], references: [id])
+  pricingSnapshot PricingSnapshot? @relation(fields: [pricingSnapshotId], references: [id])
+  reservationDecision ReservationPolicyDecision? @relation(fields: [reservationPolicyDecisionId], references: [id])
+  designRequests DesignRequest[]
+}
+
+model Payment {
+  id              String        @id @default(uuid())
+  bookingId       String
+  paymentIntentId String        @unique
+  status          PaymentStatus @default(Pending)
+  amount          Int
+  currency        String
+  
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  booking         Booking       @relation(fields: [bookingId], references: [id])
+
+  // ----- v2.2.1 新規追加 -----
+  paymentType PaymentType @default(Full)
+  
+  // リレーション定義 (DesignDepositからの参照用)
+  designDeposits DesignDeposit[]
+}
+
+model WebhookEvent {
+  id                   String    @id
+  type                 String
+  receivedAt           DateTime  @default(now())
+  processingStartedAt  DateTime? // 排他制御用ロック
+  lockExpiresAt        DateTime? // ロック有効期限（スタック奪取用）
+  processedAt          DateTime? // 正常処理完了時間
+  errorJson            Json?
+  processingResultJson Json?
+}
+
+model AuditLog {
+  id          String   @id @default(uuid())
+  actorType   String
+  actorId     String
+  entityType  String
+  entityId    String
+  action      String
+  beforeJson  Json?
+  afterJson   Json?
+  requestId   String
+  createdAt   DateTime @default(now())
+}
+
+model ConsentDocument {
+  id          String   @id @default(uuid())
+  version     String
+  locale      String
+  hash        String
+  isPublished Boolean  @default(false)
+
+  @@unique([version, locale])
+}
+
+model KYCSubmission {
+  id                String    @id @default(uuid())
+  bookingId         String    @unique
+  encryptedFilePath String
+  birthDate         DateTime
+  status            String
+  reviewedBy        String?
+  reviewedAt        DateTime?
+}
+
+// ========== 新規モデル（完全追加） ==========
+
+// 1. テナント・ユーザー基盤
+model Studio {
+  id                   String      @id @default(uuid())
+  name                 String
+  slug                 String      @unique // tenant boundary
+  accountType          AccountType @default(EXPRESS)
+  payoutStrategyKey    String      @default("default_express")
+  createdAt            DateTime    @default(now())
+  updatedAt            DateTime    @updatedAt
+
+  bookings       Booking[]
+  staffs         Staff[]
+  artists        ArtistProfile[]
+  portfolioWorks PortfolioWork[]
+  subscription   Subscription?
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  bookings       Booking[]
+  riskProfile    RiskProfile?   
+  riskEvents     RiskEvent[]
+  designRequests DesignRequest[]
+}
+
+model Staff {
+  id          String   @id @default(uuid())
+  studioId    String
+  displayName String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  studio  Studio @relation(fields: [studioId], references: [id])
+  artists ArtistProfile[]
+  reservationDecisions ReservationPolicyDecision[] 
+}
+
+// 2. アーティスト基盤
+model ArtistProfile {
+  id          String   @id @default(uuid())
+  studioId    String
+  staffId     String?  // Staffアカウントと紐づく場合
+  displayName String
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  studio         Studio  @relation(fields: [studioId], references: [id])
+  staff          Staff?  @relation(fields: [staffId], references: [id])
+  portfolioWorks PortfolioWork[]
+  bookings       Booking[]
+  designRequests DesignRequest[]
+
+  @@index([studioId])
+}
+
+model PortfolioWork {
+  id          String   @id @default(uuid())
+  artistId    String
+  studioId    String
+  mediaUrls   String[] // URL配列
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  artist ArtistProfile @relation(fields: [artistId], references: [id])
+  studio Studio        @relation(fields: [studioId], references: [id])
+
+  @@index([artistId])
+  @@index([studioId])
+}
+
+// 3. 価格見積・Risk決定基盤
+model PricingSnapshot {
+  id            String   @id @default(uuid())
+  amount        Int
+  currency      String
+  breakdownJson Json
+  version       String
+  createdAt     DateTime @default(now())
+
+  bookings Booking[]
+}
+
+model ReservationPolicyDecision {
+  id                  String              @id @default(uuid())
+  decision            ReservationDecision
+  riskTier            RiskTier
+  ruleVersion         String
+  reasonCode          String?
+  decidedAt           DateTime            @default(now())
+  decidedByActorType  String              @default("system")
+  decidedByStaffId    String?
+
+  decidedByStaff Staff? @relation(fields: [decidedByStaffId], references: [id])
+  bookings       Booking[]
+}
+
+// 4. デザイン要求と保護
+model DesignRequest {
+  id        String       @id @default(uuid())
+  bookingId String
+  userId    String
+  artistId  String
+  status    DesignStatus @default(REQUESTED)
+  briefJson Json
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  booking       Booking         @relation(fields: [bookingId], references: [id])
+  user          User            @relation(fields: [userId], references: [id])
+  artist        ArtistProfile   @relation(fields: [artistId], references: [id])
+  designAssets  DesignAsset[]
+  designDeposits DesignDeposit[]
+}
+
+model DesignDeposit {
+  id              String   @id @default(uuid())
+  designRequestId String
+  amount          Int
+  currency        String
+  paymentId       String?  // 決済正本への参照
+  paymentIntentId String?  // 外部Stripe参照(補助)
+
+  createdAt       DateTime @default(now())
+
+  designRequest DesignRequest @relation(fields: [designRequestId], references: [id])
+  payment       Payment?      @relation(fields: [paymentId], references: [id])
+
+  @@index([paymentIntentId])
+}
+
+model DesignAsset {
+  id              String          @id @default(uuid())
+  designRequestId String
+  visibility      AssetVisibility @default(PRIVATE)
+  watermarkPolicy String          @default("none")
+  viewLimit       Int             @default(5)
+  contentHash     String
+  fileUrl         String
+  
+  designRequest DesignRequest @relation(fields: [designRequestId], references: [id])
+}
+
+// 5. リスク管理・プラン基盤
+model RiskProfile {
+  id       String   @id @default(uuid())
+  userId   String   @unique
+  tier     RiskTier @default(LOW)
+  score    Int      @default(100)
+  
+  user     User     @relation(fields: [userId], references: [id])
+}
+
+model RiskEvent {
+  id        String   @id @default(uuid())
+  userId    String
+  eventType String
+  occurredAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Subscription {
+  id         String    @id @default(uuid())
+  studioId   String    @unique // Tenant Studio Boundary
+  status     String    @default("active")
+  graceUntil DateTime?
+  
+  studio     Studio    @relation(fields: [studioId], references: [id])
+}

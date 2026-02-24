@@ -1,0 +1,27 @@
+{
+    "common": {
+        "save": "Save",
+        "submit": "Submit",
+        "cancel": "Cancel",
+        "loading": "Loading...",
+        "error": "An error occurred",
+        "success": "Success"
+    },
+    "search": {
+        "title": "Find a Tattoo Studio",
+        "location": "Location / Near Me",
+        "style": "Style / Tags",
+        "englishSupport": "English Support Available"
+    },
+    "studio": {
+        "bookNow": "Book Now",
+        "deposit": "Deposit",
+        "cancellationPolicy": "Cancellation Policy (Required Reading)"
+    },
+    "booking": {
+        "dateSelection": "Select Date & Time",
+        "localTimeWarning": "* Times shown are based on the studio's local time",
+        "confirm": "Confirm Booking",
+        "depositRequired": "A deposit of {amount} JPY is required at the time of booking"
+    }
+}

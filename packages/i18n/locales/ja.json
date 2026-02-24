@@ -1,0 +1,27 @@
+{
+    "common": {
+        "save": "保存",
+        "submit": "提出",
+        "cancel": "キャンセル",
+        "loading": "読み込み中...",
+        "error": "エラーが発生しました",
+        "success": "成功しました"
+    },
+    "search": {
+        "title": "タトゥースタジオを探す",
+        "location": "エリア・現在地",
+        "style": "スタイル・タグ",
+        "englishSupport": "英語対応可"
+    },
+    "studio": {
+        "bookNow": "予約する",
+        "deposit": "デポジット",
+        "cancellationPolicy": "キャンセルポリシー（必読）"
+    },
+    "booking": {
+        "dateSelection": "希望日時を選択",
+        "localTimeWarning": "※ 表示日時は店舗ローカル時間を基準としています",
+        "confirm": "予約を確定する",
+        "depositRequired": "予約時に{amount}円のデポジットが必要です"
+    }
+}

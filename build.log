@@ -1,0 +1,94 @@
+• Packages in scope: @tattoobase/database, @tattoobase/i18n, @tattoobase/shared-types, admin-web, api, studio-web, user-pwa
+• Running build in 7 packages
+• Remote caching disabled
+studio-web:build: cache miss, executing fbd96ee7a58772e2
+user-pwa:build: cache miss, executing 7dcf641fa622d269
+admin-web:build: cache miss, executing cb61e2b8214253b2
+api:build: cache miss, executing 2d356cabb782f955
+admin-web:build: 
+user-pwa:build: 
+user-pwa:build: > user-pwa@0.1.0 build /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/user-pwa
+user-pwa:build: > next build
+user-pwa:build: 
+admin-web:build: > admin-web@0.1.0 build /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/admin-web
+admin-web:build: > next build
+admin-web:build: 
+studio-web:build: 
+studio-web:build: > studio-web@0.1.0 build /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/studio-web
+studio-web:build: > next build
+studio-web:build: 
+api:build: 
+api:build: > api@1.0.0 build /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/api
+api:build: > nest build
+api:build: 
+user-pwa:build: ⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+user-pwa:build:  We detected multiple lockfiles and selected the directory of /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/pnpm-lock.yaml as the root directory.
+user-pwa:build:  To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+user-pwa:build:    See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+user-pwa:build:  Detected additional lockfiles: 
+user-pwa:build:    * /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/user-pwa/package-lock.json
+user-pwa:build: 
+admin-web:build: ⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+admin-web:build:  We detected multiple lockfiles and selected the directory of /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/pnpm-lock.yaml as the root directory.
+admin-web:build:  To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+admin-web:build:    See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+admin-web:build:  Detected additional lockfiles: 
+admin-web:build:    * /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/admin-web/package-lock.json
+admin-web:build: 
+studio-web:build: ⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+studio-web:build:  We detected multiple lockfiles and selected the directory of /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/pnpm-lock.yaml as the root directory.
+studio-web:build:  To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+studio-web:build:    See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+studio-web:build:  Detected additional lockfiles: 
+studio-web:build:    * /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/studio-web/package-lock.json
+studio-web:build: 
+admin-web:build: ▲ Next.js 16.1.6 (Turbopack)
+admin-web:build: 
+user-pwa:build: ▲ Next.js 16.1.6 (Turbopack)
+user-pwa:build: 
+studio-web:build: ▲ Next.js 16.1.6 (Turbopack)
+studio-web:build: 
+admin-web:build:   Creating an optimized production build ...
+studio-web:build:   Creating an optimized production build ...
+user-pwa:build:   Creating an optimized production build ...
+api:build: [96msrc/domain/booking-state-machine.service.ts[0m:[93m84[0m:[93m21[0m - [91merror[0m[90m TS2322: [0mType 'null' is not assignable to type 'NullableJsonNullValueInput | InputJsonValue | undefined'.
+api:build: 
+api:build: [7m84[0m                     beforeJson: null,
+api:build: [7m  [0m [91m                    ~~~~~~~~~~[0m
+api:build: 
+api:build:   [96m../../node_modules/.pnpm/@prisma+client@5.22.0_prisma@5.22.0/node_modules/.prisma/client/index.d.ts[0m:[93m23691[0m:[93m5[0m
+api:build:     [7m23691[0m     beforeJson?: NullableJsonNullValueInput | InputJsonValue
+api:build:     [7m     [0m [96m    ~~~~~~~~~~[0m
+api:build:     The expected type comes from property 'beforeJson' which is declared here on type '(Without<AuditLogCreateInput, AuditLogUncheckedCreateInput> & AuditLogUncheckedCreateInput) | (Without<...> & AuditLogCreateInput)'
+api:build: [96mtest/webhook.integration.spec.ts[0m:[93m31[0m:[93m30[0m - [91merror[0m[90m TS2454: [0mVariable 'app' is used before being assigned.
+api:build: 
+api:build: [7m31[0m         const req1 = request(app.getHttpServer()).post('/payments/webhook').set(headers).send(payloadBuffer);
+api:build: [7m  [0m [91m                             ~~~[0m
+api:build: [96mtest/webhook.integration.spec.ts[0m:[93m32[0m:[93m30[0m - [91merror[0m[90m TS2454: [0mVariable 'app' is used before being assigned.
+api:build: 
+api:build: [7m32[0m         const req2 = request(app.getHttpServer()).post('/payments/webhook').set(headers).send(payloadBuffer);
+api:build: [7m  [0m [91m                             ~~~[0m
+api:build: [96mtest/webhook.integration.spec.ts[0m:[93m73[0m:[93m35[0m - [91merror[0m[90m TS2454: [0mVariable 'app' is used before being assigned.
+api:build: 
+api:build: [7m73[0m         const res = await request(app.getHttpServer())
+api:build: [7m  [0m [91m                                  ~~~[0m
+api:build: [96msrc/domain/booking-state-machine.service.ts[0m:[93m9[0m:[93m11[0m - [91merror[0m[90m TS2742: [0mThe inferred type of 'transitionToConfirmed' cannot be named without a reference to '../../../../packages/database/node_modules/@prisma/client/runtime/library'. This is likely not portable. A type annotation is necessary.
+api:build: 
+api:build: [7m9[0m     async transitionToConfirmed(
+api:build: [7m [0m [91m          ~~~~~~~~~~~~~~~~~~~~~[0m
+api:build: 
+api:build: Found 5 error(s).
+api:build: 
+api:build:  ELIFECYCLE  Command failed with exit code 1.
+api:build: ERROR: command finished with error: command (/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/api) /Users/takumashinnyo/Library/pnpm/.tools/pnpm/8.15.0/bin/pnpm run build exited (1)
+studio-web:build:  ELIFECYCLE  Command failed with exit code 130.
+admin-web:build:  ELIFECYCLE  Command failed with exit code 130.
+user-pwa:build:  ELIFECYCLE  Command failed with exit code 130.
+api#build: command (/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/api) /Users/takumashinnyo/Library/pnpm/.tools/pnpm/8.15.0/bin/pnpm run build exited (1)
+
+ Tasks:    0 successful, 4 total
+Cached:    0 cached, 4 total
+  Time:    5.012s 
+Failed:    api#build
+
+ ERROR  run failed: command  exited (1)

@@ -1,0 +1,200 @@
+• Packages in scope: @tattoobase/database, @tattoobase/i18n, @tattoobase/shared-types, admin-web, api, studio-web, user-pwa
+• Running build in 7 packages
+• Remote caching disabled
+studio-web:build: cache miss, executing 9ae8c923b3058ba7
+admin-web:build: cache miss, executing 46f1aaaec8e51f58
+user-pwa:build: cache miss, executing 2081062566fa1e7e
+api:build: cache miss, executing ec2a74b5eddf0f1e
+studio-web:build: 
+studio-web:build: > studio-web@0.1.0 build /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/studio-web
+studio-web:build: > next build
+studio-web:build: 
+api:build: 
+api:build: > api@1.0.0 build /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/api
+api:build: > nest build
+api:build: 
+user-pwa:build: 
+user-pwa:build: > user-pwa@0.1.0 build /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/user-pwa
+user-pwa:build: > next build
+user-pwa:build: 
+admin-web:build: 
+admin-web:build: > admin-web@0.1.0 build /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/admin-web
+admin-web:build: > next build
+admin-web:build: 
+studio-web:build: ⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+studio-web:build:  We detected multiple lockfiles and selected the directory of /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/pnpm-lock.yaml as the root directory.
+studio-web:build:  To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+studio-web:build:    See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+studio-web:build:  Detected additional lockfiles: 
+studio-web:build:    * /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/studio-web/package-lock.json
+studio-web:build: 
+user-pwa:build: ⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+user-pwa:build:  We detected multiple lockfiles and selected the directory of /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/pnpm-lock.yaml as the root directory.
+user-pwa:build:  To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+user-pwa:build:    See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+user-pwa:build:  Detected additional lockfiles: 
+user-pwa:build:    * /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/user-pwa/package-lock.json
+user-pwa:build: 
+admin-web:build: ⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+admin-web:build:  We detected multiple lockfiles and selected the directory of /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/pnpm-lock.yaml as the root directory.
+admin-web:build:  To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+admin-web:build:    See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+admin-web:build:  Detected additional lockfiles: 
+admin-web:build:    * /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/admin-web/package-lock.json
+admin-web:build: 
+studio-web:build: ▲ Next.js 16.1.6 (Turbopack)
+studio-web:build: 
+user-pwa:build: ▲ Next.js 16.1.6 (Turbopack)
+user-pwa:build: 
+admin-web:build: ▲ Next.js 16.1.6 (Turbopack)
+admin-web:build: 
+studio-web:build:   Creating an optimized production build ...
+user-pwa:build:   Creating an optimized production build ...
+admin-web:build:   Creating an optimized production build ...
+admin-web:build: Error: Can't resolve 'tailwindcss' in '/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/admin-web/src/app'
+admin-web:build:     [2m[at finishWithoutResolve (/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/enhanced-resolve@5.19.0/node_modules/enhanced-resolve/lib/Resolver.js:586:18)][0m
+admin-web:build:     [2m[at /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/enhanced-resolve@5.19.0/node_modules/enhanced-resolve/lib/Resolver.js:678:14][0m
+admin-web:build:     [2m[at /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/enhanced-resolve@5.19.0/node_modules/enhanced-resolve/lib/Resolver.js:739:5][0m
+admin-web:build:     [2m[at eval (eval at create (/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/tapable@2.3.0/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+admin-web:build:     [2m[at /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/enhanced-resolve@5.19.0/node_modules/enhanced-resolve/lib/Resolver.js:739:5][0m
+admin-web:build:     [2m[at eval (eval at create (/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/tapable@2.3.0/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:27:1)][0m
+admin-web:build:     [2m[at /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/enhanced-resolve@5.19.0/node_modules/enhanced-resolve/lib/DescriptionFilePlugin.js:89:43][0m
+admin-web:build:     [2m[at /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/enhanced-resolve@5.19.0/node_modules/enhanced-resolve/lib/Resolver.js:739:5][0m
+admin-web:build:     [2m[at eval (eval at create (/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/tapable@2.3.0/node_modules/tapable/lib/HookCodeFactory.js:31:10), <anonymous>:15:1)][0m
+admin-web:build:     [2m[at /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/enhanced-resolve@5.19.0/node_modules/enhanced-resolve/lib/Resolver.js:739:5][0m {
+admin-web:build:   details: "resolve 'tailwindcss' in '/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/admin-web/src/app'\n" +
+admin-web:build:     '  Parsed request is a module\n' +
+admin-web:build:     '  using description file: /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/admin-web/package.json (relative path: ./src/app)\n' +
+admin-web:build:     '    resolve as module\n' +
+admin-web:build:     "      /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/admin-web/src/app/node_modules doesn't exist or is not a directory\n" +
+admin-web:build:     "      /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/admin-web/src/node_modules doesn't exist or is not a directory\n" +
+admin-web:build:     '      looking for modules in /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/admin-web/node_modules\n' +
+admin-web:build:     '        single file module\n' +
+admin-web:build:     '          using description file: /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/admin-web/package.json (relative path: ./node_modules/tailwindcss)\n' +
+admin-web:build:     '            no extension\n' +
+admin-web:build:     "              /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/admin-web/node_modules/tailwindcss doesn't exist\n" +
+admin-web:build:     '            .css\n' +
+admin-web:build:     "              /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/admin-web/node_modules/tailwindcss.css doesn't exist\n" +
+admin-web:build:     "        /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/admin-web/node_modules/tailwindcss doesn't exist\n" +
+admin-web:build:     "      /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/node_modules doesn't exist or is not a directory\n" +
+admin-web:build:     '      looking for modules in /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules\n' +
+admin-web:build:     '        single file module\n' +
+admin-web:build:     '          using description file: /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/package.json (relative path: ./node_modules/tailwindcss)\n' +
+admin-web:build:     '            no extension\n' +
+admin-web:build:     "              /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/tailwindcss doesn't exist\n" +
+admin-web:build:     '            .css\n' +
+admin-web:build:     "              /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/tailwindcss.css doesn't exist\n" +
+admin-web:build:     "        /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/tailwindcss doesn't exist\n" +
+admin-web:build:     "      /Users/takumashinnyo/Desktop/Antigravity/TattooBase/node_modules doesn't exist or is not a directory\n" +
+admin-web:build:     "      /Users/takumashinnyo/Desktop/Antigravity/node_modules doesn't exist or is not a directory\n" +
+admin-web:build:     "      /Users/takumashinnyo/Desktop/node_modules doesn't exist or is not a directory\n" +
+admin-web:build:     "      /Users/takumashinnyo/node_modules doesn't exist or is not a directory\n" +
+admin-web:build:     "      /Users/node_modules doesn't exist or is not a directory\n" +
+admin-web:build:     "      /node_modules doesn't exist or is not a directory\n" +
+admin-web:build:     '      looking for modules in /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/next@16.1.6_@babel+core@7.29.0_react-dom@19.2.3_react@19.2.3/node_modules/next/dist/bin/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/next@16.1.6_@babel+core@7.29.0_react-dom@19.2.3_react@19.2.3/node_modules/next/dist/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/next@16.1.6_@babel+core@7.29.0_react-dom@19.2.3_react@19.2.3/node_modules/next/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/next@16.1.6_@babel+core@7.29.0_react-dom@19.2.3_react@19.2.3/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/turbo@1.13.4/node_modules/turbo/bin/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/turbo@1.13.4/node_modules/turbo/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/turbo@1.13.4/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/node_modules\n' +
+admin-web:build:     '        single file module\n' +
+admin-web:build:     '          using description file: /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/next@16.1.6_@babel+core@7.29.0_react-dom@19.2.3_react@19.2.3/node_modules/next/package.json (relative path: ./dist/bin/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/next@16.1.6_@babel+core@7.29.0_react-dom@19.2.3_react@19.2.3/node_modules/next/dist/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/next@16.1.6_@babel+core@7.29.0_react-dom@19.2.3_react@19.2.3/node_modules/next/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/next@16.1.6_@babel+core@7.29.0_react-dom@19.2.3_react@19.2.3/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/turbo@1.13.4/node_modules/turbo/bin/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/turbo@1.13.4/node_modules/turbo/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/turbo@1.13.4/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/node_modules/tailwindcss)\n' +
+admin-web:build:     '            no extension\n' +
+admin-web:build:     "              /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/next@16.1.6_@babel+core@7.29.0_react-dom@19.2.3_react@19.2.3/node_modules/next/dist/bin/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/next@16.1.6_@babel+core@7.29.0_react-dom@19.2.3_react@19.2.3/node_modules/next/dist/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/next@16.1.6_@babel+core@7.29.0_react-dom@19.2.3_react@19.2.3/node_modules/next/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/next@16.1.6_@babel+core@7.29.0_react-dom@19.2.3_react@19.2.3/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/turbo@1.13.4/node_modules/turbo/bin/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/turbo@1.13.4/node_modules/turbo/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/turbo@1.13.4/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/node_modules/tailwindcss doesn't exist\n" +
+admin-web:build:     '            .css\n' +
+admin-web:build:     "              /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/next@16.1.6_@babel+core@7.29.0_react-dom@19.2.3_react@19.2.3/node_modules/next/dist/bin/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/next@16.1.6_@babel+core@7.29.0_react-dom@19.2.3_react@19.2.3/node_modules/next/dist/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/next@16.1.6_@babel+core@7.29.0_react-dom@19.2.3_react@19.2.3/node_modules/next/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/next@16.1.6_@babel+core@7.29.0_react-dom@19.2.3_react@19.2.3/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/turbo@1.13.4/node_modules/turbo/bin/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/turbo@1.13.4/node_modules/turbo/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/turbo@1.13.4/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/node_modules/tailwindcss.css doesn't exist\n" +
+admin-web:build:     "        /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/next@16.1.6_@babel+core@7.29.0_react-dom@19.2.3_react@19.2.3/node_modules/next/dist/bin/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/next@16.1.6_@babel+core@7.29.0_react-dom@19.2.3_react@19.2.3/node_modules/next/dist/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/next@16.1.6_@babel+core@7.29.0_react-dom@19.2.3_react@19.2.3/node_modules/next/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/next@16.1.6_@babel+core@7.29.0_react-dom@19.2.3_react@19.2.3/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/turbo@1.13.4/node_modules/turbo/bin/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/turbo@1.13.4/node_modules/turbo/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/turbo@1.13.4/node_modules:/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/node_modules/tailwindcss doesn't exist"
+admin-web:build: }
+studio-web:build: Error: Cannot apply unknown utility class `border-border`
+studio-web:build:     [2m[at onInvalidCandidate (/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/tailwindcss@4.2.0/node_modules/tailwindcss/dist/lib.js:21:1511)][0m
+studio-web:build:     [2m[at Ee (/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/tailwindcss@4.2.0/node_modules/tailwindcss/dist/lib.js:16:37066)][0m
+studio-web:build:     [2m[at /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/tailwindcss@4.2.0/node_modules/tailwindcss/dist/lib.js:21:355][0m
+studio-web:build:     [2m[at Pr (/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/tailwindcss@4.2.0/node_modules/tailwindcss/dist/lib.js:3:1733)][0m
+studio-web:build:     [2m[at _ (/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/tailwindcss@4.2.0/node_modules/tailwindcss/dist/lib.js:3:1377)][0m
+studio-web:build:     [2m[at Te (/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/tailwindcss@4.2.0/node_modules/tailwindcss/dist/lib.js:21:172)][0m
+studio-web:build:     [2m[at pn (/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/tailwindcss@4.2.0/node_modules/tailwindcss/dist/lib.js:38:294)][0m
+studio-web:build:     [2m[at async dn (/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/tailwindcss@4.2.0/node_modules/tailwindcss/dist/lib.js:38:631)][0m
+studio-web:build:     [2m[at async Xr (/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/@tailwindcss+node@4.2.0/node_modules/@tailwindcss/node/dist/index.js:10:3417)][0m
+studio-web:build:     [2m[at async N (/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/@tailwindcss+postcss@4.2.0/node_modules/@tailwindcss/postcss/dist/index.js:10:3979)][0m
+user-pwa:build: Error: Cannot apply unknown utility class `border-border`
+user-pwa:build:     [2m[at onInvalidCandidate (/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/tailwindcss@4.2.0/node_modules/tailwindcss/dist/lib.js:21:1511)][0m
+user-pwa:build:     [2m[at Ee (/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/tailwindcss@4.2.0/node_modules/tailwindcss/dist/lib.js:16:37066)][0m
+user-pwa:build:     [2m[at /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/tailwindcss@4.2.0/node_modules/tailwindcss/dist/lib.js:21:355][0m
+user-pwa:build:     [2m[at Pr (/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/tailwindcss@4.2.0/node_modules/tailwindcss/dist/lib.js:3:1733)][0m
+user-pwa:build:     [2m[at _ (/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/tailwindcss@4.2.0/node_modules/tailwindcss/dist/lib.js:3:1377)][0m
+user-pwa:build:     [2m[at Te (/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/tailwindcss@4.2.0/node_modules/tailwindcss/dist/lib.js:21:172)][0m
+user-pwa:build:     [2m[at pn (/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/tailwindcss@4.2.0/node_modules/tailwindcss/dist/lib.js:38:294)][0m
+user-pwa:build:     [2m[at async dn (/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/tailwindcss@4.2.0/node_modules/tailwindcss/dist/lib.js:38:631)][0m
+user-pwa:build:     [2m[at async Xr (/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/@tailwindcss+node@4.2.0/node_modules/@tailwindcss/node/dist/index.js:10:3417)][0m
+user-pwa:build:     [2m[at async N (/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/@tailwindcss+postcss@4.2.0/node_modules/@tailwindcss/postcss/dist/index.js:10:3979)][0m
+studio-web:build: 
+studio-web:build: > Build error occurred
+studio-web:build: Error: Turbopack build failed with 1 errors:
+studio-web:build: ./apps/studio-web/src/app/globals.css
+studio-web:build: Error evaluating Node.js code
+studio-web:build: CssSyntaxError: tailwindcss: /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/studio-web/src/app/globals.css:1:1: Cannot apply unknown utility class `border-border`
+studio-web:build:     at Input.error (apps/studio-web/node_modules/postcss/lib/input.js:135:16) [/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/studio-web/.next/build/chunks/f0003_aba23ee0._.js:4651:22]
+studio-web:build:     at Root.error (apps/studio-web/node_modules/postcss/lib/node.js:146:32) [/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/studio-web/.next/build/chunks/f0003_aba23ee0._.js:928:38]
+studio-web:build:     [at Object.Once (/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/@tailwindcss+postcss@4.2.0/node_modules/@tailwindcss/postcss/dist/index.js:10:6913)]
+studio-web:build:     at async LazyResult.runAsync (apps/studio-web/node_modules/postcss/lib/lazy-result.js:293:11) [/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/studio-web/.next/build/chunks/f0003_aba23ee0._.js:6206:21]
+studio-web:build:     at async transform (turbopack:///[turbopack-node]/transforms/postcss.ts:70:34) [/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/studio-web/.next/build/chunks/[root-of-the-server]__c477a146._.js:146:36]
+studio-web:build:     at async run (turbopack:///[turbopack-node]/ipc/evaluate.ts:92:23) [/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/studio-web/.next/build/chunks/[root-of-the-server]__f94dc783._.js:443:31]
+studio-web:build: 
+studio-web:build: Import trace:
+studio-web:build:   Client Component Browser:
+studio-web:build:     ./apps/studio-web/src/app/globals.css [Client Component Browser]
+studio-web:build:     ./apps/studio-web/src/app/layout.tsx [Server Component]
+studio-web:build: 
+studio-web:build: 
+studio-web:build:     at async transform (turbopack:///[turbopack-node]/transforms/postcss.ts:70:34) [/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/studio-web/.next/build/chunks/[root-of-the-server]__c477a146._.js:146:36])
+studio-web:build:     at async run (turbopack:///[turbopack-node]/ipc/evaluate.ts:92:23) [/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/studio-web/.next/build/chunks/[root-of-the-server]__f94dc783._.js:443:31])
+admin-web:build: 
+admin-web:build: > Build error occurred
+admin-web:build: Error: Turbopack build failed with 1 errors:
+admin-web:build: ./apps/admin-web/src/app/globals.css
+admin-web:build: Error evaluating Node.js code
+admin-web:build: CssSyntaxError: tailwindcss: /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/admin-web/src/app/globals.css:1:1: Can't resolve 'tailwindcss' in '/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/admin-web/src/app'
+admin-web:build:     at Input.error (apps/admin-web/node_modules/postcss/lib/input.js:135:16) [/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/admin-web/.next/build/chunks/be48e_4c066ae5._.js:4651:22]
+admin-web:build:     at Root.error (apps/admin-web/node_modules/postcss/lib/node.js:146:32) [/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/admin-web/.next/build/chunks/be48e_4c066ae5._.js:928:38]
+admin-web:build:     [at Object.Once (/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/@tailwindcss+postcss@4.2.0/node_modules/@tailwindcss/postcss/dist/index.js:10:6913)]
+admin-web:build:     [at process.processTicksAndRejections (node:internal/process/task_queues:105:5)]
+admin-web:build:     at async LazyResult.runAsync (apps/admin-web/node_modules/postcss/lib/lazy-result.js:293:11) [/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/admin-web/.next/build/chunks/be48e_4c066ae5._.js:6206:21]
+admin-web:build:     at async transform (turbopack:///[turbopack-node]/transforms/postcss.ts:70:34) [/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/admin-web/.next/build/chunks/[root-of-the-server]__c389e9d6._.js:146:36]
+admin-web:build:     at async run (turbopack:///[turbopack-node]/ipc/evaluate.ts:92:23) [/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/admin-web/.next/build/chunks/[root-of-the-server]__30d4a2bf._.js:443:31]
+admin-web:build: 
+admin-web:build: Import trace:
+admin-web:build:   Client Component Browser:
+admin-web:build:     ./apps/admin-web/src/app/globals.css [Client Component Browser]
+admin-web:build:     ./apps/admin-web/src/app/layout.tsx [Server Component]
+admin-web:build: 
+admin-web:build: 
+admin-web:build:     at async transform (turbopack:///[turbopack-node]/transforms/postcss.ts:70:34) [/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/admin-web/.next/build/chunks/[root-of-the-server]__c389e9d6._.js:146:36])
+admin-web:build:     at async run (turbopack:///[turbopack-node]/ipc/evaluate.ts:92:23) [/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/admin-web/.next/build/chunks/[root-of-the-server]__30d4a2bf._.js:443:31])
+studio-web:build:  ELIFECYCLE  Command failed with exit code 1.
+admin-web:build:  ELIFECYCLE  Command failed with exit code 1.
+user-pwa:build: 
+user-pwa:build: > Build error occurred
+user-pwa:build: Error: Turbopack build failed with 1 errors:
+user-pwa:build: ./apps/user-pwa/src/app/globals.css
+user-pwa:build: Error evaluating Node.js code
+user-pwa:build: CssSyntaxError: tailwindcss: /Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/user-pwa/src/app/globals.css:1:1: Cannot apply unknown utility class `border-border`
+user-pwa:build:     at Input.error (apps/user-pwa/node_modules/postcss/lib/input.js:135:16) [/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/user-pwa/.next/build/chunks/728b8_d93a69f7._.js:4651:22]
+user-pwa:build:     at Root.error (apps/user-pwa/node_modules/postcss/lib/node.js:146:32) [/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/user-pwa/.next/build/chunks/728b8_d93a69f7._.js:928:38]
+user-pwa:build:     [at Object.Once (/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/node_modules/.pnpm/@tailwindcss+postcss@4.2.0/node_modules/@tailwindcss/postcss/dist/index.js:10:6913)]
+user-pwa:build:     at async LazyResult.runAsync (apps/user-pwa/node_modules/postcss/lib/lazy-result.js:293:11) [/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/user-pwa/.next/build/chunks/728b8_d93a69f7._.js:6206:21]
+user-pwa:build:     at async transform (turbopack:///[turbopack-node]/transforms/postcss.ts:70:34) [/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/user-pwa/.next/build/chunks/[root-of-the-server]__64198617._.js:146:36]
+user-pwa:build:     at async run (turbopack:///[turbopack-node]/ipc/evaluate.ts:92:23) [/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/user-pwa/.next/build/chunks/[root-of-the-server]__af80a822._.js:443:31]
+user-pwa:build: 
+user-pwa:build: Import trace:
+user-pwa:build:   Client Component Browser:
+user-pwa:build:     ./apps/user-pwa/src/app/globals.css [Client Component Browser]
+user-pwa:build:     ./apps/user-pwa/src/app/layout.tsx [Server Component]
+user-pwa:build: 
+user-pwa:build: 
+user-pwa:build:     at async transform (turbopack:///[turbopack-node]/transforms/postcss.ts:70:34) [/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/user-pwa/.next/build/chunks/[root-of-the-server]__64198617._.js:146:36])
+user-pwa:build:     at async run (turbopack:///[turbopack-node]/ipc/evaluate.ts:92:23) [/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/user-pwa/.next/build/chunks/[root-of-the-server]__af80a822._.js:443:31])
+studio-web:build: ERROR: command finished with error: command (/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/studio-web) /Users/takumashinnyo/Library/pnpm/.tools/pnpm/8.15.0/bin/pnpm run build exited (1)
+user-pwa:build:  ELIFECYCLE  Command failed with exit code 1.
+studio-web#build: command (/Users/takumashinnyo/Desktop/Antigravity/TattooBase/tattoobase-os/apps/studio-web) /Users/takumashinnyo/Library/pnpm/.tools/pnpm/8.15.0/bin/pnpm run build exited (1)
+
+ Tasks:    1 successful, 4 total
+Cached:    0 cached, 4 total
+  Time:    6.684s 
+Failed:    studio-web#build
+
+ ERROR  run failed: command  exited (1)
