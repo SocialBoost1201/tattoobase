@@ -38,5 +38,9 @@
     "prisma": "5.22.0",
     "tailwindcss": "^4.2.0",
     "typescript": "^5"
-  }
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "packageManager": "pnpm@9.15.4"
 }
