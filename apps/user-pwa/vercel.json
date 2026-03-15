@@ -1,9 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
-  "buildCommand": "pnpm run build --filter=user-pwa",
-  "installCommand": "pnpm install",
-  "outputDirectory": "apps/user-pwa/.next",
+  "installCommand": "npm install --legacy-peer-deps",
   "headers": [
     {
       "source": "/(.*)",
