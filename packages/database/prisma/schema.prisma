@@ -53,6 +53,13 @@ enum RiskTier {
   HIGH
 }
 
+enum KYCStatus {
+  UNSUBMITTED
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 enum ReservationDecision {
   ALLOW
   REQUIRE_DEPOSIT
@@ -179,6 +186,8 @@ model Studio {
   slug                 String      @unique // tenant boundary
   accountType          AccountType @default(EXPRESS)
   payoutStrategyKey    String      @default("default_express")
+  requiresDeposit      Boolean     @default(false)
+  depositAmount        Int         @default(10000)
   createdAt            DateTime    @default(now())
   updatedAt            DateTime    @updatedAt
 
@@ -190,15 +199,22 @@ model Studio {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            String   @id @default(uuid())
+  email         String   @unique
+  emailVerified DateTime?
+  name          String?
+  image         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  kycStatus     KYCStatus @default(UNSUBMITTED)
 
   bookings       Booking[]
-  riskProfile    RiskProfile?   
+  riskProfile    RiskProfile?
   riskEvents     RiskEvent[]
   designRequests DesignRequest[]
+  accounts       Account[]
+  sessions       Session[]
 }
 
 model Staff {
@@ -215,10 +231,16 @@ model Staff {
 
 // 2. アーティスト基盤
 model ArtistProfile {
-  id          String   @id @default(uuid())
-  studioId    String
-  staffId     String?  // Staffアカウントと紐づく場合
-  displayName String
+  id                String   @id @default(uuid())
+  studioId          String
+  staffId           String?  // Staffアカウントと紐づく場合
+  displayName       String
+  bio               String?  @db.Text
+  profileImageUrl   String?
+  gender            String?
+  yearsOfExperience Int?
+  specialties       String[] // 得意ジャンルタグ等
+  instagramHandle   String?
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -233,12 +255,17 @@ model ArtistProfile {
 }
 
 model PortfolioWork {
-  id          String   @id @default(uuid())
-  artistId    String
-  studioId    String
-  mediaUrls   String[] // URL配列
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id            String   @id @default(uuid())
+  artistId      String
+  studioId      String
+  title         String?
+  description   String?  @db.Text
+  mediaUrls     String[] // URL配列
+  tags          String[] // タグ
+  styleCategory String?
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
   artist ArtistProfile @relation(fields: [artistId], references: [id])
   studio Studio        @relation(fields: [studioId], references: [id])
@@ -346,3 +373,116 @@ model Subscription {
   
   studio     Studio    @relation(fields: [studioId], references: [id])
 }
+
+// ========== NextAuth v5 (Auth.js) 認証テーブル ==========
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ========== Tattoo-Friendly Facilities ==========
+
+enum FacilityType {
+  ONSEN     // 温泉
+  SENTO     // 銭湯
+  GYM       // ジム・プール
+  HOTEL     // ホテル・旅館
+  BEACH     // 海水浴場
+  OTHER
+}
+
+enum TattooAcceptanceLevel {
+  ALLOWED           // 全身OK・制限なし
+  COVERED_ONLY      // ラッシュガードやシール等で隠せばOK
+  PARTIAL_ONLY      // ワンポイントなど一部のみOK
+  BANNED            // 一切禁止（入館不可）
+  UNKNOWN           // 不明・要確認
+}
+
+model Facility {
+  id              String                @id @default(uuid())
+  name            String                // 施設名
+  slug            String                @unique // URL用
+  type            FacilityType          // 施設カテゴリ
+  acceptanceLevel TattooAcceptanceLevel @default(UNKNOWN)
+  description     String?               @db.Text
+  
+  // 場所情報
+  prefecture   String?      // 都道府県
+  city         String?      // 市区町村
+  address      String?      // 番地以降
+  
+  // タトゥー関連ポリシー
+  tattooPolicy String?      @db.Text
+  
+  // 画像・リンク
+  mediaUrls    String[]
+  websiteUrl   String?
+  
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  reports      FacilityReport[]
+}
+
+// 報告ステータス
+enum ReportStatus {
+  PENDING    // 承認待ち
+  APPROVED   // 承認済み（データ反映済み）
+  REJECTED   // 却下
+}
+
+// ユーザーからのタレコミ報告
+model FacilityReport {
+  id                String                @id @default(uuid())
+  facilityId        String                @map("facility_id") // 対象施設
+  userId            String?               // 投稿者（ログインしている場合のみ）
+  
+  // ユーザーが報告したタトゥー受け入れレベル
+  reportedLevel     TattooAcceptanceLevel
+  
+  // 根拠となる情報
+  evidenceText      String?               @db.Text // 実際に断られた、シールで入れた等の体験談
+  evidenceUrl       String?               // 公式サイトのURLや参考リンク
+  
+  status            ReportStatus          @default(PENDING)
+  adminNote         String?               @db.Text // 管理者のメモ（却下理由など）
+  
+  createdAt         DateTime              @default(now())
+  updatedAt         DateTime              @updatedAt
+
+  facility          Facility              @relation(fields: [facilityId], references: [id])
+}
+

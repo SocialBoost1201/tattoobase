@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query, Post, Body, Patch, Delete } from '@nestjs/common';
 import { AdminApiService } from './admin-api.service';
 
 /**
@@ -23,6 +23,14 @@ export class AdminApiController {
     @Get('kyc/:id')
     getKycDetail(@Param('id') id: string) {
         return this.adminApiService.getKycDetail(id);
+    }
+
+    @Post('kyc/:id/process')
+    processKyc(
+        @Param('id') id: string,
+        @Body() body: { action: 'APPROVE' | 'REJECT', reviewerId: string }
+    ) {
+        return this.adminApiService.processKyc(id, body.action, body.reviewerId);
     }
 
     @Get('webhooks')
@@ -66,5 +74,45 @@ export class AdminApiController {
     @Get('reports')
     getReports() {
         return this.adminApiService.getReports();
+    }
+
+    // --- Facilities ---
+    @Get('facilities')
+    getFacilities() {
+        return this.adminApiService.getFacilities();
+    }
+
+    @Get('facilities/:id')
+    getFacility(@Param('id') id: string) {
+        return this.adminApiService.getFacility(id);
+    }
+
+    @Post('facilities')
+    createFacility(@Body() body: any) {
+        return this.adminApiService.createFacility(body);
+    }
+
+    @Patch('facilities/:id')
+    updateFacility(@Param('id') id: string, @Body() body: any) {
+        return this.adminApiService.updateFacility(id, body);
+    }
+
+    @Delete('facilities/:id')
+    deleteFacility(@Param('id') id: string) {
+        return this.adminApiService.deleteFacility(id);
+    }
+
+    // --- Facility Reports (UGC) ---
+    @Get('facility-reports/pending')
+    getPendingFacilityReports() {
+        return this.adminApiService.getPendingFacilityReports();
+    }
+
+    @Post('facility-reports/:id/process')
+    processFacilityReport(
+        @Param('id') id: string,
+        @Body() body: { action: 'APPROVE' | 'REJECT', adminNote?: string }
+    ) {
+        return this.adminApiService.processFacilityReport(id, body.action, body.adminNote);
     }
 }

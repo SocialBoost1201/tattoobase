@@ -1,0 +1,42 @@
+# TattooBase ローカル開発環境
+# Usage: docker-compose up -d
+
+services:
+  # ─── PostgreSQL ───
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: tattoobase
+      POSTGRES_PASSWORD: tattoobase_dev
+      POSTGRES_DB: tattoobase_dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tattoobase -d tattoobase_dev"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ─── NestJS API ───
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      PORT: "3000"
+      DATABASE_URL: "postgresql://tattoobase:tattoobase_dev@db:5432/tattoobase_dev?schema=public"
+      STRIPE_SECRET_KEY: "${STRIPE_SECRET_KEY:-sk_test_placeholder}"
+      STRIPE_WEBHOOK_SECRET: "${STRIPE_WEBHOOK_SECRET:-whsec_placeholder}"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:

@@ -40,6 +40,36 @@ export class AdminApiService {
         return this.prisma.kYCSubmission.findUnique({ where: { id } });
     }
 
+    /** KYC 審査処理 */
+    async processKyc(id: string, action: 'APPROVE' | 'REJECT', reviewerId: string) {
+        const kyc = await this.prisma.kYCSubmission.findUnique({ where: { id } });
+        if (!kyc) throw new Error('KYC submission not found');
+
+        // UserId を bookingId からパースする (kyc-userId-timestamp 形式)
+        const parts = kyc.bookingId.split('-');
+        const userId = parts.length >= 2 ? parts[1] : null;
+
+        return this.prisma.$transaction(async (tx) => {
+            const updatedKyc = await tx.kYCSubmission.update({
+                where: { id },
+                data: {
+                    status: action === 'APPROVE' ? 'APPROVED' : 'REJECTED',
+                    reviewedBy: reviewerId,
+                    reviewedAt: new Date(),
+                }
+            });
+
+            if (userId) {
+                await tx.user.update({
+                    where: { id: userId },
+                    data: { kycStatus: action === 'APPROVE' ? 'APPROVED' : 'REJECTED' }
+                });
+            }
+
+            return updatedKyc;
+        });
+    }
+
     /** Webhook イベント一覧 (監視目的) */
     getWebhooks() {
         return this.prisma.webhookEvent.findMany({
@@ -105,6 +135,71 @@ export class AdminApiService {
             where: { action: { startsWith: 'REPORT_' } },
             take: 50,
             orderBy: { createdAt: 'desc' },
+        });
+    }
+
+    // --- Facilities ---
+    getFacilities() {
+        return this.prisma.facility.findMany({
+            orderBy: { createdAt: 'desc' }
+        });
+    }
+
+    getFacility(id: string) {
+        return this.prisma.facility.findUnique({
+            where: { id }
+        });
+    }
+
+    createFacility(data: any) {
+        return this.prisma.facility.create({ data });
+    }
+
+    updateFacility(id: string, data: any) {
+        return this.prisma.facility.update({
+            where: { id },
+            data
+        });
+    }
+
+    deleteFacility(id: string) {
+        return this.prisma.facility.delete({
+            where: { id }
+        });
+    }
+
+    // --- Facility Reports (UGC) ---
+    getPendingFacilityReports() {
+        return this.prisma.facilityReport.findMany({
+            where: { status: 'PENDING' },
+            include: { facility: true },
+            orderBy: { createdAt: 'desc' }
+        });
+    }
+
+    async processFacilityReport(id: string, action: 'APPROVE' | 'REJECT', adminNote?: string) {
+        const report = await this.prisma.facilityReport.findUnique({ where: { id } });
+        if (!report) throw new Error('Report not found');
+
+        return this.prisma.$transaction(async (tx) => {
+            // Update the report status
+            const updatedReport = await tx.facilityReport.update({
+                where: { id },
+                data: {
+                    status: action === 'APPROVE' ? 'APPROVED' : 'REJECTED',
+                    adminNote,
+                }
+            });
+
+            // If approved, update the facility's acceptance level
+            if (action === 'APPROVE') {
+                await tx.facility.update({
+                    where: { id: report.facilityId },
+                    data: { acceptanceLevel: report.reportedLevel }
+                });
+            }
+
+            return updatedReport;
         });
     }
 }

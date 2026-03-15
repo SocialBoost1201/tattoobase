@@ -1,4 +1,5 @@
 import { Module, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 import { RequestIdMiddleware } from './middleware/request-id.middleware';
 import { StripeRawBodyMiddleware } from './middleware/raw-body.middleware';
 import { PrismaModule } from './prisma/prisma.module';
@@ -12,6 +13,7 @@ import { ArtistModule } from './admin-api/artist/artist.module';
 import { UserApiModule } from './user-api/user-api.module';
 import { StudioApiModule } from './studio-api/studio-api.module';
 import { AdminApiModule } from './admin-api/admin-api.module';
+import { AuditLogInterceptor } from './common/interceptors/audit-log.interceptor';
 
 @Module({
     imports: [
@@ -20,6 +22,12 @@ import { AdminApiModule } from './admin-api/admin-api.module';
         RiskModule, DesignModule, PricingModule, SubscriptionModule, ArtistModule,
         // フロントエンド向けドメイン別 API モジュール
         UserApiModule, StudioApiModule, AdminApiModule,
+    ],
+    providers: [
+        {
+            provide: APP_INTERCEPTOR,
+            useClass: AuditLogInterceptor,
+        },
     ],
 })
 export class AppModule {

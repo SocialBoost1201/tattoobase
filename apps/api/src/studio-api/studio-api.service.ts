@@ -82,12 +82,51 @@ export class StudioApiService {
         });
     }
 
+    /** 所属アーティスト更新 */
+    async updateArtist(studioId: string, id: string, data: any) {
+        // 所属チェック
+        const artist = await this.prisma.artistProfile.findFirst({ where: { id, studioId } });
+        if (!artist) throw new Error('Artist not found or access denied.');
+
+        return this.prisma.artistProfile.update({
+            where: { id },
+            data: {
+                displayName: data.displayName,
+                bio: data.bio,
+                specialties: data.specialties,
+                gender: data.gender,
+                yearsOfExperience: data.yearsOfExperience,
+                profileImageUrl: data.profileImageUrl,
+                instagramHandle: data.instagramHandle,
+            },
+        });
+    }
+
     /** 作品ポートフォリオ一覧 */
     getPortfolio(studioId: string) {
         return this.prisma.portfolioWork.findMany({
             where: { studioId },
             include: { artist: true },
             orderBy: { createdAt: 'desc' },
+        });
+    }
+
+    /** 作品ポートフォリオ追加 */
+    async createPortfolioWork(studioId: string, data: any) {
+        // 所属チェック
+        const artist = await this.prisma.artistProfile.findFirst({ where: { id: data.artistId, studioId } });
+        if (!artist) throw new Error('Artist not found or access denied.');
+
+        return this.prisma.portfolioWork.create({
+            data: {
+                artistId: data.artistId,
+                studioId: studioId,
+                title: data.title,
+                description: data.description,
+                mediaUrls: data.imageUrl ? [data.imageUrl] : [],
+                tags: data.tags || [],
+                styleCategory: data.styleCategory,
+            },
         });
     }
 
@@ -114,6 +153,61 @@ export class StudioApiService {
                     },
                 },
             },
+        });
+    }
+
+    /** 予約リクエストの承認 */
+    async approveBooking(studioId: string, id: string) {
+        const booking = await this.prisma.booking.findFirst({ where: { id, studioId } });
+        if (!booking || booking.status !== 'RequireApproval') {
+            throw new Error('Booking not found or not in RequireApproval state.');
+        }
+
+        // デポジットの有無等に応じたステータス遷移。MVPとしていったんは一律 PendingPayment に遷移させる。
+        // （実際には `ReservationPolicyDecision` 等から `depositRequired` を判定し `Confirmed` に直行させる場合もある）
+        return this.prisma.booking.update({
+            where: { id },
+            data: { status: 'PendingPayment' },
+        });
+    }
+
+    /** 予約リクエストの拒否 */
+    async rejectBooking(studioId: string, id: string) {
+        const booking = await this.prisma.booking.findFirst({ where: { id, studioId } });
+        if (!booking || booking.status !== 'RequireApproval') {
+            throw new Error('Booking not found or not in RequireApproval state.');
+        }
+
+        return this.prisma.booking.update({
+            where: { id },
+            data: { status: 'CancelledByStudio' },
+        });
+    }
+
+    // --- Settings (Deposit) ---
+    async getDepositSettings(studioId: string) {
+        return this.prisma.studio.findUnique({
+            where: { id: studioId },
+            select: {
+                id: true,
+                requiresDeposit: true,
+                depositAmount: true,
+            }
+        });
+    }
+
+    async updateDepositSettings(studioId: string, payload: { requiresDeposit: boolean, depositAmount: number }) {
+        return this.prisma.studio.update({
+            where: { id: studioId },
+            data: {
+                requiresDeposit: payload.requiresDeposit,
+                depositAmount: payload.depositAmount,
+            },
+            select: {
+                id: true,
+                requiresDeposit: true,
+                depositAmount: true,
+            }
         });
     }
 }

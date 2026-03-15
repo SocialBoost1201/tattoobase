@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query, Post, Body } from '@nestjs/common';
 import { UserApiService } from './user-api.service';
 
 @Controller('user-api')
@@ -6,7 +6,12 @@ export class UserApiController {
     constructor(private readonly userApiService: UserApiService) { }
 
     @Get('artists')
-    getArtists() { return this.userApiService.getArtists(); }
+    getArtists(
+        @Query('genre') genre?: string,
+        @Query('gender') gender?: string
+    ) { 
+        return this.userApiService.getArtists({ genre, gender }); 
+    }
 
     @Get('artists/:id')
     getArtist(@Param('id') id: string) { return this.userApiService.getArtistMeta(id); }
@@ -38,4 +43,50 @@ export class UserApiController {
 
     @Get('designs/:id')
     getDesign(@Param('id') id: string) { return this.userApiService.getDesignDetail(id); }
+
+    // --- KYC ---
+    @Post('account/kyc')
+    submitKyc(
+        @Query('userId') userId: string,
+        @Body() body: { encryptedFilePath: string, birthDate: string }
+    ) {
+        return this.userApiService.submitKyc(userId, body);
+    }
+
+    // --- Facilities ---
+    @Get('facilities')
+    getFacilities(
+        @Query('type') type?: string, 
+        @Query('area') area?: string,
+        @Query('acceptanceLevel') acceptanceLevel?: string,
+        @Query('includeBanned') includeBanned?: string
+    ) {
+        return this.userApiService.getFacilities({ 
+            type, 
+            area, 
+            acceptanceLevel, 
+            includeBanned: includeBanned === 'true' 
+        });
+    }
+
+    @Get('facilities/:slugOrId')
+    getFacility(@Param('slugOrId') slugOrId: string) {
+        return this.userApiService.getFacilityMeta(slugOrId);
+    }
+
+    @Post('facilities/:id/reports')
+    createFacilityReport(
+        @Param('id') facilityId: string,
+        @Body() body: {
+            userId?: string;
+            reportedLevel: string;
+            evidenceText?: string;
+            evidenceUrl?: string;
+        }
+    ) {
+        return this.userApiService.createFacilityReport({
+            ...body,
+            facilityId,
+        });
+    }
 }
