@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { MapPin, Star, Bookmark } from 'lucide-react';
+import { MapPin, Star } from 'lucide-react';
+import SaveButton from '@/components/ui/SaveButton';
 
 // PC用横型ArtistCard（食べログ・Hot Pepper方式）
 const STYLE_COLORS: Record<string, string> = {
@@ -68,10 +69,7 @@ export default function ArtistCardHorizontal({ artist }: { artist: Artist }) {
           <div>
             <div className="flex items-start justify-between gap-3">
               <h3 className="text-white font-bold text-base leading-tight truncate">{artist.displayName}</h3>
-              <button onClick={e => e.preventDefault()}
-                className="shrink-0 w-7 h-7 rounded-full border border-neutral-700 flex items-center justify-center text-neutral-500 hover:text-white hover:border-neutral-400 transition-colors">
-                <Bookmark className="w-3.5 h-3.5" />
-              </button>
+              <SaveButton artistId={artist.id} size="md" />
             </div>
 
             <div className="flex items-center gap-1.5 mt-1 text-neutral-500">

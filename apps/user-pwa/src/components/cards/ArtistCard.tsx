@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { MapPin, Bookmark, Star } from 'lucide-react';
+import { MapPin, Star, Bookmark } from 'lucide-react';
+import SaveButton from '@/components/ui/SaveButton';
 
 // スタイルごとのアクセントカラー（写真がない場合のグラデーション）
 const STYLE_COLORS: Record<string, string> = {
@@ -66,14 +67,12 @@ export default function ArtistCard({ artist }: { artist: Artist }) {
             </div>
           )}
 
-          {/* ブックマークアイコン（右上） */}
-          <button
-            onClick={(e) => e.preventDefault()}
-            className="absolute top-2.5 right-2.5 w-7 h-7 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/80"
-            aria-label="保存"
-          >
-            <Bookmark className="w-3.5 h-3.5 text-white" />
-          </button>
+          {/* 保存ボタン（右上） */}
+          <SaveButton
+            artistId={artist.id}
+            size="sm"
+            className="absolute top-2.5 right-2.5 opacity-0 group-hover:opacity-100"
+          />
 
           {/* スタイルバッジ（左上） */}
           {primaryStyle && (
