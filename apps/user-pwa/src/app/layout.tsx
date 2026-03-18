@@ -42,6 +42,7 @@ export const metadata: Metadata = {
 
 
 import SmoothScroller from "@/components/layout/SmoothScroller";
+import AIStyleAssistant from "@/components/ui/AIStyleAssistant";
 
 // (中略)
 
@@ -57,8 +58,11 @@ export default function RootLayout({
             {children}
           </main>
           <BottomNav />
+          {/* E-3: AIスタイルアシスタント（全ページ共通フローティング） */}
+          <AIStyleAssistant />
         </SmoothScroller>
       </body>
     </html>
   );
 }
+

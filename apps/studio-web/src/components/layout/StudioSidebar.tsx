@@ -4,7 +4,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { 
   LayoutDashboard, 
-  CalendarDays, 
+  CalendarDays,
+  CalendarRange,
   Image as ImageIcon, 
   Users, 
   ShieldAlert, 
@@ -15,11 +16,13 @@ import {
 const navItems = [
   { href: '/studio', label: 'Dashboard', icon: LayoutDashboard, exact: true },
   { href: '/studio/bookings', label: 'Bookings', icon: CalendarDays },
+  { href: '/studio/calendar', label: 'Calendar', icon: CalendarRange },
   { href: '/studio/portfolio', label: 'Portfolio', icon: ImageIcon },
   { href: '/studio/artists', label: 'Artists', icon: Users },
   { href: '/studio/risk', label: 'Risk Control', icon: ShieldAlert },
   { href: '/studio/settings', label: 'Settings', icon: Settings },
 ];
+
 
 export default function StudioSidebar() {
   const pathname = usePathname();
