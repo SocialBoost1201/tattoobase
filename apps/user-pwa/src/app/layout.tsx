@@ -43,6 +43,7 @@ export const metadata: Metadata = {
 
 import SmoothScroller from "@/components/layout/SmoothScroller";
 import AIStyleAssistant from "@/components/ui/AIStyleAssistant";
+import SeoFooter from "@/components/layout/SeoFooter";
 
 // (中略)
 
@@ -57,6 +58,7 @@ export default function RootLayout({
           <main className="max-w-xl mx-auto px-4 pt-6 pb-24 min-h-screen">
             {children}
           </main>
+          <SeoFooter />
           <BottomNav />
           {/* E-3: AIスタイルアシスタント（全ページ共通フローティング） */}
           <AIStyleAssistant />
@@ -65,4 +67,5 @@ export default function RootLayout({
     </html>
   );
 }
+
 
