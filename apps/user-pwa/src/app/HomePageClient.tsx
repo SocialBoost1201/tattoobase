@@ -14,6 +14,7 @@ import HeroSection from '@/components/home/HeroSection';
 import PopularGenres from '@/components/home/PopularGenres';
 import TrustAndSafety from '@/components/home/TrustAndSafety';
 import TattooFriendlyCrossSell from '@/components/home/TattooFriendlyCrossSell';
+import AreaAndStyleDiscovery from '@/components/home/AreaAndStyleDiscovery';
 import BeginnerGuide from '@/components/home/BeginnerGuide';
 
 if (typeof window !== 'undefined') {
@@ -68,6 +69,11 @@ export default function HomePageClient({ artists, portfolios }: { artists: any[]
           {/* 2. Popular Styles / Genres (横スクロール) */}
           <div className="fade-in-section opacity-0">
             <PopularGenres />
+          </div>
+
+          {/* 2.5 エリア・スタイル発見セクション (食べログ × Hot Pepper方式) */}
+          <div className="fade-in-section opacity-0">
+            <AreaAndStyleDiscovery />
           </div>
 
           {/* 3. Featured Artists (ピックアップ) */}

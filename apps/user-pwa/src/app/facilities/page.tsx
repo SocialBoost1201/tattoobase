@@ -36,28 +36,27 @@ export default async function FacilitiesSearchPage({
   const facilities = await getFacilities(type, includeBanned);
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8 space-y-8">
-      {/* ページヘッダー */}
-      <div className="text-center space-y-3">
-        <h1 className="font-heading font-extrabold text-3xl md:text-4xl text-[#0a0a0a] tracking-tight uppercase">
+    <div className="space-y-6 pb-20">
+      <div>
+        <h1 className="font-heading font-extrabold text-3xl text-white tracking-tight uppercase">
           Tattoo Friendly
         </h1>
-        <p className="text-[#4b4b4b] text-sm md:text-base max-w-2xl mx-auto">
-          タトゥーのある方がもっとも知りたい情報が豊富に掲載されています。<br className="hidden md:block" />
+        <p className="text-neutral-400 text-xs mt-1 font-medium leading-relaxed">
+          タトゥーのある方が最も知りたい情報が豊富に掲載されています。<br className="hidden md:block" />
           タトゥーに寛容な温泉や宿泊施設の情報を検索できます。
         </p>
       </div>
 
-      {/* カテゴリフィルター */}
-      <section className="bg-[#fcfcfc] border border-[#e8e8e8] p-4 md:p-6 rounded-lg">
-        <h2 className="text-[#0a0a0a] text-xs font-bold mb-3 tracking-widest uppercase">Filter by Category</h2>
-        <div className="flex flex-wrap gap-2">
+      {/* フィルター (Scrollable Row) */}
+      <section className="space-y-4 sticky top-16 bg-black/80 backdrop-blur-xl z-30 pt-2 pb-4 -mx-4 px-4 border-b border-neutral-900">
+        <h2 className="text-neutral-500 text-[10px] font-bold tracking-widest uppercase">Select Category</h2>
+        <div className="flex overflow-x-auto [&::-webkit-scrollbar]:hidden [scrollbar-width:none] [-ms-overflow-style:none] gap-2 pb-1">
           <a
             href={`/facilities?includeBanned=${includeBanned}`}
-            className={`px-4 py-2 text-xs font-bold border transition-all rounded-md tracking-wide ${
+            className={`px-4 py-2 text-[11px] font-extrabold shrink-0 border transition-all rounded-full tracking-widest uppercase ${
               !type
-                ? 'bg-[#0a0a0a] text-white border-[#0a0a0a] shadow-md shadow-black/10'
-                : 'bg-white text-[#6b6b6b] border-[#d0d0d0] hover:border-[#0a0a0a] hover:text-[#0a0a0a]'
+                ? 'bg-white text-black border-white shadow-md shadow-white/10'
+                : 'bg-transparent text-neutral-400 border-neutral-700 hover:border-neutral-400 hover:text-white'
             }`}
           >
             ALL
@@ -66,10 +65,10 @@ export default async function FacilitiesSearchPage({
             <a
               key={c.value}
               href={`/facilities?type=${c.value}&includeBanned=${includeBanned}`}
-              className={`px-4 py-2 text-xs font-bold border transition-all rounded-md tracking-wide ${
+              className={`px-4 py-2 text-[11px] font-extrabold shrink-0 border transition-all rounded-full tracking-widest uppercase ${
                 type === c.value
-                  ? 'bg-[#0a0a0a] text-white border-[#0a0a0a] shadow-md shadow-black/10'
-                  : 'bg-white text-[#6b6b6b] border-[#d0d0d0] hover:border-[#0a0a0a] hover:text-[#0a0a0a]'
+                  ? 'bg-white text-black border-white shadow-md shadow-white/10'
+                  : 'bg-transparent text-neutral-400 border-neutral-700 hover:border-neutral-400 hover:text-white'
               }`}
             >
               {c.label}
@@ -77,53 +76,45 @@ export default async function FacilitiesSearchPage({
           ))}
         </div>
         
-        {/* タトゥー禁止施設を含めるトグル設定 */}
-        <div className="mt-4 pt-4 border-t border-[#e8e8e8] flex items-center gap-3">
-          <span className="text-xs font-bold text-[#6b6b6b]">オプション:</span>
+        {/* タトゥー禁止施設を含めるトグル */}
+        <div className="mt-3 flex items-center gap-3">
+          <span className="text-[10px] font-bold text-neutral-500 tracking-widest uppercase">Option:</span>
           {includeBanned === 'true' ? (
             <a 
               href={`/facilities?type=${type}&includeBanned=false`}
-              className="px-3 py-1.5 text-xs font-bold bg-[#f5f5f5] text-[#3b3b3b] rounded border border-[#d0d0d0] hover:bg-white transition-colors flex items-center gap-2"
+              className="px-3 py-1.5 text-[10px] font-bold tracking-wide bg-neutral-900 text-neutral-300 rounded-full border border-neutral-800 hover:bg-neutral-800 transition-colors flex items-center gap-2"
             >
-              <span className="w-2 h-2 rounded-full bg-red-500"></span> 禁止施設を隠す
+              <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span> 禁止施設を隠す
             </a>
           ) : (
             <a 
               href={`/facilities?type=${type}&includeBanned=true`}
-              className="px-3 py-1.5 text-xs font-bold bg-white text-[#6b6b6b] rounded border border-[#e0e0e0] hover:border-[#d0d0d0] transition-colors flex items-center gap-2"
+              className="px-3 py-1.5 text-[10px] font-bold tracking-wide bg-transparent text-neutral-500 rounded-full border border-neutral-800 hover:border-neutral-600 hover:text-white transition-colors flex items-center gap-2"
             >
-              <span className="w-2 h-2 rounded-full bg-gray-300"></span> 禁止施設も含めて表示
+              <span className="w-1.5 h-1.5 rounded-full bg-neutral-600"></span> 禁止施設を含める
             </a>
           )}
         </div>
       </section>
 
       {/* 施設一覧グリッド */}
-      <section>
-        <div className="flex items-center justify-between mb-4 mt-2">
-          <h2 className="text-xl font-extrabold text-[#0a0a0a] font-heading">
-            {type ? CATEGORIES.find(c => c.value === type)?.label : 'すべての施設'}
-          </h2>
-          <span className="text-[#6b6b6b] text-xs font-bold bg-[#f0f0f0] px-3 py-1 rounded-full">
-            {facilities.length} LISTINGS
-          </span>
-        </div>
+      <section className="pt-2">
+        <p className="text-neutral-500 text-[10px] uppercase font-bold tracking-widest mb-4">
+          {facilities.length} listings found
+        </p>
 
         {facilities.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {facilities.map((f: Facility) => (
               <FacilityCard key={f.id} facility={f} />
             ))}
           </div>
         ) : (
-          <div className="py-24 text-center border-2 border-dashed border-[#e0e0e0] rounded-xl bg-gray-50/50">
-            <svg className="w-12 h-12 text-[#b0b0b0] mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <p className="text-[#3b3b3b] font-bold text-lg mb-1">施設が見つかりませんでした</p>
-            <p className="text-[#6b6b6b] text-sm">別のカテゴリを選択するか、しばらくしてからもう一度お試しください。</p>
-            <a href="/facilities" className="inline-block mt-6 text-sm font-bold text-[#0a0a0a] hover:underline underline-offset-4">
-              &larr; すべての施設を表示
+          <div className="py-24 text-center border border-neutral-900 rounded-2xl bg-neutral-900/20">
+            <p className="text-neutral-500 font-bold text-sm mb-1">施設が見つかりませんでした</p>
+            <p className="text-neutral-600 text-xs mt-2">別のカテゴリを選択するか、しばらくしてからもう一度お試しください。</p>
+            <a href="/facilities" className="inline-block mt-6 px-6 py-3 bg-white text-black text-xs font-bold tracking-widest uppercase rounded-full hover:bg-neutral-200 transition-colors">
+              VIEW ALL
             </a>
           </div>
         )}

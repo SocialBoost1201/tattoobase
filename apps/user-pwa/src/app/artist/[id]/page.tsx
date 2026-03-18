@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import PortfolioCard from '@/components/cards/PortfolioCard';
+import ArtistDetailClient from './ArtistDetailClient';
 
 const API = 'http://localhost:3000';
 
@@ -18,64 +18,29 @@ export default async function ArtistDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const [artist, allPortfolios] = await Promise.all([getArtist(id), getPortfolios()]);
+  let artist = null;
+  let allPortfolios = [];
+  
+  try {
+    const [artistData, portfoliosData] = await Promise.all([getArtist(id), getPortfolios()]);
+    artist = artistData;
+    allPortfolios = portfoliosData;
+  } catch (e) {
+    console.error('Failed to fetch data', e);
+  }
 
   if (!artist) {
     return (
-      <div className="py-16 text-center border border-[#e0e0e0] rounded-sm">
-        <p className="text-[#6b6b6b] text-sm">アーティストが見つかりませんでした</p>
-        <Link href="/search" className="mt-4 inline-block text-sm font-semibold text-[#0a0a0a] underline">検索に戻る</Link>
+      <div className="py-20 text-center border-2 border-dashed border-neutral-800 rounded-xl bg-neutral-900/50">
+        <p className="text-neutral-400 font-bold mb-4">アーティストが見つかりませんでした</p>
+        <Link href="/search" className="inline-block px-6 py-3 bg-white text-black text-sm font-bold rounded-full hover:bg-neutral-200 transition-colors">
+          検索に戻る
+        </Link>
       </div>
     );
   }
 
   const works = allPortfolios.filter((w: { artistId: string }) => w.artistId === id);
-  const initials = artist.displayName.slice(0, 2).toUpperCase();
 
-  return (
-    <div className="space-y-8">
-      {/* プロフィール */}
-      <section className="flex items-center gap-4">
-        <div className="w-16 h-16 rounded-full bg-[#f0f0f0] border-2 border-[#0a0a0a] flex items-center justify-center flex-shrink-0">
-          <span className="text-xl font-extrabold text-[#0a0a0a] font-heading">{initials}</span>
-        </div>
-        <div>
-          <h1 className="font-heading font-extrabold text-2xl text-[#0a0a0a] leading-tight">{artist.displayName}</h1>
-          {artist.studio && (
-            <p className="text-[#6b6b6b] text-sm mt-0.5">{artist.studio.name}</p>
-          )}
-        </div>
-      </section>
-
-      {/* 区切り線 */}
-      <div className="h-px bg-[#e0e0e0]" />
-
-      {/* 予約CTA */}
-      <Link
-        href={`/booking/start?artistId=${artist.id}`}
-        className="block w-full bg-[#0a0a0a] hover:opacity-85 text-white font-bold text-center py-4 rounded-sm transition-opacity duration-200 font-heading tracking-wide"
-      >
-        予約する
-      </Link>
-
-      {/* ポートフォリオ */}
-      <section>
-        <div className="flex items-baseline justify-between mb-3">
-          <h2 className="font-heading font-extrabold text-base text-[#0a0a0a] tracking-tight">WORKS</h2>
-          <span className="text-xs text-[#6b6b6b]">{works.length} pieces</span>
-        </div>
-        {works.length > 0 ? (
-          <div className="grid grid-cols-3 gap-2">
-            {works.map((w: { id: string; mediaUrls: string[]; artistId: string }) => (
-              <PortfolioCard key={w.id} work={w} />
-            ))}
-          </div>
-        ) : (
-          <div className="py-10 text-center border border-[#e0e0e0] rounded-sm">
-            <p className="text-[#a0a0a0] text-sm">作品はまだ登録されていません</p>
-          </div>
-        )}
-      </section>
-    </div>
-  );
+  return <ArtistDetailClient artist={artist} works={works} />;
 }
