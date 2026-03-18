@@ -9,7 +9,6 @@ import ArtistCard from '@/components/cards/ArtistCard';
 import PortfolioCard from '@/components/cards/PortfolioCard';
 import SplashScreen from '@/components/ui/SplashScreen';
 
-// 新規コンポーネント
 import HeroSection from '@/components/home/HeroSection';
 import PopularGenres from '@/components/home/PopularGenres';
 import TrustAndSafety from '@/components/home/TrustAndSafety';
@@ -27,107 +26,137 @@ export default function HomePageClient({ artists, portfolios }: { artists: any[]
   const [isSplashDone, setIsSplashDone] = useState(false);
 
   useGSAP(() => {
-    // スプラッシュが完了するまで本文のアニメーションは待機
     if (!isSplashDone) return;
-
-    // 汎用フェードイン
     const fadeElems = gsap.utils.toArray('.fade-in-section');
     fadeElems.forEach((elem: any) => {
       gsap.from(elem, {
-        scrollTrigger: {
-          trigger: elem,
-          start: 'top 85%',
-          toggleActions: 'play none none reverse'
-        },
-        y: 40,
-        opacity: 0,
-        duration: 0.8,
-        ease: 'power3.out'
+        scrollTrigger: { trigger: elem, start: 'top 85%', toggleActions: 'play none none reverse' },
+        y: 40, opacity: 0, duration: 0.8, ease: 'power3.out'
       });
     });
-
-    // ヒーローセクションのアニメーション（ヒーロー側は別コンポーネント内だが、
-    // もし親で制御が必要ならここで発火させる等の連携も可能）
   }, { scope: container, dependencies: [isSplashDone] });
 
   return (
     <>
       <SplashScreen onComplete={() => setIsSplashDone(true)} />
-      
-      {/* スプラッシュスクリーンが消えるまではスクロールを抑制し、裏に隠しておく */}
-      <div 
-        ref={container} 
+
+      <div
+        ref={container}
         className={`bg-black min-h-screen pb-20 -mt-6 transition-opacity duration-1000 ${
           isSplashDone ? 'opacity-100' : 'opacity-0 h-screen overflow-hidden'
         }`}
       >
-        {/* 1. Hero Section (検索バー含むファーストビュー) */}
+        {/* 1. Hero Section */}
         <HeroSection />
 
-        {/* トップページのコンテンツは max-w-xl (+モバイルフル幅調整) の中に配置 */}
-        <div className="max-w-xl mx-auto space-y-10 mt-8">
-          
-          {/* 2. Popular Styles / Genres (横スクロール) */}
-          <div className="fade-in-section opacity-0">
-            <PopularGenres />
+        {/* コンテンツエリア: モバイル1カラム / PC 2カラム (メイン + サイドバー) */}
+        <div className="mt-8 space-y-10 md:space-y-0 md:grid md:grid-cols-[1fr_300px] md:gap-10 md:items-start">
+
+          {/* ===== メインカラム ===== */}
+          <div className="space-y-10">
+            {/* 2. Popular Genres */}
+            <div className="fade-in-section opacity-0">
+              <PopularGenres />
+            </div>
+
+            {/* 2.5 エリア・スタイル発見 */}
+            <div className="fade-in-section opacity-0">
+              <AreaAndStyleDiscovery />
+            </div>
+
+            {/* 2.8 最近見たアーティスト */}
+            <RecentlyViewedArtists allArtists={artists} />
+
+            {/* 3. Featured Artists: モバイル2カラム / PC 3カラム */}
+            {artists.length > 0 && (
+              <section className="fade-in-section opacity-0">
+                <div className="flex items-baseline justify-between mb-5">
+                  <h2 className="font-heading font-extrabold text-white text-xl tracking-tight">FEATURED ARTISTS</h2>
+                  <Link href="/search?type=artist" className="text-[11px] font-semibold text-neutral-400 hover:text-white transition-colors uppercase tracking-widest">
+                    すべて見る →
+                  </Link>
+                </div>
+                <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
+                  {artists.slice(0, 6).map((a: any) => (
+                    <ArtistCard key={a.id} artist={a} />
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* 4. Trending Works: モバイル3カラム / PC 4カラム */}
+            {portfolios.length > 0 && (
+              <section className="fade-in-section opacity-0">
+                <div className="flex items-baseline justify-between mb-5">
+                  <h2 className="font-heading font-extrabold text-white text-xl tracking-tight">TRENDING WORKS</h2>
+                  <Link href="/search?type=portfolio" className="text-[11px] font-semibold text-neutral-400 hover:text-white transition-colors uppercase tracking-widest">
+                    すべて見る →
+                  </Link>
+                </div>
+                <div className="grid grid-cols-3 gap-2 md:grid-cols-4 md:gap-3">
+                  {portfolios.slice(0, 8).map((w: any) => (
+                    <PortfolioCard key={w.id} work={w} />
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* 5. Trust & Safety */}
+            <div className="fade-in-section opacity-0">
+              <TrustAndSafety />
+            </div>
+
+            {/* 6. Cross Sell */}
+            <div className="fade-in-section opacity-0">
+              <TattooFriendlyCrossSell />
+            </div>
           </div>
 
-          {/* 2.5 エリア・スタイル発見セクション (食べログ × Hot Pepper方式) */}
-          <div className="fade-in-section opacity-0">
-            <AreaAndStyleDiscovery />
-          </div>
+          {/* ===== PCサイドバー（md以上で表示・sticky） ===== */}
+          <aside className="hidden md:block sticky top-32 space-y-5">
+            {/* 初心者ガイドウィジェット */}
+            <div className="fade-in-section opacity-0">
+              <BeginnerGuide />
+            </div>
 
-          {/* 2.8 最近見たアーティスト（A-3: パーソナライズ） */}
-          <RecentlyViewedArtists allArtists={artists} />
-
-          {/* 3. Featured Artists (ピックアップ) */}
-          {artists.length > 0 && (
-            <section className="fade-in-section opacity-0 px-4 pt-2">
-              <div className="flex items-baseline justify-between mb-5">
-                <h2 className="font-heading font-extrabold text-white text-xl tracking-tight">FEATURED ARTISTS</h2>
-                <Link href="/search?type=artist" className="text-[11px] font-semibold text-neutral-400 hover:text-white transition-colors uppercase tracking-widest">
-                  すべて見る →
-                </Link>
-              </div>
-              <div className="grid grid-cols-2 gap-3 md:gap-4">
-                {artists.slice(0, 4).map((a: any) => (
-                  <ArtistCard key={a.id} artist={a} />
+            {/* エリアリンク */}
+            <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-5 space-y-3">
+              <p className="text-[10px] font-extrabold text-neutral-500 uppercase tracking-widest">エリアから探す</p>
+              <div className="space-y-1.5">
+                {[
+                  { label: '東京', href: '/area/tokyo' },
+                  { label: '大阪', href: '/area/osaka' },
+                  { label: '愛知', href: '/area/aichi' },
+                  { label: '福岡', href: '/area/fukuoka' },
+                  { label: '神奈川', href: '/area/kanagawa' },
+                ].map(item => (
+                  <Link key={item.href} href={item.href}
+                    className="flex justify-between items-center py-1.5 text-sm text-neutral-300 hover:text-white transition-colors group">
+                    <span>{item.label}のアーティスト</span>
+                    <span className="text-neutral-600 group-hover:text-neutral-400 text-xs">→</span>
+                  </Link>
                 ))}
               </div>
-            </section>
-          )}
+            </div>
 
-          {/* 4. Trust & Safety (安心感の醸成) */}
-          <div className="fade-in-section opacity-0">
-            <TrustAndSafety />
-          </div>
-
-          {/* 5. Trending Works (タイル状ギャラリー) */}
-          {portfolios.length > 0 && (
-            <section className="fade-in-section opacity-0 px-4">
-              <div className="flex items-baseline justify-between mb-5">
-                <h2 className="font-heading font-extrabold text-white text-xl tracking-tight">TRENDING WORKS</h2>
-                <Link href="/search?type=portfolio" className="text-[11px] font-semibold text-neutral-400 hover:text-white transition-colors uppercase tracking-widest">
-                  すべて見る →
-                </Link>
-              </div>
-              <div className="grid grid-cols-3 gap-2 md:gap-3">
-                {portfolios.slice(0, 6).map((w: any) => (
-                  <PortfolioCard key={w.id} work={w} />
+            {/* スタイル別タグ */}
+            <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-5 space-y-3">
+              <p className="text-[10px] font-extrabold text-neutral-500 uppercase tracking-widest">スタイルから探す</p>
+              <div className="flex flex-wrap gap-1.5">
+                {['和彫', 'ブラックアンドグレー', 'ミニマル', 'ワンポイント', 'レタリング', 'アニメ'].map(style => (
+                  <Link key={style} href={`/search?type=artist&genre=${encodeURIComponent(style)}`}
+                    className="px-2.5 py-1 bg-neutral-800 border border-neutral-700 text-neutral-300 hover:text-white hover:border-neutral-500 text-xs font-bold rounded-full transition-all">
+                    {style}
+                  </Link>
                 ))}
               </div>
-            </section>
-          )}
+            </div>
+          </aside>
+        </div>
 
-          {/* 6. Tattoo Friendly Cross Sell (温泉・サウナ) */}
-          <div className="fade-in-section opacity-0">
-            <TattooFriendlyCrossSell />
-          </div>
-
-          {/* 7. Beginner's Guide (コンテンツ) */}
-          <div className="fade-in-section opacity-0">
-            <BeginnerGuide />
-          </div>
+        {/* モバイルのみ BeginnerGuide を下部に表示 */}
+        <div className="md:hidden mt-10 fade-in-section opacity-0">
+          <BeginnerGuide />
         </div>
       </div>
     </>

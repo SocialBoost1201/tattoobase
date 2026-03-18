@@ -56,20 +56,28 @@ export default function RootLayout({
       <body className={`${inter.variable} ${poppins.variable} bg-black text-white`}>
         <SmoothScroller>
           <Header />
-          <main className="max-w-xl mx-auto px-4 pt-6 pb-24 min-h-screen">
+          {/* モバイル: max-w-xl / PC: max-w-7xl */}
+          <main className="mx-auto px-4 pt-6 pb-24 min-h-screen
+            max-w-xl
+            md:max-w-7xl md:px-8 md:pb-12">
             {children}
           </main>
           <SeoFooter />
-          <BottomNav />
+          {/* BottomNavはスマホのみ */}
+          <div className="md:hidden">
+            <BottomNav />
+          </div>
           {/* E-3: AIスタイルアシスタント（全ページ共通フローティング） */}
           <AIStyleAssistant />
-          {/* H: Add to Home Screen プロンプト */}
-          <AddToHomeScreen />
-
+          {/* H: Add to Home Screen プロンプト（モバイルのみ） */}
+          <div className="md:hidden">
+            <AddToHomeScreen />
+          </div>
         </SmoothScroller>
       </body>
     </html>
   );
 }
+
 
 

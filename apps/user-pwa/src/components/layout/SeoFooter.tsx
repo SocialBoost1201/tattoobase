@@ -19,7 +19,7 @@ export default function SeoFooter() {
   return (
     <footer className="bg-neutral-950 border-t border-neutral-900 mt-16 pb-24 md:pb-8">
       {/* SEOリンク集 */}
-      <div className="max-w-xl mx-auto px-4 pt-10 grid gap-8">
+      <div className="max-w-xl mx-auto md:max-w-7xl px-4 md:px-8 pt-10 grid gap-8">
 
         {/* エリア別 */}
         <div>
