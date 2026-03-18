@@ -44,6 +44,7 @@ export const metadata: Metadata = {
 import SmoothScroller from "@/components/layout/SmoothScroller";
 import AIStyleAssistant from "@/components/ui/AIStyleAssistant";
 import SeoFooter from "@/components/layout/SeoFooter";
+import AddToHomeScreen from "@/components/ui/AddToHomeScreen";
 
 // (中略)
 
@@ -62,6 +63,9 @@ export default function RootLayout({
           <BottomNav />
           {/* E-3: AIスタイルアシスタント（全ページ共通フローティング） */}
           <AIStyleAssistant />
+          {/* H: Add to Home Screen プロンプト */}
+          <AddToHomeScreen />
+
         </SmoothScroller>
       </body>
     </html>

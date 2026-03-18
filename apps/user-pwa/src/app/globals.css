@@ -152,7 +152,43 @@
     opacity: 0;
   }
   to {
-    transform: translateY(0);
+    transform: translateY(0);;
     opacity: 1;
   }
 }
+
+/* ===== View Transitions API (Phase H) ===== */
+/* Next.js App Router のページ遷移に自動適用 */
+@keyframes fade-in {
+  from { opacity: 0; }
+}
+@keyframes fade-out {
+  to { opacity: 0; }
+}
+@keyframes slide-from-right {
+  from { transform: translateX(30px); opacity: 0; }
+}
+@keyframes slide-to-left {
+  to { transform: translateX(-30px); opacity: 0; }
+}
+
+::view-transition-old(root) {
+  animation: 180ms ease-in both fade-out, 180ms ease-in both slide-to-left;
+}
+::view-transition-new(root) {
+  animation: 280ms ease-out both fade-in, 280ms ease-out both slide-from-right;
+}
+
+/* ヒーロー画像はクロスフェードのみ（スライドなし） */
+::view-transition-old(hero-image),
+::view-transition-new(hero-image) {
+  animation: 350ms ease both fade-in;
+}
+
+/* BottomNavは遷移しない（固定） */
+::view-transition-old(bottom-nav),
+::view-transition-new(bottom-nav) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
