@@ -7,6 +7,7 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ChevronLeft, MapPin, Star, CalendarHeart, X, Bookmark, Share2, BadgeCheck, Zap, Clock, Languages, Instagram } from 'lucide-react';
 import { recordArtistView } from '@/components/home/RecentlyViewedArtists';
+import ReviewSection from '@/components/artist/ReviewSection';
 
 // キャンセルポリシー
 const CANCEL_POLICY = [
@@ -249,6 +250,12 @@ export default function ArtistDetailClient({ artist, works }: { artist: any; wor
               </div>
             )}
           </section>
+
+          {/* レビューセクション */}
+          <div className="px-1 md:px-2">
+            <ReviewSection artistId={artist.id} />
+          </div>
+
         </div>{/* END 右カラム */}
 
       </div>{/* END PC 2カラムグリッド */}
