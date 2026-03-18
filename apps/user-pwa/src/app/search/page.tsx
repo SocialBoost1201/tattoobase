@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import ArtistCard from '@/components/cards/ArtistCard';
@@ -6,18 +6,20 @@ import ArtistCardHorizontal from '@/components/cards/ArtistCardHorizontal';
 import PortfolioCard from '@/components/cards/PortfolioCard';
 import SearchViewToggle from '@/components/search/SearchViewToggle';
 import Breadcrumbs from '@/components/ui/Breadcrumbs';
+import SortSelector from '@/components/ui/SortSelector';
 
 const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 
 const GENRES = ['和彫', '洋彫', 'ブラックアンドグレー', 'トラディショナル', 'アニメ', 'ニュースクール', 'レタリング', 'ミニマル'];
 const PREFS = ['東京都', '大阪府', '愛知県', '福岡県', '神奈川県', '北海道', '京都府', '兵庫県'];
 
-async function searchArtists(genre: string, pref: string, q: string) {
+async function searchArtists(genre: string, pref: string, q: string, sort: string) {
   try {
     const url = new URL(`${API}/user-api/artists`);
     if (genre) url.searchParams.set('genre', genre);
     if (pref) url.searchParams.set('prefecture', pref);
     if (q) url.searchParams.set('q', q);
+    if (sort && sort !== 'new') url.searchParams.set('sort', sort);
     const res = await fetch(url.toString(), { cache: 'no-store' });
     return res.ok ? res.json() : [];
   } catch (e) {
@@ -45,10 +47,11 @@ export default async function SearchPage({
   const genre = (params.genre as string) ?? '';
   const pref = (params.pref as string) ?? '';
   const q = (params.q as string) ?? '';
+  const sort = (params.sort as string) ?? 'new';
   const searchType = (params.type as string) ?? 'artist';
   const isPortfolioSearch = searchType === 'portfolio';
 
-  const artists = !isPortfolioSearch ? await searchArtists(genre, pref, q) : [];
+  const artists = !isPortfolioSearch ? await searchArtists(genre, pref, q, sort) : [];
   const portfolios = isPortfolioSearch ? await searchPortfolios() : [];
 
   // パンくず構築
@@ -151,25 +154,31 @@ export default async function SearchPage({
               </p>
             </div>
             {!isPortfolioSearch && (
-              <span className="hidden md:block text-neutral-600 text-xs font-bold">
-                {artists.length}件
-              </span>
+              <div className="hidden md:flex items-center gap-3">
+                <span className="text-neutral-600 text-xs font-bold">{artists.length}件</span>
+                <Suspense><SortSelector currentSort={sort} /></Suspense>
+              </div>
             )}
           </div>
 
           {/* ===== モバイル専用: スティッキーチップフィルター ===== */}
           <section className="md:hidden space-y-3 sticky top-[88px] bg-black/90 backdrop-blur-xl z-30 pt-2 pb-4 -mx-4 px-4 border-b border-neutral-900">
-            <div className="flex gap-6">
-              <Link href={`/search?type=artist${genre ? `&genre=${encodeURIComponent(genre)}` : ''}${pref ? `&pref=${encodeURIComponent(pref)}` : ''}`}
-                className={`pb-2 text-sm font-bold uppercase tracking-widest transition-colors relative ${!isPortfolioSearch ? 'text-white' : 'text-neutral-600 hover:text-neutral-300'}`}>
-                Artists
-                {!isPortfolioSearch && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-white" />}
-              </Link>
-              <Link href="/search?type=portfolio"
-                className={`pb-2 text-sm font-bold uppercase tracking-widest transition-colors relative ${isPortfolioSearch ? 'text-white' : 'text-neutral-600 hover:text-neutral-300'}`}>
-                Works
-                {isPortfolioSearch && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-white" />}
-              </Link>
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex gap-6">
+                <Link href={`/search?type=artist${genre ? `&genre=${encodeURIComponent(genre)}` : ''}${pref ? `&pref=${encodeURIComponent(pref)}` : ''}`}
+                  className={`pb-2 text-sm font-bold uppercase tracking-widest transition-colors relative ${!isPortfolioSearch ? 'text-white' : 'text-neutral-600 hover:text-neutral-300'}`}>
+                  Artists
+                  {!isPortfolioSearch && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-white" />}
+                </Link>
+                <Link href="/search?type=portfolio"
+                  className={`pb-2 text-sm font-bold uppercase tracking-widest transition-colors relative ${isPortfolioSearch ? 'text-white' : 'text-neutral-600 hover:text-neutral-300'}`}>
+                  Works
+                  {isPortfolioSearch && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-white" />}
+                </Link>
+              </div>
+              {!isPortfolioSearch && (
+                <Suspense><SortSelector currentSort={sort} /></Suspense>
+              )}
             </div>
 
             {!isPortfolioSearch && (

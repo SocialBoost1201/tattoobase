@@ -19,25 +19,18 @@ export class UserApiService {
     }
 
     // --- Artists ---
-    getArtists(params?: { genre?: string; gender?: string; q?: string; prefecture?: string }) {
+    getArtists(params?: { genre?: string; gender?: string; q?: string; prefecture?: string; sort?: string }) {
         const where: any = { AND: [] };
 
-        // ジャンル検索（specialtiesの配列内にジャンル名が含まれているか）
         if (params?.genre) {
             where.AND.push({ specialties: { has: params.genre } });
         }
-
-        // 性別検索
         if (params?.gender) {
             where.AND.push({ gender: params.gender });
         }
-
-        // 都道府県検索
         if (params?.prefecture) {
             where.AND.push({ prefecture: { contains: params.prefecture, mode: 'insensitive' } });
         }
-
-        // フリーワード検索（displayName / bio / specialties / studio.name）
         if (params?.q) {
             where.AND.push({
                 OR: [
@@ -48,14 +41,18 @@ export class UserApiService {
                 ]
             });
         }
-
-        // ANDが空の場合は条件なし（全件取得）
         if (where.AND.length === 0) delete where.AND;
+
+        // ソート順
+        let orderBy: any = { createdAt: 'desc' };  // デフォルト: 新着順
+        if (params?.sort === 'rating') orderBy = { rating: 'desc' };
+        if (params?.sort === 'price') orderBy = { priceMin: 'asc' };
+        if (params?.sort === 'popular') orderBy = { savedCount: 'desc' };
 
         return this.prisma.artistProfile.findMany({
             where,
             include: { studio: true, portfolioWorks: { take: 1 } },
-            orderBy: { createdAt: 'desc' }
+            orderBy
         });
     }
 
