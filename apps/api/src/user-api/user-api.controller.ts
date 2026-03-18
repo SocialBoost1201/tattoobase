@@ -8,9 +8,11 @@ export class UserApiController {
     @Get('artists')
     getArtists(
         @Query('genre') genre?: string,
-        @Query('gender') gender?: string
+        @Query('gender') gender?: string,
+        @Query('q') q?: string,
+        @Query('prefecture') prefecture?: string
     ) { 
-        return this.userApiService.getArtists({ genre, gender }); 
+        return this.userApiService.getArtists({ genre, gender, q, prefecture }); 
     }
 
     @Get('artists/:id')

@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { auth } from '@/auth';
-import { Search, Sparkles, BookOpen, MapPin, Menu } from 'lucide-react';
+import { MapPin, BookOpen } from 'lucide-react';
+import SearchBar from '@/components/ui/SearchBar';
 
 const PC_NAV = [
   { href: '/search?type=artist', label: 'アーティストを探す' },
@@ -47,13 +48,9 @@ export default async function Header() {
           </nav>
 
           {/* PC検索バー */}
-          <Link
-            href="/search"
-            className="flex items-center gap-2 bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 hover:border-neutral-700 rounded-full pl-4 pr-6 py-2 transition-all group w-64 shrink-0"
-          >
-            <Search className="w-4 h-4 text-neutral-500 group-hover:text-neutral-300 shrink-0" />
-            <span className="text-neutral-500 group-hover:text-neutral-300 text-sm">アーティストを検索...</span>
-          </Link>
+          <div className="flex-1 max-w-lg shrink-0">
+            <SearchBar />
+          </div>
 
           {/* PC ログイン / ユーザー */}
           {isLoggedIn ? (
@@ -126,15 +123,7 @@ export default async function Header() {
 
         {/* 2行目: 検索バー */}
         <div className="max-w-xl mx-auto px-4 pb-2.5">
-          <Link
-            href="/search"
-            className="flex items-center gap-3 w-full bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 hover:border-neutral-700 rounded-full px-4 py-2.5 transition-all group"
-          >
-            <Search className="w-4 h-4 text-neutral-500 group-hover:text-neutral-300 transition-colors shrink-0" />
-            <span className="text-neutral-500 group-hover:text-neutral-300 text-sm transition-colors">
-              アーティスト・スタイルを検索...
-            </span>
-          </Link>
+          <SearchBar />
         </div>
       </div>
     </header>

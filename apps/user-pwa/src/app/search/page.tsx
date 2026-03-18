@@ -12,11 +12,12 @@ const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 const GENRES = ['和彫', '洋彫', 'ブラックアンドグレー', 'トラディショナル', 'アニメ', 'ニュースクール', 'レタリング', 'ミニマル'];
 const PREFS = ['東京都', '大阪府', '愛知県', '福岡県', '神奈川県', '北海道', '京都府', '兵庫県'];
 
-async function searchArtists(genre: string, pref: string) {
+async function searchArtists(genre: string, pref: string, q: string) {
   try {
     const url = new URL(`${API}/user-api/artists`);
     if (genre) url.searchParams.set('genre', genre);
     if (pref) url.searchParams.set('prefecture', pref);
+    if (q) url.searchParams.set('q', q);
     const res = await fetch(url.toString(), { cache: 'no-store' });
     return res.ok ? res.json() : [];
   } catch (e) {
@@ -43,10 +44,11 @@ export default async function SearchPage({
   const params = await searchParams;
   const genre = (params.genre as string) ?? '';
   const pref = (params.pref as string) ?? '';
+  const q = (params.q as string) ?? '';
   const searchType = (params.type as string) ?? 'artist';
   const isPortfolioSearch = searchType === 'portfolio';
 
-  const artists = !isPortfolioSearch ? await searchArtists(genre, pref) : [];
+  const artists = !isPortfolioSearch ? await searchArtists(genre, pref, q) : [];
   const portfolios = isPortfolioSearch ? await searchPortfolios() : [];
 
   // パンくず構築
@@ -54,6 +56,7 @@ export default async function SearchPage({
     { label: isPortfolioSearch ? '作品一覧' : 'アーティスト検索', href: `/search?type=${searchType}` },
     ...(pref ? [{ label: pref }] : []),
     ...(genre ? [{ label: genre }] : []),
+    ...(q ? [{ label: `「${q}」` }] : []),
   ];
 
   return (
@@ -138,8 +141,9 @@ export default async function SearchPage({
           <div className="flex items-end justify-between">
             <div>
               <h1 className="font-heading font-extrabold text-3xl text-white tracking-tight">
-                {isPortfolioSearch ? 'DISCOVER' : (genre || pref)
-                  ? `${pref ? pref.replace(/都|道|府|県/, '') : '全国'} ${genre || 'アーティスト'}`
+                {isPortfolioSearch ? 'DISCOVER'
+                  : q ? `「${q}」の検索結果`
+                  : (genre || pref) ? `${pref ? pref.replace(/都|道|府|県/, '') : '全国'} ${genre || 'アーティスト'}`
                   : 'ARTISTS'}
               </h1>
               <p className="text-neutral-400 text-xs mt-1 font-medium">
