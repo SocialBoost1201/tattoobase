@@ -10,7 +10,7 @@ const NAV_ITEMS_LEFT = [
 ];
 
 const NAV_ITEMS_RIGHT = [
-  { href: '/account/bookings', label: '予約', icon: Bookmark },
+  { href: '/account/saved', label: '保存', icon: Bookmark },
   { href: '/account', label: 'アカウント', icon: User },
 ];
 

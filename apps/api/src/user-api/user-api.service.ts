@@ -19,8 +19,17 @@ export class UserApiService {
     }
 
     // --- Artists ---
-    getArtists(params?: { genre?: string; gender?: string; q?: string; prefecture?: string; sort?: string }) {
+    getArtists(params?: { genre?: string; gender?: string; q?: string; prefecture?: string; sort?: string; ids?: string }) {
         const where: any = { AND: [] };
+
+        if (params?.ids) {
+            const idArray = params.ids.split(',').filter(Boolean);
+            if (idArray.length > 0) {
+                where.AND.push({ id: { in: idArray } });
+            } else {
+                return Promise.resolve([]); // IDリストが空文字の場合は空配列を返す
+            }
+        }
 
         if (params?.genre) {
             where.AND.push({ specialties: { has: params.genre } });

@@ -19,9 +19,10 @@ export class UserApiController {
         @Query('gender') gender?: string,
         @Query('q') q?: string,
         @Query('prefecture') prefecture?: string,
-        @Query('sort') sort?: string
+        @Query('sort') sort?: string,
+        @Query('ids') ids?: string,
     ) { 
-        return this.userApiService.getArtists({ genre, gender, q, prefecture, sort }); 
+        return this.userApiService.getArtists({ genre, gender, q, prefecture, sort, ids }); 
     }
 
     @Get('artists/:id')

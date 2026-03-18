@@ -9,10 +9,18 @@ import {
   ChevronRight, 
   LogOut, 
   Settings,
-  Star
+  Star,
+  Bookmark
 } from 'lucide-react';
 
 const ACCOUNT_LINKS = [
+  { 
+    href: '/account/saved', 
+    label: '保存したアーティスト・作品', 
+    desc: 'お気に入りリスト',
+    icon: Bookmark,
+    badge: null
+  },
   { 
     href: '/account/bookings', 
     label: '予約履歴', 
