@@ -5,6 +5,14 @@ import { UserApiService } from './user-api.service';
 export class UserApiController {
     constructor(private readonly userApiService: UserApiService) { }
 
+    @Get('artists/counts')
+    getArtistCounts(
+        @Query('genre') genre?: string,
+        @Query('q') q?: string
+    ) {
+        return this.userApiService.getArtistCounts({ genre, q });
+    }
+
     @Get('artists')
     getArtists(
         @Query('genre') genre?: string,

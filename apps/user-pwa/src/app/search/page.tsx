@@ -38,6 +38,18 @@ async function searchPortfolios() {
   }
 }
 
+async function fetchCounts(q: string) {
+  try {
+    const url = new URL(`${API}/user-api/artists/counts`);
+    if (q) url.searchParams.set('q', q);
+    const res = await fetch(url.toString(), { cache: 'no-store' });
+    if (!res.ok) return { total: 0, byGenre: [] };
+    return res.json();
+  } catch {
+    return { total: 0, byGenre: [] };
+  }
+}
+
 export default async function SearchPage({
   searchParams,
 }: {
@@ -51,8 +63,17 @@ export default async function SearchPage({
   const searchType = (params.type as string) ?? 'artist';
   const isPortfolioSearch = searchType === 'portfolio';
 
-  const artists = !isPortfolioSearch ? await searchArtists(genre, pref, q, sort) : [];
-  const portfolios = isPortfolioSearch ? await searchPortfolios() : [];
+  const [artists, portfolios, counts] = await Promise.all([
+    !isPortfolioSearch ? searchArtists(genre, pref, q, sort) : Promise.resolve([]),
+    isPortfolioSearch ? searchPortfolios() : Promise.resolve([]),
+    !isPortfolioSearch ? fetchCounts(q) : Promise.resolve({ total: 0, byGenre: [] }),
+  ]);
+
+  // ジャンル別件数をMapに変換
+  const genreCountMap: Record<string, number> = {};
+  for (const { genre: g, count } of counts.byGenre ?? []) {
+    genreCountMap[g] = count;
+  }
 
   // パンくず構築
   const crumbs = [
@@ -128,8 +149,10 @@ export default async function SearchPage({
                     className={`flex items-center justify-between w-full px-3 py-2 rounded-xl text-sm font-semibold transition-all ${
                       genre === g ? 'bg-white/10 text-white' : 'text-neutral-400 hover:text-white hover:bg-neutral-800'
                     }`}>
-                    {g}
-                    {genre === g && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
+                    <span>{g}</span>
+                    <span className={`text-[10px] font-bold tabular-nums ${
+                      genre === g ? 'text-white/50' : 'text-neutral-600'
+                    }`}>{genreCountMap[g] ?? ''}</span>
                   </Link>
                 ))}
               </div>
@@ -202,8 +225,15 @@ export default async function SearchPage({
                   </Link>
                   {GENRES.map(g => (
                     <Link key={g} href={`/search?type=artist&genre=${encodeURIComponent(g)}${pref ? `&pref=${encodeURIComponent(pref)}` : ''}`}
-                      className={`px-3 py-1.5 text-[11px] font-extrabold shrink-0 border transition-all rounded-full uppercase ${genre === g ? 'bg-white text-black border-white' : 'bg-transparent text-neutral-400 border-neutral-700 hover:border-neutral-400 hover:text-white'}`}>
+                      className={`px-3 py-1.5 text-[11px] font-extrabold shrink-0 border transition-all rounded-full uppercase flex items-center gap-1.5 ${
+                        genre === g ? 'bg-white text-black border-white' : 'bg-transparent text-neutral-400 border-neutral-700 hover:border-neutral-400 hover:text-white'
+                      }`}>
                       {g}
+                      {genreCountMap[g] !== undefined && (
+                        <span className={`text-[9px] font-bold ${
+                          genre === g ? 'text-black/50' : 'text-neutral-600'
+                        }`}>{genreCountMap[g]}</span>
+                      )}
                     </Link>
                   ))}
                 </div>

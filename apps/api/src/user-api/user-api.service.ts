@@ -56,6 +56,39 @@ export class UserApiService {
         });
     }
 
+    // --- Artist Counts Per Filter (ジャンル別件数) ---
+    async getArtistCounts(params?: { genre?: string; q?: string }) {
+        const baseWhere: any = {};
+        if (params?.genre) baseWhere.specialties = { has: params.genre };
+        if (params?.q) {
+            baseWhere.OR = [
+                { displayName: { contains: params.q, mode: 'insensitive' } },
+                { bio: { contains: params.q, mode: 'insensitive' } },
+                { studio: { name: { contains: params.q, mode: 'insensitive' } } },
+            ];
+        }
+
+        const allArtists = await this.prisma.artistProfile.findMany({
+            where: baseWhere,
+            select: { specialties: true },
+        });
+
+        // ジャンル（スタイル）別件数
+        const genreMap: Record<string, number> = {};
+        for (const a of allArtists) {
+            for (const s of a.specialties) {
+                genreMap[s] = (genreMap[s] ?? 0) + 1;
+            }
+        }
+
+        return {
+            total: allArtists.length,
+            byGenre: Object.entries(genreMap)
+                .map(([genre, count]) => ({ genre, count }))
+                .sort((a, b) => b.count - a.count),
+        };
+    }
+
     getArtistMeta(id: string) {
         return this.prisma.artistProfile.findUnique({
             where: { id },
