@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import ArtistCard from '@/components/cards/ArtistCard';
 import PortfolioCard from '@/components/cards/PortfolioCard';
+import SearchViewToggle from '@/components/search/SearchViewToggle';
 
 const API = 'http://localhost:3000';
 
@@ -139,26 +140,7 @@ export default async function SearchPage({
       {/* 検索結果一覧 */}
       <section className="pt-2">
         {!isPortfolioSearch ? (
-          artists.length > 0 ? (
-            <>
-              <p className="text-neutral-500 text-[10px] uppercase font-bold tracking-widest mb-4">
-                {artists.length} artists found
-                {pref && <span className="ml-2 text-neutral-600">({pref})</span>}
-              </p>
-              <div className="grid grid-cols-2 gap-3 md:gap-4">
-                {artists.map((a: any) => (
-                  <ArtistCard key={a.id} artist={a} />
-                ))}
-              </div>
-            </>
-          ) : (
-            <div className="py-24 text-center border border-neutral-900 rounded-2xl bg-neutral-900/20">
-              <p className="text-neutral-500 text-sm font-bold">該当するアーティストが見つかりませんでした</p>
-              <Link href="/search" className="mt-4 inline-block text-xs text-neutral-500 hover:text-white underline transition-colors">
-                条件をリセット
-              </Link>
-            </div>
-          )
+          <SearchViewToggle artists={artists} pref={pref} genre={genre} />
         ) : (
           portfolios.length > 0 ? (
             <>
