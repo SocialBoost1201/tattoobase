@@ -31,6 +31,9 @@ export default function SeoFooter() {
                 {pref.replace(/都|府|道|県/, '')}のタトゥースタジオ
               </Link>
             ))}
+            <Link href="/area" className="text-xs text-white font-bold hover:text-neutral-300 transition-colors underline underline-offset-2 ml-2">
+              全国のエリア一覧を見る →
+            </Link>
           </div>
         </div>
 
