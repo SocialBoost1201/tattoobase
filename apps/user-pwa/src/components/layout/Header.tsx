@@ -3,7 +3,12 @@ import Image from 'next/image';
 import { auth } from '@/auth';
 
 export default async function Header() {
-  const session = await auth();
+  let session = null;
+  try {
+    session = await auth();
+  } catch (e) {
+    console.warn('Auth is temporarily disabled (DB not connected):', e);
+  }
   const isLoggedIn = !!session?.user;
 
   return (
@@ -30,7 +35,7 @@ export default async function Header() {
             <Link href="/account"
               className="text-sm font-semibold text-[#0a0a0a] border border-[#0a0a0a] rounded px-3 py-1 hover:bg-[#0a0a0a] hover:text-white transition-all"
             >
-              {session.user?.email?.split('@')[0]}
+              {session?.user?.email?.split('@')[0] || 'User'}
             </Link>
           ) : (
             <Link href="/login"

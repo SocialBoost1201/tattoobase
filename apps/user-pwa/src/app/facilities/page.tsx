@@ -12,12 +12,17 @@ const CATEGORIES = [
 ];
 
 async function getFacilities(type?: string, includeBanned?: string) {
-  const query = new URLSearchParams();
-  if (type) query.append('type', type);
-  if (includeBanned === 'true') query.append('includeBanned', 'true');
-  
-  const res = await fetch(`${API}/user-api/facilities?${query.toString()}`, { cache: 'no-store' });
-  return res.ok ? res.json() : [];
+  try {
+    const query = new URLSearchParams();
+    if (type) query.append('type', type);
+    if (includeBanned === 'true') query.append('includeBanned', 'true');
+    
+    const res = await fetch(`${API}/user-api/facilities?${query.toString()}`, { cache: 'no-store' });
+    return res.ok ? res.json() : [];
+  } catch (e) {
+    console.warn('Backend API not available:', e);
+    return [];
+  }
 }
 
 export default async function FacilitiesSearchPage({

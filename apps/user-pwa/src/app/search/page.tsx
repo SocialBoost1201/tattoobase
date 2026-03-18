@@ -7,15 +7,25 @@ const API = 'http://localhost:3000';
 const GENRES = ['和彫', '洋彫', 'ブラックアンドグレー', 'トラディショナル', 'アニメ', 'ニュースクール', 'レタリング', 'ミニマル'];
 
 async function searchArtists(genre: string) {
-  const url = new URL(`${API}/user-api/artists`);
-  if (genre) url.searchParams.set('genre', genre);
-  const res = await fetch(url.toString(), { cache: 'no-store' });
-  return res.ok ? res.json() : [];
+  try {
+    const url = new URL(`${API}/user-api/artists`);
+    if (genre) url.searchParams.set('genre', genre);
+    const res = await fetch(url.toString(), { cache: 'no-store' });
+    return res.ok ? res.json() : [];
+  } catch (e) {
+    console.warn('Backend API not available:', e);
+    return [];
+  }
 }
 
 async function searchPortfolios() {
-  const res = await fetch(`${API}/user-api/portfolios`, { cache: 'no-store' });
-  return res.ok ? res.json() : [];
+  try {
+    const res = await fetch(`${API}/user-api/portfolios`, { cache: 'no-store' });
+    return res.ok ? res.json() : [];
+  } catch (e) {
+    console.warn('Backend API not available:', e);
+    return [];
+  }
 }
 
 export default async function SearchPage({
