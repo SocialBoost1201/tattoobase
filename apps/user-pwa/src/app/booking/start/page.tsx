@@ -31,6 +31,10 @@ export default function BookingWizardPage() {
   const [date, setDate] = useState('');
   const [time, setTime] = useState('');
   const [notes, setNotes] = useState('');
+  const [bodyPart, setBodyPart] = useState('');
+  const [size, setSize] = useState('');
+  const [healthNotes, setHealthNotes] = useState('');
+  const [consents, setConsents] = useState({ isAdult: false, noContraindication: false, agreedPolicy: false });
   
   const [studioId, setStudioId] = useState('demo-studio-id'); // 将来的に artistId から取得
 
@@ -151,55 +155,86 @@ export default function BookingWizardPage() {
       {step <= 3 && renderStepper()}
 
       <div ref={wizardRef}>
-        {/* Step 1: 予約内容と日時 */}
         {step === 1 && (
           <div className="space-y-6">
             <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-5 space-y-5">
               <h2 className="text-lg font-bold text-white mb-2">デザインのご希望と日程</h2>
-              
+
               <div className="space-y-2">
-                 <label className="text-[10px] font-extrabold text-neutral-400 uppercase tracking-widest block">希望日</label>
-                 <input
-                   type="date"
-                   value={date}
-                   onChange={e => setDate(e.target.value)}
-                   className="w-full bg-black border border-neutral-800 focus:border-brand-400 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors appearance-none"
-                   required
-                 />
+                <label className="text-[10px] font-extrabold text-neutral-400 uppercase tracking-widest block">希望日</label>
+                <input type="date" value={date} onChange={e => setDate(e.target.value)}
+                  className="w-full bg-black border border-neutral-800 focus:border-white/50 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors appearance-none" required />
               </div>
 
               <div className="space-y-2">
-                 <label className="text-[10px] font-extrabold text-neutral-400 uppercase tracking-widest block">希望時間 (目安)</label>
-                 <input
-                   type="time"
-                   value={time}
-                   onChange={e => setTime(e.target.value)}
-                   className="w-full bg-black border border-neutral-800 focus:border-brand-400 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors appearance-none"
-                   required
-                 />
+                <label className="text-[10px] font-extrabold text-neutral-400 uppercase tracking-widest block">希望時間 (目安)</label>
+                <input type="time" value={time} onChange={e => setTime(e.target.value)}
+                  className="w-full bg-black border border-neutral-800 focus:border-white/50 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors appearance-none" required />
               </div>
 
               <div className="space-y-2">
-                 <label className="text-[10px] font-extrabold text-neutral-400 uppercase tracking-widest block">タトゥーのイメージ・ご要望</label>
-                 <textarea
-                   value={notes}
-                   onChange={e => setNotes(e.target.value)}
-                   placeholder="入れたい部位やサイズ、デザインのイメージを記入してください。"
-                   rows={4}
-                   className="w-full bg-black border border-neutral-800 focus:border-brand-400 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors resize-none"
-                 />
+                <label className="text-[10px] font-extrabold text-neutral-400 uppercase tracking-widest block">希望部位</label>
+                <select value={bodyPart} onChange={e => setBodyPart(e.target.value)}
+                  className="w-full bg-black border border-neutral-800 focus:border-white/50 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors appearance-none">
+                  <option value="">選択してください</option>
+                  {['腕（内側）', '腕（外側）', '前腕', '上腕', '肩', '背中', '胸', '脇腹', '太もも', '足首', '手・指', 'その他'].map(p => (
+                    <option key={p} value={p}>{p}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] font-extrabold text-neutral-400 uppercase tracking-widest block">サイズ目安</label>
+                <div className="grid grid-cols-3 gap-2">
+                  {['小 (5cm以下)', '中 (5〜15cm)', '大 (15cm以上)'].map(s => (
+                    <button key={s} type="button" onClick={() => setSize(s)}
+                      className={`py-2.5 rounded-xl text-xs font-bold border transition-all ${size === s ? 'bg-white text-black border-white' : 'bg-black border-neutral-700 text-neutral-400 hover:border-neutral-500'}`}>
+                      {s}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] font-extrabold text-neutral-400 uppercase tracking-widest block">タトゥーのイメージ・ご要望</label>
+                <textarea value={notes} onChange={e => setNotes(e.target.value)}
+                  placeholder="デザインのイメージ、参考にしたいモチーフ、スタイルなどを記入してください。"
+                  rows={3} className="w-full bg-black border border-neutral-800 focus:border-white/50 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors resize-none" />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] font-extrabold text-neutral-400 uppercase tracking-widest block">アレルギー・健康上の注意</label>
+                <input type="text" value={healthNotes} onChange={e => setHealthNotes(e.target.value)}
+                  placeholder="特になし / ラテックスアレルギーあり 等"
+                  className="w-full bg-black border border-neutral-800 focus:border-white/50 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors" />
               </div>
             </div>
 
-            <button
-              onClick={nextStep}
-              disabled={!date || !time}
-              className="w-full bg-white hover:bg-neutral-200 text-black font-extrabold py-4 rounded-full transition-all duration-300 font-heading tracking-wide flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
+            {/* 成人確認（J-2）+ 禁忌チェック */}
+            <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-5 space-y-3">
+              <h3 className="text-sm font-bold text-white">確認事項（必須）</h3>
+              {[
+                { key: 'isAdult', label: '私は18歳以上であることを確認します' },
+                { key: 'noContraindication', label: '施術当日は飲酒・過度な運動を控えます' },
+                { key: 'agreedPolicy', label: 'キャンセルポリシーおよび利用規約に同意します' },
+              ].map(({ key, label }) => (
+                <label key={key} className="flex items-start gap-3 cursor-pointer">
+                  <input type="checkbox" checked={!!consents[key as keyof typeof consents]}
+                    onChange={e => setConsents(prev => ({ ...prev, [key]: e.target.checked }))}
+                    className="w-4 h-4 mt-0.5 accent-white shrink-0" />
+                  <span className="text-sm text-neutral-300">{label}</span>
+                </label>
+              ))}
+            </div>
+
+            <button onClick={nextStep}
+              disabled={!date || !time || !Object.values(consents).every(Boolean)}
+              className="w-full bg-white hover:bg-neutral-200 text-black font-extrabold py-4 rounded-full transition-all duration-300 font-heading tracking-wide flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
               次へ進む <ChevronRight className="w-5 h-5" />
             </button>
           </div>
         )}
+
 
         {/* Step 2: お客様情報 */}
         {step === 2 && (

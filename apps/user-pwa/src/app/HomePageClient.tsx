@@ -15,6 +15,7 @@ import PopularGenres from '@/components/home/PopularGenres';
 import TrustAndSafety from '@/components/home/TrustAndSafety';
 import TattooFriendlyCrossSell from '@/components/home/TattooFriendlyCrossSell';
 import AreaAndStyleDiscovery from '@/components/home/AreaAndStyleDiscovery';
+import RecentlyViewedArtists from '@/components/home/RecentlyViewedArtists';
 import BeginnerGuide from '@/components/home/BeginnerGuide';
 
 if (typeof window !== 'undefined') {
@@ -75,6 +76,9 @@ export default function HomePageClient({ artists, portfolios }: { artists: any[]
           <div className="fade-in-section opacity-0">
             <AreaAndStyleDiscovery />
           </div>
+
+          {/* 2.8 最近見たアーティスト（A-3: パーソナライズ） */}
+          <RecentlyViewedArtists allArtists={artists} />
 
           {/* 3. Featured Artists (ピックアップ) */}
           {artists.length > 0 && (

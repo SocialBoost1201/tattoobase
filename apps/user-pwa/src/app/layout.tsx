@@ -12,9 +12,34 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "TatooBase - Find Your Artist. Book Your Ink.",
-  description: "日本最大のタトゥーアーティスト予約プラットフォーム。アーティストの作品から、スタジオ予約まで。",
+  title: {
+    default: "TattooBase - 日本最大のタトゥーアーティスト予約プラットフォーム",
+    template: "%s | TattooBase",
+  },
+  description: "タトゥーアーティストの作品を見てスタイルを選び、そのままオンライン予約できる日本最大のプラットフォーム。和彫・ブラックアンドグレー・ミニマル等、全スタイル対応。",
+  keywords: ["タトゥー", "刺青", "タトゥースタジオ", "和彫", "ブラックアンドグレー", "ワンポイント", "タトゥーアーティスト", "予約"],
+  authors: [{ name: "TattooBase" }],
+  creator: "TattooBase",
+  robots: { index: true, follow: true },
+  openGraph: {
+    type: "website",
+    locale: "ja_JP",
+    siteName: "TattooBase",
+    title: "TattooBase - 日本最大のタトゥーアーティスト予約プラットフォーム",
+    description: "タトゥーアーティストの作品を見てスタイルを選び、そのままオンライン予約。",
+  },
+  twitter: {
+    card: "summary_large_image",
+    creator: "@tattoobase_jp",
+  },
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "TattooBase",
+  },
 };
+
 
 import SmoothScroller from "@/components/layout/SmoothScroller";
 
