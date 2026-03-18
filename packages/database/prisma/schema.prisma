@@ -188,6 +188,13 @@ model Studio {
   payoutStrategyKey    String      @default("default_express")
   requiresDeposit      Boolean     @default(false)
   depositAmount        Int         @default(10000)
+
+  // 場所情報
+  prefecture           String?     // 例: "東京都"
+  city                 String?     // 例: "渋谷区"
+  address              String?     // 番地等
+  googleMapsUrl        String?
+
   createdAt            DateTime    @default(now())
   updatedAt            DateTime    @updatedAt
 
@@ -242,6 +249,18 @@ model ArtistProfile {
   specialties       String[] // 得意ジャンルタグ等
   instagramHandle   String?
 
+  // 場所情報（エリア検索に使用）
+  prefecture        String?  // 例: "東京都"
+  city              String?  // 例: "渋谷区"
+
+  // 評価・価格・人気度（検索ソートに使用）
+  rating            Float    @default(0)
+  reviewCount       Int      @default(0)
+  priceMin          Int?     // 最低価格（円）
+  priceMax          Int?     // 最高価格（円）
+  savedCount        Int      @default(0)
+  isVerified        Boolean  @default(false)
+
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -252,6 +271,7 @@ model ArtistProfile {
   designRequests DesignRequest[]
 
   @@index([studioId])
+  @@index([prefecture])
 }
 
 model PortfolioWork {
