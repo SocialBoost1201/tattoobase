@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import PortfolioCard from '@/components/cards/PortfolioCard';
+import ReviewSection from '@/components/reviews/ReviewSection';
 import { API_BASE } from '@/lib/api';
 import { MOCK_ARTISTS, MOCK_PORTFOLIOS } from '@/lib/mock-data';
 
@@ -11,6 +12,16 @@ async function getArtist(id: string) {
     // API not available
   }
   return MOCK_ARTISTS.find((a) => a.id === id) ?? null;
+}
+
+async function getReviews(artistId: string) {
+  try {
+    const res = await fetch(`${API_BASE}/user-api/artists/${artistId}/reviews`, { cache: 'no-store' });
+    if (res.ok) return res.json();
+  } catch {
+    // API not available
+  }
+  return { reviews: [], aggregation: null };
 }
 
 async function getPortfolios(artistId: string) {
@@ -34,7 +45,11 @@ export default async function ArtistDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const [artist, works] = await Promise.all([getArtist(id), getPortfolios(id)]);
+  const [artist, works, reviewData] = await Promise.all([
+    getArtist(id),
+    getPortfolios(id),
+    getReviews(id),
+  ]);
 
   if (!artist) {
     return (
@@ -100,6 +115,12 @@ export default async function ArtistDetailPage({
           </div>
         )}
       </section>
+
+      <ReviewSection
+        artistId={id}
+        reviews={reviewData.reviews}
+        aggregation={reviewData.aggregation}
+      />
     </div>
   );
 }

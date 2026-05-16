@@ -53,6 +53,30 @@ export class UserApiController {
         return this.userApiService.submitKyc(userId, body);
     }
 
+    // --- Reviews ---
+    @Get('artists/:id/reviews')
+    getArtistReviews(@Param('id') id: string) {
+        return this.userApiService.getArtistReviews(id);
+    }
+
+    @Get('studios/:id/reviews')
+    getStudioReviews(@Param('id') id: string) {
+        return this.userApiService.getStudioReviews(id);
+    }
+
+    @Post('reviews')
+    createReview(@Body() body: {
+        artistId?: string;
+        studioId?: string;
+        userId: string;
+        bookingId?: string;
+        rating: number;
+        title?: string;
+        body: string;
+    }) {
+        return this.userApiService.createReview(body);
+    }
+
     // --- Facilities ---
     @Get('facilities')
     getFacilities(

@@ -267,4 +267,76 @@ export class UserApiService {
             clientSecret, // PWAに返却し Stripe.js で決済を完了させる
         };
     }
+
+    // ========== Reviews ==========
+
+    async getArtistReviews(artistId: string) {
+        const [reviews, agg] = await Promise.all([
+            this.prisma.review.findMany({
+                where: { artistId, status: 'APPROVED' },
+                orderBy: { createdAt: 'desc' },
+                take: 20,
+            }),
+            this.prisma.reviewAggregation.findUnique({ where: { artistId } }),
+        ]);
+        return { reviews, aggregation: agg };
+    }
+
+    async getStudioReviews(studioId: string) {
+        const [reviews, agg] = await Promise.all([
+            this.prisma.review.findMany({
+                where: { studioId, status: 'APPROVED' },
+                orderBy: { createdAt: 'desc' },
+                take: 20,
+            }),
+            this.prisma.reviewAggregation.findUnique({ where: { studioId } }),
+        ]);
+        return { reviews, aggregation: agg };
+    }
+
+    async createReview(dto: {
+        artistId?: string;
+        studioId?: string;
+        userId: string;
+        bookingId?: string;
+        rating: number;
+        title?: string;
+        body: string;
+    }) {
+        if (!dto.artistId && !dto.studioId) {
+            throw new BadRequestException('artistId or studioId is required');
+        }
+        if (dto.rating < 1 || dto.rating > 5) {
+            throw new BadRequestException('rating must be 1-5');
+        }
+
+        const review = await this.prisma.review.create({ data: { ...dto, status: 'APPROVED' } });
+        await this.recalcAggregation(dto.artistId, dto.studioId);
+        return review;
+    }
+
+    private async recalcAggregation(artistId?: string, studioId?: string) {
+        const where = artistId ? { artistId } : { studioId };
+        const reviews = await this.prisma.review.findMany({
+            where: { ...where, status: 'APPROVED' },
+            select: { rating: true },
+        });
+
+        if (reviews.length === 0) return;
+
+        const dist: Record<string, number> = { '1': 0, '2': 0, '3': 0, '4': 0, '5': 0 };
+        let sum = 0;
+        for (const r of reviews) {
+            sum += r.rating;
+            dist[String(r.rating)] = (dist[String(r.rating)] || 0) + 1;
+        }
+        const avg = Math.round((sum / reviews.length) * 10) / 10;
+
+        const uniqueWhere = artistId ? { artistId } : { studioId };
+        await this.prisma.reviewAggregation.upsert({
+            where: uniqueWhere as any,
+            create: { ...uniqueWhere, averageRating: avg, totalReviews: reviews.length, distribution: dist },
+            update: { averageRating: avg, totalReviews: reviews.length, distribution: dist },
+        });
+    }
 }

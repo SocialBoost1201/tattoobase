@@ -191,11 +191,23 @@ model Studio {
   createdAt            DateTime    @default(now())
   updatedAt            DateTime    @updatedAt
 
+  // 登録・プロフィール情報
+  email               String?
+  phoneNumber         String?
+  description         String?  @db.Text
+  prefecture          String?
+  city                String?
+  address             String?
+  logoUrl             String?
+  onboardingCompleted Boolean  @default(false)
+
   bookings       Booking[]
   staffs         Staff[]
   artists        ArtistProfile[]
   portfolioWorks PortfolioWork[]
   subscription   Subscription?
+  reviews        Review[]
+  reviewAgg      ReviewAggregation?
 }
 
 model User {
@@ -221,12 +233,15 @@ model Staff {
   id          String   @id @default(uuid())
   studioId    String
   displayName String
+  email       String?  @unique
+  role        String   @default("owner") // owner | manager | artist
+  passwordHash String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   studio  Studio @relation(fields: [studioId], references: [id])
   artists ArtistProfile[]
-  reservationDecisions ReservationPolicyDecision[] 
+  reservationDecisions ReservationPolicyDecision[]
 }
 
 // 2. アーティスト基盤
@@ -250,6 +265,8 @@ model ArtistProfile {
   portfolioWorks PortfolioWork[]
   bookings       Booking[]
   designRequests DesignRequest[]
+  reviews        Review[]
+  reviewAgg      ReviewAggregation?
 
   @@index([studioId])
 }
@@ -462,6 +479,51 @@ enum ReportStatus {
   PENDING    // 承認待ち
   APPROVED   // 承認済み（データ反映済み）
   REJECTED   // 却下
+}
+
+// ========== レビュー・評価システム ==========
+
+enum ReviewStatus {
+  APPROVED
+  PENDING
+  FLAGGED
+  DELETED
+}
+
+model Review {
+  id        String       @id @default(uuid())
+  studioId  String?
+  artistId  String?
+  userId    String
+  bookingId String?
+
+  rating    Int          // 1-5
+  title     String?
+  body      String       @db.Text
+  status    ReviewStatus @default(APPROVED)
+
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  studio Studio?        @relation(fields: [studioId], references: [id])
+  artist ArtistProfile? @relation(fields: [artistId], references: [id])
+
+  @@index([studioId])
+  @@index([artistId])
+  @@index([userId])
+}
+
+model ReviewAggregation {
+  id            String  @id @default(uuid())
+  studioId      String? @unique
+  artistId      String? @unique
+  averageRating Float   @default(0)
+  totalReviews  Int     @default(0)
+  distribution  Json    @default("{\"1\":0,\"2\":0,\"3\":0,\"4\":0,\"5\":0}")
+  updatedAt     DateTime @updatedAt
+
+  studio Studio?        @relation(fields: [studioId], references: [id])
+  artist ArtistProfile? @relation(fields: [artistId], references: [id])
 }
 
 // ユーザーからのタレコミ報告

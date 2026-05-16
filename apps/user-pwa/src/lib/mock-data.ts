@@ -6,6 +6,8 @@ export const MOCK_ARTISTS = [
     specialties: ['和彫り', '龍', '般若', '花魁'],
     yearsOfExperience: 15,
     studio: { id: 'mock-studio-1', name: 'IREZUMI TOKYO' },
+    avgRating: 4.9,
+    reviewCount: 42,
   },
   {
     id: 'mock-artist-2',
@@ -14,6 +16,8 @@ export const MOCK_ARTISTS = [
     specialties: ['ブラックアンドグレー', 'リアリズム', 'ポートレート'],
     yearsOfExperience: 8,
     studio: { id: 'mock-studio-2', name: 'INK COLLECTIVE OSAKA' },
+    avgRating: 4.7,
+    reviewCount: 28,
   },
   {
     id: 'mock-artist-3',
@@ -22,6 +26,8 @@ export const MOCK_ARTISTS = [
     specialties: ['韓国風', 'ミニマル', 'フラワー', 'ラインワーク'],
     yearsOfExperience: 5,
     studio: { id: 'mock-studio-3', name: 'SEOUL STYLE TOKYO' },
+    avgRating: 4.8,
+    reviewCount: 19,
   },
   {
     id: 'mock-artist-4',
@@ -30,6 +36,8 @@ export const MOCK_ARTISTS = [
     specialties: ['トラディショナル', 'ネオトラッド', 'オールドスクール'],
     yearsOfExperience: 12,
     studio: { id: 'mock-studio-1', name: 'IREZUMI TOKYO' },
+    avgRating: 4.6,
+    reviewCount: 31,
   },
 ];
 
