@@ -1,15 +1,31 @@
 import Link from 'next/link';
 import PortfolioCard from '@/components/cards/PortfolioCard';
-
-const API = 'http://localhost:3000';
+import { API_BASE } from '@/lib/api';
+import { MOCK_ARTISTS, MOCK_PORTFOLIOS } from '@/lib/mock-data';
 
 async function getArtist(id: string) {
-  const res = await fetch(`${API}/user-api/artists/${id}`, { cache: 'no-store' });
-  return res.ok ? res.json() : null;
+  try {
+    const res = await fetch(`${API_BASE}/user-api/artists/${id}`, { cache: 'no-store' });
+    if (res.ok) return res.json();
+  } catch {
+    // API not available
+  }
+  return MOCK_ARTISTS.find((a) => a.id === id) ?? null;
 }
-async function getPortfolios() {
-  const res = await fetch(`${API}/user-api/portfolios`, { cache: 'no-store' });
-  return res.ok ? res.json() : [];
+
+async function getPortfolios(artistId: string) {
+  try {
+    const res = await fetch(`${API_BASE}/user-api/portfolios`, { cache: 'no-store' });
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data) && data.length > 0) {
+        return data.filter((w: { artistId: string }) => w.artistId === artistId);
+      }
+    }
+  } catch {
+    // API not available
+  }
+  return MOCK_PORTFOLIOS.filter((w) => w.artistId === artistId);
 }
 
 export default async function ArtistDetailPage({
@@ -18,7 +34,7 @@ export default async function ArtistDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const [artist, allPortfolios] = await Promise.all([getArtist(id), getPortfolios()]);
+  const [artist, works] = await Promise.all([getArtist(id), getPortfolios(id)]);
 
   if (!artist) {
     return (
@@ -29,12 +45,10 @@ export default async function ArtistDetailPage({
     );
   }
 
-  const works = allPortfolios.filter((w: { artistId: string }) => w.artistId === id);
   const initials = artist.displayName.slice(0, 2).toUpperCase();
 
   return (
     <div className="space-y-8">
-      {/* プロフィール */}
       <section className="flex items-center gap-4">
         <div className="w-16 h-16 rounded-full bg-[#f0f0f0] border-2 border-[#0a0a0a] flex items-center justify-center flex-shrink-0">
           <span className="text-xl font-extrabold text-[#0a0a0a] font-heading">{initials}</span>
@@ -44,13 +58,24 @@ export default async function ArtistDetailPage({
           {artist.studio && (
             <p className="text-[#6b6b6b] text-sm mt-0.5">{artist.studio.name}</p>
           )}
+          {artist.specialties && artist.specialties.length > 0 && (
+            <div className="flex flex-wrap gap-1 mt-2">
+              {artist.specialties.map((s: string) => (
+                <span key={s} className="text-[10px] font-semibold bg-neutral-100 text-neutral-600 px-2 py-0.5 rounded-sm border border-neutral-200">
+                  {s}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
-      {/* 区切り線 */}
       <div className="h-px bg-[#e0e0e0]" />
 
-      {/* 予約CTA */}
+      {artist.bio && (
+        <p className="text-[#3b3b3b] text-sm leading-relaxed">{artist.bio}</p>
+      )}
+
       <Link
         href={`/booking/start?artistId=${artist.id}`}
         className="block w-full bg-[#0a0a0a] hover:opacity-85 text-white font-bold text-center py-4 rounded-sm transition-opacity duration-200 font-heading tracking-wide"
@@ -58,7 +83,6 @@ export default async function ArtistDetailPage({
         予約する
       </Link>
 
-      {/* ポートフォリオ */}
       <section>
         <div className="flex items-baseline justify-between mb-3">
           <h2 className="font-heading font-extrabold text-base text-[#0a0a0a] tracking-tight">WORKS</h2>

@@ -1,31 +1,42 @@
 import React from 'react';
 import ArtistCard from '@/components/cards/ArtistCard';
 import PortfolioCard from '@/components/cards/PortfolioCard';
-
-const API = 'http://localhost:3000';
+import { API_BASE } from '@/lib/api';
+import { MOCK_ARTISTS, MOCK_PORTFOLIOS } from '@/lib/mock-data';
 
 const GENRES = ['和彫', '洋彫', 'ブラックアンドグレー', 'トラディショナル', 'アニメ', 'ニュースクール', 'レタリング', 'ミニマル'];
 
 async function searchArtists(genre: string) {
   try {
-    const url = new URL(`${API}/user-api/artists`);
+    const url = new URL(`${API_BASE}/user-api/artists`);
     if (genre) url.searchParams.set('genre', genre);
     const res = await fetch(url.toString(), { cache: 'no-store' });
-    return res.ok ? res.json() : [];
-  } catch (e) {
-    console.warn('Backend API not available:', e);
-    return [];
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data) && data.length > 0) return data;
+    }
+  } catch {
+    // API not available
   }
+  if (genre) {
+    return MOCK_ARTISTS.filter((a) =>
+      a.specialties.some((s) => s.includes(genre))
+    );
+  }
+  return MOCK_ARTISTS;
 }
 
 async function searchPortfolios() {
   try {
-    const res = await fetch(`${API}/user-api/portfolios`, { cache: 'no-store' });
-    return res.ok ? res.json() : [];
-  } catch (e) {
-    console.warn('Backend API not available:', e);
-    return [];
+    const res = await fetch(`${API_BASE}/user-api/portfolios`, { cache: 'no-store' });
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data) && data.length > 0) return data;
+    }
+  } catch {
+    // API not available
   }
+  return MOCK_PORTFOLIOS;
 }
 
 export default async function SearchPage({
@@ -35,7 +46,7 @@ export default async function SearchPage({
 }) {
   const params = await searchParams;
   const genre = (params.genre as string) ?? '';
-  const searchType = (params.type as string) ?? 'artist'; // 'artist' default, or 'portfolio'
+  const searchType = (params.type as string) ?? 'artist';
 
   const isPortfolioSearch = searchType === 'portfolio';
 
@@ -53,9 +64,7 @@ export default async function SearchPage({
         </p>
       </div>
 
-      {/* タブとフィルター */}
       <section className="space-y-4">
-        {/* Toggle between Artist/Portfolio */}
         <div className="flex border-b border-[#e0e0e0]">
           <a
             href={`/search?type=artist${genre ? `&genre=${encodeURIComponent(genre)}` : ''}`}
@@ -75,11 +84,10 @@ export default async function SearchPage({
           </a>
         </div>
 
-        {/* ジャンルフィルター (アーティスト検索時のみ) */}
         {!isPortfolioSearch && (
           <div className="flex flex-wrap gap-2">
             <a
-              href={`/search?type=artist`}
+              href="/search?type=artist"
               className={`px-3 py-1.5 text-xs font-semibold border transition-all rounded-sm ${
                 !genre
                   ? 'bg-[#0a0a0a] text-white border-[#0a0a0a]'
@@ -105,10 +113,8 @@ export default async function SearchPage({
         )}
       </section>
 
-      {/* 検索結果一覧 */}
       <section>
         {!isPortfolioSearch ? (
-          /* アーティスト一覧 */
           artists.length > 0 ? (
             <>
               <p className="text-[#6b6b6b] text-xs mb-3 font-medium">{artists.length} artists</p>
@@ -124,7 +130,6 @@ export default async function SearchPage({
             </div>
           )
         ) : (
-          /* ポートフォリオ一覧 */
           portfolios.length > 0 ? (
             <>
               <p className="text-[#6b6b6b] text-xs mb-3 font-medium">{portfolios.length} works</p>

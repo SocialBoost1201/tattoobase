@@ -1,11 +1,18 @@
 import Link from 'next/link';
 import ReportFacilityButton from '@/components/facilities/ReportFacilityButton';
-
-const API = 'http://localhost:3000';
+import { API_BASE } from '@/lib/api';
+import { MOCK_FACILITIES } from '@/lib/mock-data';
 
 async function getFacility(slugOrId: string) {
-  const res = await fetch(`${API}/user-api/facilities/${slugOrId}`, { cache: 'no-store' });
-  return res.ok ? res.json() : null;
+  try {
+    const res = await fetch(`${API_BASE}/user-api/facilities/${slugOrId}`, { cache: 'no-store' });
+    if (res.ok) return res.json();
+  } catch {
+    // API not available
+  }
+  return (
+    MOCK_FACILITIES.find((f) => f.slug === slugOrId || f.id === slugOrId) ?? null
+  );
 }
 
 const getTypeName = (type: string) => {
@@ -48,15 +55,15 @@ export default async function FacilityDetailPage({
 
   const imageUrl = facility.mediaUrls?.[0] || '';
   const area = [facility.prefecture, facility.city, facility.address].filter(Boolean).join(' ') || '未設定';
+  const acceptanceInfo = getAcceptanceInfo(facility.acceptanceLevel);
 
   return (
     <article className="pb-20">
-      {/* ヒーロー画像領域 */}
       <div className="relative w-full h-[40vh] md:h-[60vh] bg-[#f0f0f0]">
         {imageUrl ? (
-          <img 
-            src={imageUrl} 
-            alt={facility.name} 
+          <img
+            src={imageUrl}
+            alt={facility.name}
             className="w-full h-full object-cover"
           />
         ) : (
@@ -65,16 +72,15 @@ export default async function FacilityDetailPage({
           </div>
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-        
-        {/* ヘッダー情報（オーバーレイ） */}
+
         <div className="absolute bottom-0 left-0 w-full p-6 md:p-12 text-white">
           <div className="max-w-5xl mx-auto w-full">
             <div className="flex gap-2 mb-3">
               <span className="inline-block bg-white text-black px-3 py-1 text-xs font-bold tracking-widest rounded-sm uppercase">
                 {getTypeName(facility.type)}
               </span>
-              <span className={`inline-block px-3 py-1 text-xs font-bold tracking-widest rounded-sm border ${getAcceptanceInfo(facility.acceptanceLevel).color}`}>
-                {getAcceptanceInfo(facility.acceptanceLevel).label}
+              <span className={`inline-block px-3 py-1 text-xs font-bold tracking-widest rounded-sm border ${acceptanceInfo.color}`}>
+                {acceptanceInfo.label}
               </span>
             </div>
             <h1 className="text-3xl md:text-5xl font-extrabold font-heading mb-3 leading-tight text-balance shadow-black drop-shadow-lg">
@@ -89,11 +95,7 @@ export default async function FacilityDetailPage({
       </div>
 
       <div className="max-w-5xl mx-auto px-4 md:px-12 py-10 grid grid-cols-1 md:grid-cols-3 gap-10">
-        
-        {/* 左側：メインコンテンツ */}
         <div className="md:col-span-2 space-y-12">
-          
-          {/* 警告アラート (必要な場合のみ) */}
           {(facility.acceptanceLevel === 'BANNED' || facility.acceptanceLevel === 'COVERED_ONLY') && (
             <div className={`p-6 rounded-md border-2 shadow-sm ${
               facility.acceptanceLevel === 'BANNED' ? 'bg-red-50 border-red-500' : 'bg-yellow-50 border-yellow-500'
@@ -107,22 +109,18 @@ export default async function FacilityDetailPage({
               <p className={`font-medium leading-relaxed ${
                 facility.acceptanceLevel === 'BANNED' ? 'text-red-900' : 'text-yellow-900'
               }`}>
-                {getAcceptanceInfo(facility.acceptanceLevel).warning}
+                {acceptanceInfo.warning}
               </p>
             </div>
           )}
 
-          {/* 説明文 */}
           <section>
             <h2 className="text-xl font-bold border-b-2 border-[#0a0a0a] pb-2 mb-6 uppercase tracking-wider">About</h2>
-            <div className="prose prose-neutral max-w-none">
-              <p className="whitespace-pre-wrap leading-relaxed text-[#3b3b3b]">
-                {facility.description || '概要情報の登録がありません。'}
-              </p>
-            </div>
+            <p className="whitespace-pre-wrap leading-relaxed text-[#3b3b3b]">
+              {facility.description || '概要情報の登録がありません。'}
+            </p>
           </section>
 
-          {/* タトゥーポリシー */}
           <section>
             <h2 className="text-xl font-bold border-b-2 border-amber-700 pb-2 mb-6 uppercase tracking-wider flex items-center gap-2">
               <span className="bg-amber-700 text-white w-8 h-8 flex items-center justify-center rounded-sm">T</span>
@@ -136,24 +134,23 @@ export default async function FacilityDetailPage({
           </section>
         </div>
 
-        {/* 右側：サイドバー */}
         <div className="md:col-span-1 border-t md:border-t-0 md:border-l border-[#e0e0e0] md:pl-10 pt-10 md:pt-0">
           <div className="sticky top-6">
             <h3 className="text-sm font-bold tracking-widest uppercase text-[#6b6b6b] mb-4">Information</h3>
-            
+
             <dl className="space-y-4">
               <div>
                 <dt className="text-xs text-[#8b8b8b] uppercase font-bold mb-1">住所</dt>
                 <dd className="text-sm text-[#0a0a0a]">{area}</dd>
               </div>
-              
+
               {facility.websiteUrl && (
                 <div>
                   <dt className="text-xs text-[#8b8b8b] uppercase font-bold mb-1">ウェブサイト</dt>
                   <dd>
-                    <a 
-                      href={facility.websiteUrl} 
-                      target="_blank" 
+                    <a
+                      href={facility.websiteUrl}
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="text-sm text-blue-600 hover:underline break-all"
                     >
@@ -166,9 +163,9 @@ export default async function FacilityDetailPage({
 
             <div className="mt-8 space-y-3">
               <ReportFacilityButton facilityId={facility.id} facilityName={facility.name} />
-              
-              <Link 
-                href="/facilities" 
+
+              <Link
+                href="/facilities"
                 className="w-full block text-center bg-[#f5f5f5] hover:bg-neutral-300 transition-colors py-3 rounded-md text-sm font-bold text-[#0a0a0a]"
               >
                 一覧へ戻る
@@ -176,7 +173,6 @@ export default async function FacilityDetailPage({
             </div>
           </div>
         </div>
-
       </div>
     </article>
   );

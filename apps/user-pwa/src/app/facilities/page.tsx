@@ -1,6 +1,6 @@
 import FacilityCard, { Facility } from '@/components/cards/FacilityCard';
-
-const API = 'http://localhost:3000';
+import { API_BASE } from '@/lib/api';
+import { MOCK_FACILITIES } from '@/lib/mock-data';
 
 const CATEGORIES = [
   { value: 'ONSEN', label: '温泉' },
@@ -8,7 +8,7 @@ const CATEGORIES = [
   { value: 'GYM', label: 'ジム・プール' },
   { value: 'HOTEL', label: 'ホテル・旅館' },
   { value: 'BEACH', label: '海水浴場' },
-  { value: 'OTHER', label: 'その他' }
+  { value: 'OTHER', label: 'その他' },
 ];
 
 async function getFacilities(type?: string, includeBanned?: string) {
@@ -16,13 +16,18 @@ async function getFacilities(type?: string, includeBanned?: string) {
     const query = new URLSearchParams();
     if (type) query.append('type', type);
     if (includeBanned === 'true') query.append('includeBanned', 'true');
-    
-    const res = await fetch(`${API}/user-api/facilities?${query.toString()}`, { cache: 'no-store' });
-    return res.ok ? res.json() : [];
-  } catch (e) {
-    console.warn('Backend API not available:', e);
-    return [];
+    const res = await fetch(`${API_BASE}/user-api/facilities?${query.toString()}`, { cache: 'no-store' });
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data) && data.length > 0) return data;
+    }
+  } catch {
+    // API not available
   }
+  let results = [...MOCK_FACILITIES];
+  if (type) results = results.filter((f) => f.type === type);
+  if (includeBanned !== 'true') results = results.filter((f) => f.acceptanceLevel !== 'BANNED');
+  return results;
 }
 
 export default async function FacilitiesSearchPage({
@@ -37,7 +42,6 @@ export default async function FacilitiesSearchPage({
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8 space-y-8">
-      {/* ページヘッダー */}
       <div className="text-center space-y-3">
         <h1 className="font-heading font-extrabold text-3xl md:text-4xl text-[#0a0a0a] tracking-tight uppercase">
           Tattoo Friendly
@@ -48,7 +52,6 @@ export default async function FacilitiesSearchPage({
         </p>
       </div>
 
-      {/* カテゴリフィルター */}
       <section className="bg-[#fcfcfc] border border-[#e8e8e8] p-4 md:p-6 rounded-lg">
         <h2 className="text-[#0a0a0a] text-xs font-bold mb-3 tracking-widest uppercase">Filter by Category</h2>
         <div className="flex flex-wrap gap-2">
@@ -76,19 +79,18 @@ export default async function FacilitiesSearchPage({
             </a>
           ))}
         </div>
-        
-        {/* タトゥー禁止施設を含めるトグル設定 */}
+
         <div className="mt-4 pt-4 border-t border-[#e8e8e8] flex items-center gap-3">
           <span className="text-xs font-bold text-[#6b6b6b]">オプション:</span>
           {includeBanned === 'true' ? (
-            <a 
+            <a
               href={`/facilities?type=${type}&includeBanned=false`}
               className="px-3 py-1.5 text-xs font-bold bg-[#f5f5f5] text-[#3b3b3b] rounded border border-[#d0d0d0] hover:bg-white transition-colors flex items-center gap-2"
             >
               <span className="w-2 h-2 rounded-full bg-red-500"></span> 禁止施設を隠す
             </a>
           ) : (
-            <a 
+            <a
               href={`/facilities?type=${type}&includeBanned=true`}
               className="px-3 py-1.5 text-xs font-bold bg-white text-[#6b6b6b] rounded border border-[#e0e0e0] hover:border-[#d0d0d0] transition-colors flex items-center gap-2"
             >
@@ -98,11 +100,10 @@ export default async function FacilitiesSearchPage({
         </div>
       </section>
 
-      {/* 施設一覧グリッド */}
       <section>
         <div className="flex items-center justify-between mb-4 mt-2">
           <h2 className="text-xl font-extrabold text-[#0a0a0a] font-heading">
-            {type ? CATEGORIES.find(c => c.value === type)?.label : 'すべての施設'}
+            {type ? CATEGORIES.find((c) => c.value === type)?.label : 'すべての施設'}
           </h2>
           <span className="text-[#6b6b6b] text-xs font-bold bg-[#f0f0f0] px-3 py-1 rounded-full">
             {facilities.length} LISTINGS
