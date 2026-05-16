@@ -56,20 +56,20 @@ export default async function SearchPage({
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-heading font-extrabold text-2xl text-[#0a0a0a]">
+        <h1 className="font-heading font-extrabold text-2xl text-white">
           {isPortfolioSearch ? 'WORKS' : 'ARTISTS'}
         </h1>
-        <p className="text-[#6b6b6b] text-xs mt-1">
+        <p className="text-white/45 text-xs mt-1">
           {isPortfolioSearch ? '直近の作品からインスピレーションを探す' : 'アーティストをスタイルで絞り込む'}
         </p>
       </div>
 
       <section className="space-y-4">
-        <div className="flex border-b border-[#e0e0e0]">
+        <div className="flex border-b border-white/10">
           <a
             href={`/search?type=artist${genre ? `&genre=${encodeURIComponent(genre)}` : ''}`}
             className={`pb-2 px-1 mr-6 text-sm font-bold uppercase tracking-wide transition-colors ${
-              !isPortfolioSearch ? 'border-b-2 border-[#0a0a0a] text-[#0a0a0a]' : 'text-[#a0a0a0] hover:text-[#0a0a0a]'
+              !isPortfolioSearch ? 'border-b-2 border-white text-white' : 'text-white/35 hover:text-white'
             }`}
           >
             Artists
@@ -77,7 +77,7 @@ export default async function SearchPage({
           <a
             href="/search?type=portfolio"
             className={`pb-2 px-1 text-sm font-bold uppercase tracking-wide transition-colors ${
-              isPortfolioSearch ? 'border-b-2 border-[#0a0a0a] text-[#0a0a0a]' : 'text-[#a0a0a0] hover:text-[#0a0a0a]'
+              isPortfolioSearch ? 'border-b-2 border-white text-white' : 'text-white/35 hover:text-white'
             }`}
           >
             Works
@@ -88,10 +88,10 @@ export default async function SearchPage({
           <div className="flex flex-wrap gap-2">
             <a
               href="/search?type=artist"
-              className={`px-3 py-1.5 text-xs font-semibold border transition-all rounded-sm ${
+              className={`px-3 py-1.5 text-xs font-semibold border transition-all rounded-xl ${
                 !genre
-                  ? 'bg-[#0a0a0a] text-white border-[#0a0a0a]'
-                  : 'bg-white text-[#6b6b6b] border-[#e0e0e0] hover:border-[#0a0a0a] hover:text-[#0a0a0a]'
+                  ? 'bg-white text-black border-white'
+                  : 'glass text-white/50 hover:text-white'
               }`}
             >
               ALL
@@ -100,10 +100,10 @@ export default async function SearchPage({
               <a
                 key={g}
                 href={`/search?type=artist&genre=${encodeURIComponent(g)}`}
-                className={`px-3 py-1.5 text-xs font-semibold border transition-all rounded-sm ${
+                className={`px-3 py-1.5 text-xs font-semibold border transition-all rounded-xl ${
                   genre === g
-                    ? 'bg-[#0a0a0a] text-white border-[#0a0a0a]'
-                    : 'bg-white text-[#6b6b6b] border-[#e0e0e0] hover:border-[#0a0a0a] hover:text-[#0a0a0a]'
+                    ? 'bg-white text-black border-white'
+                    : 'glass text-white/50 hover:text-white'
                 }`}
               >
                 {g}
@@ -117,7 +117,7 @@ export default async function SearchPage({
         {!isPortfolioSearch ? (
           artists.length > 0 ? (
             <>
-              <p className="text-[#6b6b6b] text-xs mb-3 font-medium">{artists.length} artists</p>
+              <p className="text-white/45 text-xs mb-3 font-medium">{artists.length} artists</p>
               <div className="grid grid-cols-2 gap-3">
                 {artists.map((a: { id: string; displayName: string; studio?: { name: string } }) => (
                   <ArtistCard key={a.id} artist={a} />
@@ -125,14 +125,14 @@ export default async function SearchPage({
               </div>
             </>
           ) : (
-            <div className="py-16 text-center border border-[#e0e0e0] rounded-sm bg-white">
-              <p className="text-[#6b6b6b] text-sm">該当するアーティストが見つかりませんでした</p>
+            <div className="py-16 text-center glass rounded-2xl">
+              <p className="text-white/45 text-sm">該当するアーティストが見つかりませんでした</p>
             </div>
           )
         ) : (
           portfolios.length > 0 ? (
             <>
-              <p className="text-[#6b6b6b] text-xs mb-3 font-medium">{portfolios.length} works</p>
+              <p className="text-white/45 text-xs mb-3 font-medium">{portfolios.length} works</p>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 {portfolios.map((w: { id: string; mediaUrls: string[]; artistId: string; styleCategory?: string; title?: string }) => (
                   <PortfolioCard key={w.id} work={w} />
@@ -140,8 +140,8 @@ export default async function SearchPage({
               </div>
             </>
           ) : (
-            <div className="py-16 text-center border border-[#e0e0e0] rounded-sm bg-white">
-              <p className="text-[#6b6b6b] text-sm">作品が登録されていません</p>
+            <div className="py-16 text-center glass rounded-2xl">
+              <p className="text-white/45 text-sm">作品が登録されていません</p>
             </div>
           )
         )}
