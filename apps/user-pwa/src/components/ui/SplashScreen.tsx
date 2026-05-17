@@ -39,7 +39,7 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
   return (
     <div 
       ref={container} 
-      className="fixed inset-0 z-100 flex items-center justify-center bg-white"
+      className="fixed inset-0 z-100 flex items-center justify-center bg-black"
     >
       <div className="splash-logo opacity-0">
         <Image
@@ -47,7 +47,7 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
           alt="TattooBase"
           width={240}
           height={60}
-          className="h-12 w-auto object-contain"
+          className="h-12 w-auto object-contain brightness-0 invert"
           priority
         />
       </div>

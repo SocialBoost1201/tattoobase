@@ -24,6 +24,16 @@ const NAV_ITEMS = [
     ),
   },
   {
+    href: '/studios',
+    label: 'スタジオ',
+    icon: (active: boolean) => (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={active ? 'white' : 'rgba(255,255,255,0.35)'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" strokeLinejoin="round"/>
+        <rect x="9" y="12" width="6" height="9" rx="1"/>
+      </svg>
+    ),
+  },
+  {
     href: '/account/bookings',
     label: '予約',
     icon: (active: boolean) => (

@@ -3,10 +3,12 @@ import ArtistCard from '@/components/cards/ArtistCard';
 import PortfolioCard from '@/components/cards/PortfolioCard';
 import { API_BASE } from '@/lib/api';
 import { MOCK_ARTISTS, MOCK_PORTFOLIOS } from '@/lib/mock-data';
+import Link from 'next/link';
 
-const GENRES = ['和彫', '洋彫', 'ブラックアンドグレー', 'トラディショナル', 'アニメ', 'ニュースクール', 'レタリング', 'ミニマル'];
+const GENRES = ['和彫', 'ブラックアンドグレー', 'ミニマル', 'トラディショナル', 'ファインライン', 'レタリング', 'ニュースクール', 'ジオメトリック'];
+const PREFECTURES = ['東京都', '大阪府', '愛知県', '京都府', '福岡県'];
 
-async function searchArtists(genre: string) {
+async function searchArtists(genre: string, prefecture: string, q: string) {
   try {
     const url = new URL(`${API_BASE}/user-api/artists`);
     if (genre) url.searchParams.set('genre', genre);
@@ -18,15 +20,21 @@ async function searchArtists(genre: string) {
   } catch {
     // API not available
   }
-  if (genre) {
-    return MOCK_ARTISTS.filter((a) =>
-      a.specialties.some((s) => s.includes(genre))
+  let results = MOCK_ARTISTS as typeof MOCK_ARTISTS;
+  if (genre) results = results.filter((a) => a.specialties.some((s) => s.includes(genre)));
+  if (prefecture) results = results.filter((a) => a.prefecture === prefecture);
+  if (q) {
+    const lower = q.toLowerCase();
+    results = results.filter((a) =>
+      a.displayName.toLowerCase().includes(lower) ||
+      a.specialties.some((s) => s.toLowerCase().includes(lower)) ||
+      (a.studio?.name ?? '').toLowerCase().includes(lower)
     );
   }
-  return MOCK_ARTISTS;
+  return results;
 }
 
-async function searchPortfolios() {
+async function searchPortfolios(q: string) {
   try {
     const res = await fetch(`${API_BASE}/user-api/portfolios`, { cache: 'no-store' });
     if (res.ok) {
@@ -36,7 +44,13 @@ async function searchPortfolios() {
   } catch {
     // API not available
   }
-  return MOCK_PORTFOLIOS;
+  if (!q) return MOCK_PORTFOLIOS;
+  const lower = q.toLowerCase();
+  return MOCK_PORTFOLIOS.filter(
+    (p) =>
+      (p.title ?? '').toLowerCase().includes(lower) ||
+      (p.styleCategory ?? '').toLowerCase().includes(lower)
+  );
 }
 
 export default async function SearchPage({
@@ -46,80 +60,112 @@ export default async function SearchPage({
 }) {
   const params = await searchParams;
   const genre = (params.genre as string) ?? '';
+  const prefecture = (params.prefecture as string) ?? '';
+  const q = (params.q as string) ?? '';
   const searchType = (params.type as string) ?? 'artist';
-
   const isPortfolioSearch = searchType === 'portfolio';
 
-  const artists = !isPortfolioSearch ? await searchArtists(genre) : [];
-  const portfolios = isPortfolioSearch ? await searchPortfolios() : [];
+  const artists = !isPortfolioSearch ? await searchArtists(genre, prefecture, q) : [];
+  const portfolios = isPortfolioSearch ? await searchPortfolios(q) : [];
+
+  const buildUrl = (overrides: Record<string, string>) => {
+    const next = { type: searchType, genre, prefecture, q, ...overrides };
+    const qs = Object.entries(next)
+      .filter(([, v]) => v)
+      .map(([k, v]) => `${k}=${encodeURIComponent(v)}`)
+      .join('&');
+    return `/search${qs ? `?${qs}` : ''}`;
+  };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <div>
         <h1 className="font-heading font-extrabold text-2xl text-white">
           {isPortfolioSearch ? 'WORKS' : 'ARTISTS'}
         </h1>
         <p className="text-white/45 text-xs mt-1">
-          {isPortfolioSearch ? '直近の作品からインスピレーションを探す' : 'アーティストをスタイルで絞り込む'}
+          {isPortfolioSearch ? '直近の作品からインスピレーションを探す' : 'アーティストをスタイル・エリアで絞り込む'}
         </p>
       </div>
 
-      <section className="space-y-4">
-        <div className="flex border-b border-white/10">
-          <a
-            href={`/search?type=artist${genre ? `&genre=${encodeURIComponent(genre)}` : ''}`}
-            className={`pb-2 px-1 mr-6 text-sm font-bold uppercase tracking-wide transition-colors ${
-              !isPortfolioSearch ? 'border-b-2 border-white text-white' : 'text-white/35 hover:text-white'
-            }`}
-          >
-            Artists
-          </a>
-          <a
-            href="/search?type=portfolio"
-            className={`pb-2 px-1 text-sm font-bold uppercase tracking-wide transition-colors ${
-              isPortfolioSearch ? 'border-b-2 border-white text-white' : 'text-white/35 hover:text-white'
-            }`}
-          >
-            Works
-          </a>
-        </div>
+      {/* Tabs */}
+      <div className="flex border-b border-white/10">
+        <Link
+          href={buildUrl({ type: 'artist' })}
+          className={`pb-2 px-1 mr-6 text-sm font-bold uppercase tracking-wide transition-colors ${
+            !isPortfolioSearch ? 'border-b-2 border-white text-white' : 'text-white/35 hover:text-white'
+          }`}
+        >
+          Artists
+        </Link>
+        <Link
+          href={buildUrl({ type: 'portfolio' })}
+          className={`pb-2 px-1 text-sm font-bold uppercase tracking-wide transition-colors ${
+            isPortfolioSearch ? 'border-b-2 border-white text-white' : 'text-white/35 hover:text-white'
+          }`}
+        >
+          Works
+        </Link>
+      </div>
 
-        {!isPortfolioSearch && (
-          <div className="flex flex-wrap gap-2">
-            <a
-              href="/search?type=artist"
-              className={`px-3 py-1.5 text-xs font-semibold border transition-all rounded-xl ${
-                !genre
-                  ? 'bg-white text-black border-white'
-                  : 'glass text-white/50 hover:text-white'
-              }`}
-            >
+      {/* Text search */}
+      <form method="GET" action="/search">
+        <input type="hidden" name="type" value={searchType} />
+        {genre && <input type="hidden" name="genre" value={genre} />}
+        {prefecture && <input type="hidden" name="prefecture" value={prefecture} />}
+        <div className="relative">
+          <div className="absolute inset-y-0 left-3.5 flex items-center pointer-events-none">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+            </svg>
+          </div>
+          <input
+            type="text"
+            name="q"
+            defaultValue={q}
+            placeholder={isPortfolioSearch ? 'スタイル・タイトルで検索...' : 'アーティスト名・スタジオ名で検索...'}
+            className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder-white/25 focus:outline-none focus:border-white/25 transition-all"
+          />
+        </div>
+      </form>
+
+      {/* Filters — artists only */}
+      {!isPortfolioSearch && (
+        <div className="space-y-3">
+          {/* Genre chips */}
+          <div className="flex gap-2 flex-wrap">
+            <Link href={buildUrl({ genre: '' })} className={`px-3 py-1.5 text-xs font-semibold rounded-xl border transition-all ${!genre ? 'bg-white text-black border-white' : 'glass text-white/50 hover:text-white'}`}>
               ALL
-            </a>
+            </Link>
             {GENRES.map((g) => (
-              <a
-                key={g}
-                href={`/search?type=artist&genre=${encodeURIComponent(g)}`}
-                className={`px-3 py-1.5 text-xs font-semibold border transition-all rounded-xl ${
-                  genre === g
-                    ? 'bg-white text-black border-white'
-                    : 'glass text-white/50 hover:text-white'
-                }`}
-              >
+              <Link key={g} href={buildUrl({ genre: g })} className={`px-3 py-1.5 text-xs font-semibold rounded-xl border transition-all ${genre === g ? 'bg-white text-black border-white' : 'glass text-white/50 hover:text-white'}`}>
                 {g}
-              </a>
+              </Link>
             ))}
           </div>
-        )}
-      </section>
 
+          {/* Prefecture filter */}
+          <div className="flex gap-2 overflow-x-auto pb-1" style={{ scrollbarWidth: 'none' }}>
+            <Link href={buildUrl({ prefecture: '' })} className={`flex-none px-3 py-1.5 text-[11px] font-semibold rounded-lg border transition-all ${!prefecture ? 'bg-white/15 text-white border-white/25' : 'text-white/35 border-white/10 hover:text-white/60'}`}>
+              全国
+            </Link>
+            {PREFECTURES.map((pref) => (
+              <Link key={pref} href={buildUrl({ prefecture: pref })} className={`flex-none px-3 py-1.5 text-[11px] font-semibold rounded-lg border transition-all ${prefecture === pref ? 'bg-white/15 text-white border-white/25' : 'text-white/35 border-white/10 hover:text-white/60'}`}>
+                {pref}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Results */}
       <section>
         {!isPortfolioSearch ? (
           artists.length > 0 ? (
             <>
-              <p className="text-white/45 text-xs mb-3 font-medium">{artists.length} artists</p>
+              <p className="text-white/35 text-xs mb-3">{artists.length} artists</p>
               <div className="grid grid-cols-2 gap-3">
-                {artists.map((a: { id: string; displayName: string; studio?: { name: string } }) => (
+                {artists.map((a: { id: string; displayName: string; studio?: { name: string }; avgRating?: number; reviewCount?: number; specialties?: string[]; prefecture?: string; priceRange?: string }) => (
                   <ArtistCard key={a.id} artist={a} />
                 ))}
               </div>
@@ -127,12 +173,15 @@ export default async function SearchPage({
           ) : (
             <div className="py-16 text-center glass rounded-2xl">
               <p className="text-white/45 text-sm">該当するアーティストが見つかりませんでした</p>
+              {(genre || prefecture || q) && (
+                <Link href="/search?type=artist" className="block mt-3 text-xs text-white/40 hover:text-white underline underline-offset-2">フィルターをリセット</Link>
+              )}
             </div>
           )
         ) : (
           portfolios.length > 0 ? (
             <>
-              <p className="text-white/45 text-xs mb-3 font-medium">{portfolios.length} works</p>
+              <p className="text-white/35 text-xs mb-3">{portfolios.length} works</p>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 {portfolios.map((w: { id: string; mediaUrls: string[]; artistId: string; styleCategory?: string; title?: string }) => (
                   <PortfolioCard key={w.id} work={w} />
@@ -141,7 +190,7 @@ export default async function SearchPage({
             </>
           ) : (
             <div className="py-16 text-center glass rounded-2xl">
-              <p className="text-white/45 text-sm">作品が登録されていません</p>
+              <p className="text-white/45 text-sm">作品が見つかりませんでした</p>
             </div>
           )
         )}

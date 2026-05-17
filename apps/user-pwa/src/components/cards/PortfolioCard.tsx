@@ -5,6 +5,8 @@ type PortfolioWork = {
   id: string;
   mediaUrls: string[];
   artistId: string;
+  styleCategory?: string;
+  title?: string;
 };
 
 export default function PortfolioCard({ work }: { work: PortfolioWork }) {
@@ -12,7 +14,14 @@ export default function PortfolioCard({ work }: { work: PortfolioWork }) {
   return (
     <Link href={`/portfolio/${work.id}`} className="group block">
       <div className="aspect-square rounded-2xl overflow-hidden border border-white/8 hover:border-white/20 transition-all duration-500 hover:shadow-2xl hover:shadow-black/60 relative glow-white">
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 pointer-events-none"/>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 pointer-events-none"/>
+        {work.styleCategory && (
+          <div className="absolute bottom-2 left-2 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <span className="text-[9px] font-bold bg-black/60 backdrop-blur-sm text-white/80 px-1.5 py-0.5 rounded-md">
+              {work.styleCategory}
+            </span>
+          </div>
+        )}
         {imageUrl ? (
           <Image
             src={imageUrl}
