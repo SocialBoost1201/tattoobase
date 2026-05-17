@@ -72,7 +72,7 @@ export default function WatermarkedImage({
       {/* Loading Placeholder */}
       {!isLoaded && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="w-6 h-6 border-2 border-brand-500 border-t-transparent rounded-full animate-spin"></div>
+          <div className="w-6 h-6 border-2 border-white/40 border-t-transparent rounded-full animate-spin"></div>
         </div>
       )}
       

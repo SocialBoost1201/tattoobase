@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import ReportFacilityButton from '@/components/facilities/ReportFacilityButton';
 import { API_BASE } from '@/lib/api';
 import { MOCK_FACILITIES } from '@/lib/mock-data';
@@ -10,9 +11,7 @@ async function getFacility(slugOrId: string) {
   } catch {
     // API not available
   }
-  return (
-    MOCK_FACILITIES.find((f) => f.slug === slugOrId || f.id === slugOrId) ?? null
-  );
+  return MOCK_FACILITIES.find((f) => f.slug === slugOrId || f.id === slugOrId) ?? null;
 }
 
 const getTypeName = (type: string) => {
@@ -28,11 +27,16 @@ const getTypeName = (type: string) => {
 
 const getAcceptanceInfo = (level: string) => {
   switch (level) {
-    case 'ALLOWED': return { label: '全面許可', color: 'bg-green-100 text-green-800 border-green-200' };
-    case 'COVERED_ONLY': return { label: 'シール等で隠して許可', color: 'bg-yellow-100 text-yellow-800 border-yellow-200', warning: 'タトゥーを露出しての入場・利用はできません。ラッシュガードやタトゥー隠しシールの着用が必須です。' };
-    case 'PARTIAL_ONLY': return { label: 'ワンポイント等一部のみ可', color: 'bg-blue-100 text-blue-800 border-blue-200' };
-    case 'BANNED': return { label: '一切禁止 (入館不可)', color: 'bg-red-100 text-red-800 border-red-200', warning: '当施設はタトゥー（刺青）のある方の入館・利用を一切お断りしています。予約しても入場できないためご注意ください。' };
-    default: return { label: '要確認', color: 'bg-gray-100 text-gray-800 border-gray-200' };
+    case 'ALLOWED':
+      return { label: '全面許可', color: 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10' };
+    case 'COVERED_ONLY':
+      return { label: '隠せばOK', color: 'text-amber-400 border-amber-500/30 bg-amber-500/10', warning: 'タトゥーを露出しての入場・利用はできません。ラッシュガードやタトゥー隠しシールの着用が必須です。' };
+    case 'PARTIAL_ONLY':
+      return { label: 'ワンポイント可', color: 'text-blue-400 border-blue-500/30 bg-blue-500/10' };
+    case 'BANNED':
+      return { label: '入館不可', color: 'text-red-400 border-red-500/30 bg-red-500/10', warning: '当施設はタトゥーのある方の入館・利用を一切お断りしています。予約しても入場できないためご注意ください。' };
+    default:
+      return { label: '要確認', color: 'text-white/40 border-white/10 bg-white/5' };
   }
 };
 
@@ -46,9 +50,11 @@ export default async function FacilityDetailPage({
 
   if (!facility) {
     return (
-      <div className="max-w-4xl mx-auto px-4 py-24 text-center">
-        <h1 className="text-2xl font-bold mb-4">施設が見つかりません</h1>
-        <Link href="/facilities" className="text-amber-700 hover:underline">← 一覧に戻る</Link>
+      <div className="py-16 text-center glass rounded-2xl space-y-4">
+        <p className="text-white/40 text-sm">施設が見つかりませんでした</p>
+        <Link href="/facilities" className="inline-block text-sm font-semibold text-white underline underline-offset-2">
+          施設一覧に戻る
+        </Link>
       </div>
     );
   }
@@ -58,122 +64,96 @@ export default async function FacilityDetailPage({
   const acceptanceInfo = getAcceptanceInfo(facility.acceptanceLevel);
 
   return (
-    <article className="pb-20">
-      <div className="relative w-full h-[40vh] md:h-[60vh] bg-[#f0f0f0]">
+    <div className="space-y-6 -mt-2">
+      {/* Hero image */}
+      <div className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden border border-white/8">
         {imageUrl ? (
-          <img
-            src={imageUrl}
-            alt={facility.name}
-            className="w-full h-full object-cover"
-          />
+          <Image src={imageUrl} alt={facility.name} fill className="object-cover" sizes="(max-width: 640px) 100vw, 640px" />
         ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <span className="text-5xl font-extrabold text-[#d0d0d0] tracking-tighter">TF</span>
+          <div className="w-full h-full flex items-center justify-center bg-white/4">
+            <span className="text-5xl font-extrabold text-white/15 tracking-tighter">TF</span>
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-
-        <div className="absolute bottom-0 left-0 w-full p-6 md:p-12 text-white">
-          <div className="max-w-5xl mx-auto w-full">
-            <div className="flex gap-2 mb-3">
-              <span className="inline-block bg-white text-black px-3 py-1 text-xs font-bold tracking-widest rounded-sm uppercase">
-                {getTypeName(facility.type)}
-              </span>
-              <span className={`inline-block px-3 py-1 text-xs font-bold tracking-widest rounded-sm border ${acceptanceInfo.color}`}>
-                {acceptanceInfo.label}
-              </span>
-            </div>
-            <h1 className="text-3xl md:text-5xl font-extrabold font-heading mb-3 leading-tight text-balance shadow-black drop-shadow-lg">
-              {facility.name}
-            </h1>
-            <p className="flex items-center gap-2 text-sm md:text-base opacity-90 drop-shadow-md pb-2">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-              {area}
-            </p>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full p-5">
+          <div className="flex gap-2 mb-2">
+            <span className="text-[10px] font-bold bg-white text-black px-2 py-0.5 rounded-md uppercase tracking-wide">
+              {getTypeName(facility.type)}
+            </span>
+            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md border ${acceptanceInfo.color}`}>
+              {acceptanceInfo.label}
+            </span>
           </div>
+          <h1 className="text-2xl font-extrabold font-heading text-white leading-tight drop-shadow-lg">
+            {facility.name}
+          </h1>
+          <p className="flex items-center gap-1.5 text-xs text-white/70 mt-1.5">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            {area}
+          </p>
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 md:px-12 py-10 grid grid-cols-1 md:grid-cols-3 gap-10">
-        <div className="md:col-span-2 space-y-12">
-          {(facility.acceptanceLevel === 'BANNED' || facility.acceptanceLevel === 'COVERED_ONLY') && (
-            <div className={`p-6 rounded-md border-2 shadow-sm ${
-              facility.acceptanceLevel === 'BANNED' ? 'bg-red-50 border-red-500' : 'bg-yellow-50 border-yellow-500'
-            }`}>
-              <h3 className={`text-lg font-bold flex items-center gap-2 mb-2 ${
-                facility.acceptanceLevel === 'BANNED' ? 'text-red-800' : 'text-yellow-800'
-              }`}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><path d="M12 9v4"></path><path d="M12 17h.01"></path></svg>
-                {facility.acceptanceLevel === 'BANNED' ? '予約に関する重要なお知らせ' : '利用に関する注意事項'}
-              </h3>
-              <p className={`font-medium leading-relaxed ${
-                facility.acceptanceLevel === 'BANNED' ? 'text-red-900' : 'text-yellow-900'
-              }`}>
-                {acceptanceInfo.warning}
-              </p>
+      {/* Warning */}
+      {acceptanceInfo.warning && (
+        <div className={`glass rounded-2xl p-4 border ${facility.acceptanceLevel === 'BANNED' ? 'border-red-500/30' : 'border-amber-500/30'}`}>
+          <div className="flex items-start gap-3">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={facility.acceptanceLevel === 'BANNED' ? '#f87171' : '#fbbf24'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mt-0.5">
+              <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/>
+            </svg>
+            <p className={`text-sm leading-relaxed ${facility.acceptanceLevel === 'BANNED' ? 'text-red-300' : 'text-amber-300'}`}>
+              {acceptanceInfo.warning}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* About */}
+      <section className="space-y-2">
+        <h2 className="text-sm font-extrabold text-white uppercase tracking-wider">About</h2>
+        <p className="whitespace-pre-wrap leading-relaxed text-white/55 text-sm">
+          {facility.description || '概要情報の登録がありません。'}
+        </p>
+      </section>
+
+      {/* Tattoo policy */}
+      <section className="space-y-2">
+        <h2 className="text-sm font-extrabold text-white uppercase tracking-wider">Tattoo Policy</h2>
+        <div className="glass rounded-2xl p-4 border border-white/8">
+          <p className="whitespace-pre-wrap leading-relaxed text-white/60 text-sm">
+            {facility.tattooPolicy || 'ポリシー情報の記載がありません。事前に施設へのご確認をおすすめします。'}
+          </p>
+        </div>
+      </section>
+
+      {/* Information */}
+      <section className="space-y-3">
+        <h2 className="text-sm font-extrabold text-white uppercase tracking-wider">Information</h2>
+        <div className="glass rounded-2xl divide-y divide-white/8">
+          <div className="px-4 py-3.5 flex justify-between items-center">
+            <span className="text-white/40 text-xs uppercase tracking-wider">住所</span>
+            <span className="text-white/70 text-sm text-right">{area}</span>
+          </div>
+          {facility.websiteUrl && (
+            <div className="px-4 py-3.5 flex justify-between items-center">
+              <span className="text-white/40 text-xs uppercase tracking-wider">Web</span>
+              <a href={facility.websiteUrl} target="_blank" rel="noopener noreferrer" className="text-blue-400 text-sm hover:underline break-all text-right">
+                サイトを開く
+              </a>
             </div>
           )}
-
-          <section>
-            <h2 className="text-xl font-bold border-b-2 border-[#0a0a0a] pb-2 mb-6 uppercase tracking-wider">About</h2>
-            <p className="whitespace-pre-wrap leading-relaxed text-[#3b3b3b]">
-              {facility.description || '概要情報の登録がありません。'}
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-xl font-bold border-b-2 border-amber-700 pb-2 mb-6 uppercase tracking-wider flex items-center gap-2">
-              <span className="bg-amber-700 text-white w-8 h-8 flex items-center justify-center rounded-sm">T</span>
-              Tattoo Policy
-            </h2>
-            <div className="bg-amber-50 p-6 rounded-md border border-amber-200">
-              <p className="whitespace-pre-wrap leading-relaxed font-medium text-amber-900">
-                {facility.tattooPolicy || 'ポリシー情報の記載がありません。事前に施設へのご確認をおすすめします。'}
-              </p>
-            </div>
-          </section>
         </div>
+      </section>
 
-        <div className="md:col-span-1 border-t md:border-t-0 md:border-l border-[#e0e0e0] md:pl-10 pt-10 md:pt-0">
-          <div className="sticky top-6">
-            <h3 className="text-sm font-bold tracking-widest uppercase text-[#6b6b6b] mb-4">Information</h3>
-
-            <dl className="space-y-4">
-              <div>
-                <dt className="text-xs text-[#8b8b8b] uppercase font-bold mb-1">住所</dt>
-                <dd className="text-sm text-[#0a0a0a]">{area}</dd>
-              </div>
-
-              {facility.websiteUrl && (
-                <div>
-                  <dt className="text-xs text-[#8b8b8b] uppercase font-bold mb-1">ウェブサイト</dt>
-                  <dd>
-                    <a
-                      href={facility.websiteUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm text-blue-600 hover:underline break-all"
-                    >
-                      {facility.websiteUrl}
-                    </a>
-                  </dd>
-                </div>
-              )}
-            </dl>
-
-            <div className="mt-8 space-y-3">
-              <ReportFacilityButton facilityId={facility.id} facilityName={facility.name} />
-
-              <Link
-                href="/facilities"
-                className="w-full block text-center bg-[#f5f5f5] hover:bg-neutral-300 transition-colors py-3 rounded-md text-sm font-bold text-[#0a0a0a]"
-              >
-                一覧へ戻る
-              </Link>
-            </div>
-          </div>
-        </div>
+      <div className="space-y-3">
+        <ReportFacilityButton facilityId={facility.id} facilityName={facility.name} />
+        <Link
+          href="/facilities"
+          className="block text-center text-white/30 text-xs hover:text-white/60 transition-colors"
+        >
+          ← 施設一覧に戻る
+        </Link>
       </div>
-    </article>
+    </div>
   );
 }

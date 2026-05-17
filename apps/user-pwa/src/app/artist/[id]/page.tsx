@@ -53,9 +53,11 @@ export default async function ArtistDetailPage({
 
   if (!artist) {
     return (
-      <div className="py-16 text-center border border-[#e0e0e0] rounded-sm">
-        <p className="text-[#6b6b6b] text-sm">アーティストが見つかりませんでした</p>
-        <Link href="/search" className="mt-4 inline-block text-sm font-semibold text-[#0a0a0a] underline">検索に戻る</Link>
+      <div className="py-16 text-center glass rounded-2xl space-y-4">
+        <p className="text-white/40 text-sm">アーティストが見つかりませんでした</p>
+        <Link href="/search" className="inline-block text-sm font-semibold text-white underline underline-offset-2">
+          検索に戻る
+        </Link>
       </div>
     );
   }
@@ -63,55 +65,89 @@ export default async function ArtistDetailPage({
   const initials = artist.displayName.slice(0, 2).toUpperCase();
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-7">
+      {/* Profile header */}
       <section className="flex items-center gap-4">
-        <div className="w-16 h-16 rounded-full bg-[#f0f0f0] border-2 border-[#0a0a0a] flex items-center justify-center flex-shrink-0">
-          <span className="text-xl font-extrabold text-[#0a0a0a] font-heading">{initials}</span>
+        <div className="w-20 h-20 rounded-full bg-white/8 border border-white/15 flex items-center justify-center shrink-0">
+          <span className="text-2xl font-extrabold text-white/50 font-heading">{initials}</span>
         </div>
-        <div>
-          <h1 className="font-heading font-extrabold text-2xl text-[#0a0a0a] leading-tight">{artist.displayName}</h1>
+        <div className="min-w-0">
+          <h1 className="font-heading font-extrabold text-2xl text-white leading-tight truncate">{artist.displayName}</h1>
           {artist.studio && (
-            <p className="text-[#6b6b6b] text-sm mt-0.5">{artist.studio.name}</p>
+            <p className="text-white/45 text-sm mt-0.5 truncate">{artist.studio.name}</p>
           )}
-          {artist.specialties && artist.specialties.length > 0 && (
-            <div className="flex flex-wrap gap-1 mt-2">
-              {artist.specialties.map((s: string) => (
-                <span key={s} className="text-[10px] font-semibold bg-neutral-100 text-neutral-600 px-2 py-0.5 rounded-sm border border-neutral-200">
-                  {s}
-                </span>
-              ))}
-            </div>
-          )}
+          <div className="flex items-center gap-3 mt-1.5">
+            {artist.avgRating != null && (
+              <div className="flex items-center gap-1">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="#fbbf24" stroke="#fbbf24" strokeWidth="1.5">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                </svg>
+                <span className="text-amber-400 text-sm font-bold">{artist.avgRating.toFixed(1)}</span>
+                {artist.reviewCount != null && (
+                  <span className="text-white/30 text-xs">({artist.reviewCount})</span>
+                )}
+              </div>
+            )}
+            {artist.prefecture && (
+              <span className="text-white/40 text-xs">{artist.prefecture}</span>
+            )}
+          </div>
         </div>
       </section>
 
-      <div className="h-px bg-[#e0e0e0]" />
+      {/* Specialties */}
+      {artist.specialties && artist.specialties.length > 0 && (
+        <div className="flex flex-wrap gap-1.5">
+          {artist.specialties.map((s: string) => (
+            <span key={s} className="text-[11px] font-semibold text-white/55 bg-white/5 border border-white/10 px-2.5 py-1 rounded-lg">
+              {s}
+            </span>
+          ))}
+        </div>
+      )}
+
+      {/* Stats row */}
+      <div className="glass rounded-2xl grid grid-cols-3 divide-x divide-white/8">
+        <div className="px-3 py-4 text-center">
+          <p className="text-white font-extrabold text-lg">{works.length}</p>
+          <p className="text-white/35 text-[10px] uppercase tracking-wider mt-0.5">作品</p>
+        </div>
+        <div className="px-3 py-4 text-center">
+          <p className="text-white font-extrabold text-lg">{artist.yearsOfExperience ?? '—'}</p>
+          <p className="text-white/35 text-[10px] uppercase tracking-wider mt-0.5">年の経験</p>
+        </div>
+        <div className="px-3 py-4 text-center">
+          <p className="text-white font-extrabold text-lg">{artist.priceRange ?? '—'}</p>
+          <p className="text-white/35 text-[10px] uppercase tracking-wider mt-0.5">料金目安</p>
+        </div>
+      </div>
 
       {artist.bio && (
-        <p className="text-[#3b3b3b] text-sm leading-relaxed">{artist.bio}</p>
+        <p className="text-white/55 text-sm leading-relaxed">{artist.bio}</p>
       )}
 
       <Link
         href={`/booking/start?artistId=${artist.id}`}
-        className="block w-full bg-[#0a0a0a] hover:opacity-85 text-white font-bold text-center py-4 rounded-sm transition-opacity duration-200 font-heading tracking-wide"
+        className="block w-full bg-white text-black font-bold text-center py-4 rounded-2xl hover:bg-white/90 transition-all font-heading tracking-wide"
       >
         予約する
       </Link>
 
+      {/* Works */}
       <section>
         <div className="flex items-baseline justify-between mb-3">
-          <h2 className="font-heading font-extrabold text-base text-[#0a0a0a] tracking-tight">WORKS</h2>
-          <span className="text-xs text-[#6b6b6b]">{works.length} pieces</span>
+          <h2 className="font-heading font-extrabold text-base text-white tracking-tight">WORKS</h2>
+          <span className="text-xs text-white/35">{works.length} pieces</span>
         </div>
         {works.length > 0 ? (
           <div className="grid grid-cols-3 gap-2">
-            {works.map((w: { id: string; mediaUrls: string[]; artistId: string }) => (
+            {works.map((w: { id: string; mediaUrls: string[]; artistId: string; styleCategory?: string; title?: string }) => (
               <PortfolioCard key={w.id} work={w} />
             ))}
           </div>
         ) : (
-          <div className="py-10 text-center border border-[#e0e0e0] rounded-sm">
-            <p className="text-[#a0a0a0] text-sm">作品はまだ登録されていません</p>
+          <div className="py-10 text-center glass rounded-2xl">
+            <p className="text-white/35 text-sm">作品はまだ登録されていません</p>
           </div>
         )}
       </section>

@@ -1,6 +1,7 @@
 import FacilityCard, { Facility } from '@/components/cards/FacilityCard';
 import { API_BASE } from '@/lib/api';
 import { MOCK_FACILITIES } from '@/lib/mock-data';
+import Link from 'next/link';
 
 const CATEGORIES = [
   { value: 'ONSEN', label: '温泉' },
@@ -41,94 +42,78 @@ export default async function FacilitiesSearchPage({
   const facilities = await getFacilities(type, includeBanned);
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-8 space-y-8">
-      <div className="text-center space-y-3">
-        <h1 className="font-heading font-extrabold text-3xl md:text-4xl text-[#0a0a0a] tracking-tight uppercase">
-          Tattoo Friendly
-        </h1>
-        <p className="text-[#4b4b4b] text-sm md:text-base max-w-2xl mx-auto">
-          タトゥーのある方がもっとも知りたい情報が豊富に掲載されています。<br className="hidden md:block" />
-          タトゥーに寛容な温泉や宿泊施設の情報を検索できます。
+    <div className="space-y-6">
+      <div>
+        <h1 className="font-heading font-extrabold text-2xl text-white tracking-tight">TATTOO FRIENDLY</h1>
+        <p className="text-white/45 text-xs mt-1">
+          タトゥーに寛容な温泉・宿泊施設を探す
         </p>
       </div>
 
-      <section className="bg-[#fcfcfc] border border-[#e8e8e8] p-4 md:p-6 rounded-lg">
-        <h2 className="text-[#0a0a0a] text-xs font-bold mb-3 tracking-widest uppercase">Filter by Category</h2>
-        <div className="flex flex-wrap gap-2">
-          <a
-            href={`/facilities?includeBanned=${includeBanned}`}
-            className={`px-4 py-2 text-xs font-bold border transition-all rounded-md tracking-wide ${
-              !type
-                ? 'bg-[#0a0a0a] text-white border-[#0a0a0a] shadow-md shadow-black/10'
-                : 'bg-white text-[#6b6b6b] border-[#d0d0d0] hover:border-[#0a0a0a] hover:text-[#0a0a0a]'
+      {/* Category filter */}
+      <div className="flex flex-wrap gap-2">
+        <Link
+          href={`/facilities?includeBanned=${includeBanned}`}
+          className={`px-3 py-1.5 text-xs font-semibold rounded-xl border transition-all ${
+            !type ? 'bg-white text-black border-white' : 'glass text-white/50 hover:text-white'
+          }`}
+        >
+          ALL
+        </Link>
+        {CATEGORIES.map((c) => (
+          <Link
+            key={c.value}
+            href={`/facilities?type=${c.value}&includeBanned=${includeBanned}`}
+            className={`px-3 py-1.5 text-xs font-semibold rounded-xl border transition-all ${
+              type === c.value ? 'bg-white text-black border-white' : 'glass text-white/50 hover:text-white'
             }`}
           >
-            ALL
-          </a>
-          {CATEGORIES.map((c) => (
-            <a
-              key={c.value}
-              href={`/facilities?type=${c.value}&includeBanned=${includeBanned}`}
-              className={`px-4 py-2 text-xs font-bold border transition-all rounded-md tracking-wide ${
-                type === c.value
-                  ? 'bg-[#0a0a0a] text-white border-[#0a0a0a] shadow-md shadow-black/10'
-                  : 'bg-white text-[#6b6b6b] border-[#d0d0d0] hover:border-[#0a0a0a] hover:text-[#0a0a0a]'
-              }`}
-            >
-              {c.label}
-            </a>
+            {c.label}
+          </Link>
+        ))}
+      </div>
+
+      {/* Banned toggle */}
+      <div className="flex items-center gap-3">
+        <span className="text-[11px] font-semibold text-white/35">表示オプション:</span>
+        {includeBanned === 'true' ? (
+          <Link
+            href={`/facilities?type=${type}&includeBanned=false`}
+            className="px-3 py-1.5 text-[11px] font-semibold glass text-white/50 hover:text-white rounded-lg border border-white/10 transition-all flex items-center gap-2"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-red-400" /> 禁止施設を隠す
+          </Link>
+        ) : (
+          <Link
+            href={`/facilities?type=${type}&includeBanned=true`}
+            className="px-3 py-1.5 text-[11px] font-semibold glass text-white/50 hover:text-white rounded-lg border border-white/10 transition-all flex items-center gap-2"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-white/30" /> 禁止施設も表示
+          </Link>
+        )}
+      </div>
+
+      <div className="flex items-center justify-between">
+        <h2 className="text-base font-extrabold text-white font-heading">
+          {type ? CATEGORIES.find((c) => c.value === type)?.label : 'すべての施設'}
+        </h2>
+        <span className="text-white/35 text-xs">{facilities.length} listings</span>
+      </div>
+
+      {facilities.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {facilities.map((f: Facility) => (
+            <FacilityCard key={f.id} facility={f} />
           ))}
         </div>
-
-        <div className="mt-4 pt-4 border-t border-[#e8e8e8] flex items-center gap-3">
-          <span className="text-xs font-bold text-[#6b6b6b]">オプション:</span>
-          {includeBanned === 'true' ? (
-            <a
-              href={`/facilities?type=${type}&includeBanned=false`}
-              className="px-3 py-1.5 text-xs font-bold bg-[#f5f5f5] text-[#3b3b3b] rounded border border-[#d0d0d0] hover:bg-white transition-colors flex items-center gap-2"
-            >
-              <span className="w-2 h-2 rounded-full bg-red-500"></span> 禁止施設を隠す
-            </a>
-          ) : (
-            <a
-              href={`/facilities?type=${type}&includeBanned=true`}
-              className="px-3 py-1.5 text-xs font-bold bg-white text-[#6b6b6b] rounded border border-[#e0e0e0] hover:border-[#d0d0d0] transition-colors flex items-center gap-2"
-            >
-              <span className="w-2 h-2 rounded-full bg-gray-300"></span> 禁止施設も含めて表示
-            </a>
-          )}
+      ) : (
+        <div className="py-16 text-center glass rounded-2xl space-y-3">
+          <p className="text-white/45 text-sm">施設が見つかりませんでした</p>
+          <Link href="/facilities" className="inline-block text-xs font-semibold text-white/50 hover:text-white underline underline-offset-2">
+            すべての施設を表示
+          </Link>
         </div>
-      </section>
-
-      <section>
-        <div className="flex items-center justify-between mb-4 mt-2">
-          <h2 className="text-xl font-extrabold text-[#0a0a0a] font-heading">
-            {type ? CATEGORIES.find((c) => c.value === type)?.label : 'すべての施設'}
-          </h2>
-          <span className="text-[#6b6b6b] text-xs font-bold bg-[#f0f0f0] px-3 py-1 rounded-full">
-            {facilities.length} LISTINGS
-          </span>
-        </div>
-
-        {facilities.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {facilities.map((f: Facility) => (
-              <FacilityCard key={f.id} facility={f} />
-            ))}
-          </div>
-        ) : (
-          <div className="py-24 text-center border-2 border-dashed border-[#e0e0e0] rounded-xl bg-gray-50/50">
-            <svg className="w-12 h-12 text-[#b0b0b0] mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <p className="text-[#3b3b3b] font-bold text-lg mb-1">施設が見つかりませんでした</p>
-            <p className="text-[#6b6b6b] text-sm">別のカテゴリを選択するか、しばらくしてからもう一度お試しください。</p>
-            <a href="/facilities" className="inline-block mt-6 text-sm font-bold text-[#0a0a0a] hover:underline underline-offset-4">
-              &larr; すべての施設を表示
-            </a>
-          </div>
-        )}
-      </section>
+      )}
     </div>
   );
 }
