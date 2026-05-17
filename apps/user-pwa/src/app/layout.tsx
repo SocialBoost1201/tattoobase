@@ -3,6 +3,8 @@ import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import BottomNav from "@/components/layout/BottomNav";
+import { NextIntlClientProvider } from 'next-intl';
+import { getLocale, getMessages } from 'next-intl/server';
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 const poppins = Poppins({
@@ -20,19 +22,24 @@ import SmoothScroller from "@/components/layout/SmoothScroller";
 
 // (中略)
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
-    <html lang="ja">
+    <html lang={locale}>
       <body className={`${inter.variable} ${poppins.variable} bg-black text-white`}>
-        <SmoothScroller>
-          <Header />
-          <main className="max-w-xl mx-auto px-4 pt-6 pb-24 min-h-screen">
-            {children}
-          </main>
-          <BottomNav />
-        </SmoothScroller>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <SmoothScroller>
+            <Header />
+            <main className="max-w-xl mx-auto px-4 pt-6 pb-24 min-h-screen">
+              {children}
+            </main>
+            <BottomNav />
+          </SmoothScroller>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

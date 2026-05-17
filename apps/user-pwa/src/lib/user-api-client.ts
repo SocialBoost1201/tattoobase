@@ -1,3 +1,5 @@
+import { API_BASE } from './api';
+
 export const UserApiClient = {
   async createBookingDraft(data: {
     studioId: string;
@@ -5,18 +7,16 @@ export const UserApiClient = {
     scheduledAtLocal?: string;
     notes?: string;
     briefJson: any;
-    userId?: string; // 認証連携まではフロントから渡して補助
+    userId?: string;
   }) {
-    const res = await fetch('http://localhost:3001/api/user-api/booking/draft', {
+    const res = await fetch(`${API_BASE}/user-api/booking/draft`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     });
 
     if (!res.ok) {
-      const error = await res.json();
+      const error = await res.json().catch(() => ({}));
       throw new Error(error.message || 'Failed to create booking draft');
     }
 
@@ -24,20 +24,15 @@ export const UserApiClient = {
   },
 
   async getBookingDetail(id: string) {
-    const res = await fetch(`http://localhost:3001/api/user-api/bookings/${id}`, {
-      // APIサーバーに対しキャッシュを無効化する
-      cache: 'no-store'
+    const res = await fetch(`${API_BASE}/user-api/bookings/${id}`, {
+      cache: 'no-store',
     });
 
     if (!res.ok) {
-      try {
-        const error = await res.json();
-        throw new Error(error.message || 'Failed to fetch booking detail');
-      } catch (e) {
-        throw new Error('Failed to fetch booking detail');
-      }
+      const error = await res.json().catch(() => ({}));
+      throw new Error(error.message || 'Failed to fetch booking detail');
     }
 
     return res.json();
-  }
+  },
 };

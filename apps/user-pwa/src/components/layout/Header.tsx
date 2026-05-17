@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { auth } from '@/auth';
+import LanguageSwitcher from './LanguageSwitcher';
 
 export default async function Header() {
   let session = null;
@@ -24,7 +25,7 @@ export default async function Header() {
             priority
           />
         </Link>
-        <nav className="flex items-center gap-3">
+        <nav className="flex items-center gap-2">
           <Link
             href="/facilities"
             className="text-white/60 hover:text-white transition-colors text-sm font-medium"
@@ -37,6 +38,7 @@ export default async function Header() {
           >
             検索
           </Link>
+          <LanguageSwitcher />
           {isLoggedIn ? (
             <Link
               href="/account"
