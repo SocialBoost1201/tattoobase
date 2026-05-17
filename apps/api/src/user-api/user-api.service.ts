@@ -1,6 +1,7 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { RiskEngineService } from '../domain/risk-engine.service';
+import { BookingStateMachineService } from '../domain/booking-state-machine.service';
 import { BookingStatus, ReservationDecision } from '@tattoobase/database';
 import { BookingDraftDto } from './booking/dto/booking-draft.dto';
 import Stripe from 'stripe';
@@ -11,7 +12,8 @@ export class UserApiService {
 
     constructor(
         private readonly prisma: PrismaService,
-        private readonly riskEngine: RiskEngineService
+        private readonly riskEngine: RiskEngineService,
+        private readonly bookingStateMachine: BookingStateMachineService
     ) {
         this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_mock', {
             apiVersion: '2023-10-16'
@@ -266,6 +268,11 @@ export class UserApiService {
             depositRequired,
             clientSecret, // PWAに返却し Stripe.js で決済を完了させる
         };
+    }
+
+    async cancelBookingByUser(bookingId: string): Promise<{ success: boolean }> {
+        await this.bookingStateMachine.transitionToCancelledByUser(bookingId, `cancel-${Date.now()}`);
+        return { success: true };
     }
 
     // ========== Reviews ==========

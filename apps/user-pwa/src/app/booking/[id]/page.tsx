@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { UserApiClient } from '@/lib/user-api-client';
+import CancelButton from '@/components/booking/CancelButton';
 
 const STATUS_LABELS: Record<string, string> = {
   Draft: '下書き',
@@ -126,16 +127,7 @@ export default async function BookingDetailPage({
 
       {/* Cancel */}
       {isCancellable && (
-        <div className="space-y-3">
-          <div className="glass rounded-2xl p-4">
-            <p className="text-white/35 text-xs leading-relaxed">
-              制作準備が進んでいる場合、キャンセル時に返金対象外となることがあります。
-            </p>
-          </div>
-          <button className="w-full glass border border-white/10 hover:border-red-500/30 text-white/40 hover:text-red-400 font-medium py-3.5 rounded-2xl text-sm transition-all duration-200">
-            予約をキャンセルする
-          </button>
-        </div>
+        <CancelButton bookingId={id} />
       )}
 
       <Link href="/account/bookings" className="block text-center text-white/30 text-xs hover:text-white/60 transition-colors">

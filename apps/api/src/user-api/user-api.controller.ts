@@ -41,6 +41,9 @@ export class UserApiController {
     @Get('bookings/:id')
     getBooking(@Param('id') id: string) { return this.userApiService.getBookingDetail(id); }
 
+    @Post('bookings/:id/cancel')
+    cancelBooking(@Param('id') id: string) { return this.userApiService.cancelBookingByUser(id); }
+
     @Get('designs/:id')
     getDesign(@Param('id') id: string) { return this.userApiService.getDesignDetail(id); }
 
