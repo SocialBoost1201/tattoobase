@@ -14,6 +14,7 @@
     "facilities": "Facilities",
     "search": "Search",
     "home": "Home",
+    "studios": "Studios",
     "bookings": "Bookings",
     "account": "Account"
   },
@@ -29,7 +30,14 @@
   "search": {
     "title": "Find Artists",
     "filterAll": "All",
-    "noResults": "No artists found matching your search"
+    "noResults": "No artists found matching your search",
+    "noWorks": "No works found",
+    "resetFilters": "Reset filters",
+    "artistSubtitle": "Filter artists by style or area",
+    "worksSubtitle": "Find inspiration from recent works",
+    "artistPlaceholder": "Search by artist or studio name...",
+    "worksPlaceholder": "Search by style or title...",
+    "seeAll": "See all →"
   },
   "artist": {
     "works": "Works",

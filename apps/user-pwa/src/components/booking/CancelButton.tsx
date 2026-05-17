@@ -2,10 +2,12 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { API_BASE } from '@/lib/api';
 
 export default function CancelButton({ bookingId }: { bookingId: string }) {
   const router = useRouter();
+  const t = useTranslations('booking');
   const [showConfirm, setShowConfirm] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -29,10 +31,8 @@ export default function CancelButton({ bookingId }: { bookingId: string }) {
     return (
       <div className="glass rounded-2xl border border-red-500/20 p-5 space-y-4">
         <div>
-          <p className="text-white font-bold text-sm mb-1">予約をキャンセルしますか？</p>
-          <p className="text-white/40 text-xs leading-relaxed">
-            この操作は取り消せません。制作準備が進んでいる場合、返金対象外となることがあります。
-          </p>
+          <p className="text-white font-bold text-sm mb-1">{t('cancelBooking')}?</p>
+          <p className="text-white/40 text-xs leading-relaxed">{t('cancelNote')}</p>
         </div>
 
         {error && (
@@ -45,14 +45,14 @@ export default function CancelButton({ bookingId }: { bookingId: string }) {
             disabled={isLoading}
             className="flex-1 glass border border-white/10 rounded-xl py-3 text-white/50 hover:text-white text-sm font-medium transition-all disabled:opacity-40"
           >
-            戻る
+            {t('backToList').replace('← ', '')}
           </button>
           <button
             onClick={handleCancel}
             disabled={isLoading}
             className="flex-1 bg-red-500/15 border border-red-500/30 hover:bg-red-500/25 rounded-xl py-3 text-red-400 hover:text-red-300 text-sm font-bold transition-all disabled:opacity-40"
           >
-            {isLoading ? 'キャンセル中...' : 'キャンセルする'}
+            {isLoading ? t('processing') : t('cancelBooking')}
           </button>
         </div>
       </div>
@@ -64,7 +64,7 @@ export default function CancelButton({ bookingId }: { bookingId: string }) {
       onClick={() => setShowConfirm(true)}
       className="w-full glass border border-white/10 hover:border-red-500/30 text-white/40 hover:text-red-400 font-medium py-3.5 rounded-2xl text-sm transition-all duration-200"
     >
-      予約をキャンセルする
+      {t('cancelBooking')}
     </button>
   );
 }

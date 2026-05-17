@@ -14,6 +14,7 @@
     "facilities": "施設",
     "search": "検索",
     "home": "ホーム",
+    "studios": "スタジオ",
     "bookings": "予約",
     "account": "アカウント"
   },
@@ -29,7 +30,14 @@
   "search": {
     "title": "アーティストを探す",
     "filterAll": "すべて",
-    "noResults": "該当するアーティストが見つかりませんでした"
+    "noResults": "該当するアーティストが見つかりませんでした",
+    "noWorks": "作品が見つかりませんでした",
+    "resetFilters": "フィルターをリセット",
+    "artistSubtitle": "アーティストをスタイル・エリアで絞り込む",
+    "worksSubtitle": "直近の作品からインスピレーションを探す",
+    "artistPlaceholder": "アーティスト名・スタジオ名で検索...",
+    "worksPlaceholder": "スタイル・タイトルで検索...",
+    "seeAll": "すべて見る →"
   },
   "artist": {
     "works": "作品",

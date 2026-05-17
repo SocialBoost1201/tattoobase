@@ -4,6 +4,7 @@ import PortfolioCard from '@/components/cards/PortfolioCard';
 import { API_BASE } from '@/lib/api';
 import { MOCK_ARTISTS, MOCK_PORTFOLIOS } from '@/lib/mock-data';
 import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
 
 const GENRES = ['和彫', 'ブラックアンドグレー', 'ミニマル', 'トラディショナル', 'ファインライン', 'レタリング', 'ニュースクール', 'ジオメトリック'];
 const PREFECTURES = ['東京都', '大阪府', '愛知県', '京都府', '福岡県'];
@@ -58,6 +59,7 @@ export default async function SearchPage({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+  const t = await getTranslations('search');
   const params = await searchParams;
   const genre = (params.genre as string) ?? '';
   const prefecture = (params.prefecture as string) ?? '';
@@ -84,7 +86,7 @@ export default async function SearchPage({
           {isPortfolioSearch ? 'WORKS' : 'ARTISTS'}
         </h1>
         <p className="text-white/45 text-xs mt-1">
-          {isPortfolioSearch ? '直近の作品からインスピレーションを探す' : 'アーティストをスタイル・エリアで絞り込む'}
+          {isPortfolioSearch ? t('worksSubtitle') : t('artistSubtitle')}
         </p>
       </div>
 
@@ -123,7 +125,7 @@ export default async function SearchPage({
             type="text"
             name="q"
             defaultValue={q}
-            placeholder={isPortfolioSearch ? 'スタイル・タイトルで検索...' : 'アーティスト名・スタジオ名で検索...'}
+            placeholder={isPortfolioSearch ? t('worksPlaceholder') : t('artistPlaceholder')}
             className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder-white/25 focus:outline-none focus:border-white/25 transition-all"
           />
         </div>
@@ -172,9 +174,9 @@ export default async function SearchPage({
             </>
           ) : (
             <div className="py-16 text-center glass rounded-2xl">
-              <p className="text-white/45 text-sm">該当するアーティストが見つかりませんでした</p>
+              <p className="text-white/45 text-sm">{t('noResults')}</p>
               {(genre || prefecture || q) && (
-                <Link href="/search?type=artist" className="block mt-3 text-xs text-white/40 hover:text-white underline underline-offset-2">フィルターをリセット</Link>
+                <Link href="/search?type=artist" className="block mt-3 text-xs text-white/40 hover:text-white underline underline-offset-2">{t('resetFilters')}</Link>
               )}
             </div>
           )
@@ -190,7 +192,7 @@ export default async function SearchPage({
             </>
           ) : (
             <div className="py-16 text-center glass rounded-2xl">
-              <p className="text-white/45 text-sm">作品が見つかりませんでした</p>
+              <p className="text-white/45 text-sm">{t('noWorks')}</p>
             </div>
           )
         )}

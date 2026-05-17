@@ -3,6 +3,7 @@ import PortfolioCard from '@/components/cards/PortfolioCard';
 import ReviewSection from '@/components/reviews/ReviewSection';
 import { API_BASE } from '@/lib/api';
 import { MOCK_ARTISTS, MOCK_PORTFOLIOS } from '@/lib/mock-data';
+import { getTranslations } from 'next-intl/server';
 
 async function getArtist(id: string) {
   try {
@@ -45,6 +46,7 @@ export default async function ArtistDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  const t = await getTranslations('artist');
   const [artist, works, reviewData] = await Promise.all([
     getArtist(id),
     getPortfolios(id),
@@ -54,9 +56,9 @@ export default async function ArtistDetailPage({
   if (!artist) {
     return (
       <div className="py-16 text-center glass rounded-2xl space-y-4">
-        <p className="text-white/40 text-sm">アーティストが見つかりませんでした</p>
+        <p className="text-white/40 text-sm">{t('notFound')}</p>
         <Link href="/search" className="inline-block text-sm font-semibold text-white underline underline-offset-2">
-          検索に戻る
+          {t('backToSearch')}
         </Link>
       </div>
     );
@@ -110,15 +112,15 @@ export default async function ArtistDetailPage({
       <div className="glass rounded-2xl grid grid-cols-3 divide-x divide-white/8">
         <div className="px-3 py-4 text-center">
           <p className="text-white font-extrabold text-lg">{works.length}</p>
-          <p className="text-white/35 text-[10px] uppercase tracking-wider mt-0.5">作品</p>
+          <p className="text-white/35 text-[10px] uppercase tracking-wider mt-0.5">{t('works')}</p>
         </div>
         <div className="px-3 py-4 text-center">
           <p className="text-white font-extrabold text-lg">{artist.yearsOfExperience ?? '—'}</p>
-          <p className="text-white/35 text-[10px] uppercase tracking-wider mt-0.5">年の経験</p>
+          <p className="text-white/35 text-[10px] uppercase tracking-wider mt-0.5">{t('experience')}</p>
         </div>
         <div className="px-3 py-4 text-center">
           <p className="text-white font-extrabold text-lg">{artist.priceRange ?? '—'}</p>
-          <p className="text-white/35 text-[10px] uppercase tracking-wider mt-0.5">料金目安</p>
+          <p className="text-white/35 text-[10px] uppercase tracking-wider mt-0.5">Price</p>
         </div>
       </div>
 
@@ -130,7 +132,7 @@ export default async function ArtistDetailPage({
         href={`/booking/start?artistId=${artist.id}`}
         className="block w-full bg-white text-black font-bold text-center py-4 rounded-2xl hover:bg-white/90 transition-all font-heading tracking-wide"
       >
-        予約する
+        {t('book')}
       </Link>
 
       {/* Works */}
@@ -147,7 +149,7 @@ export default async function ArtistDetailPage({
           </div>
         ) : (
           <div className="py-10 text-center glass rounded-2xl">
-            <p className="text-white/35 text-sm">作品はまだ登録されていません</p>
+            <p className="text-white/35 text-sm">{t('noWorks')}</p>
           </div>
         )}
       </section>

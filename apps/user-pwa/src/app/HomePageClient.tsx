@@ -2,6 +2,7 @@
 
 import { useRef, useState } from 'react';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -23,6 +24,7 @@ if (typeof window !== 'undefined') {
 export default function HomePageClient({ artists, portfolios }: { artists: any[], portfolios: any[] }) {
   const container = useRef<HTMLDivElement>(null);
   const [isSplashDone, setIsSplashDone] = useState(false);
+  const t = useTranslations('home');
 
   useGSAP(() => {
     // スプラッシュが完了するまで本文のアニメーションは待機
@@ -76,7 +78,7 @@ export default function HomePageClient({ artists, portfolios }: { artists: any[]
               <div className="flex items-baseline justify-between mb-5">
                 <h2 className="font-heading font-extrabold text-white text-xl tracking-tight">FEATURED ARTISTS</h2>
                 <Link href="/search?type=artist" className="text-[11px] font-semibold text-neutral-400 hover:text-white transition-colors uppercase tracking-widest">
-                  すべて見る →
+                  {t('seeAll')}
                 </Link>
               </div>
               <div className="grid grid-cols-2 gap-3 md:gap-4">
@@ -98,7 +100,7 @@ export default function HomePageClient({ artists, portfolios }: { artists: any[]
               <div className="flex items-baseline justify-between mb-5">
                 <h2 className="font-heading font-extrabold text-white text-xl tracking-tight">TRENDING WORKS</h2>
                 <Link href="/search?type=portfolio" className="text-[11px] font-semibold text-neutral-400 hover:text-white transition-colors uppercase tracking-widest">
-                  すべて見る →
+                  {t('seeAll')}
                 </Link>
               </div>
               <div className="grid grid-cols-3 gap-2 md:gap-3">
