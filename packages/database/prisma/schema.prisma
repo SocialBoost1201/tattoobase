@@ -41,6 +41,14 @@ enum PaymentType {
   DesignDeposit
 }
 
+enum PaymentProvider {
+  STRIPE
+  PAYJP
+  SQUARE
+  LINK
+  STERA
+}
+
 enum AccountType {
   EXPRESS
   STANDARD
@@ -114,32 +122,34 @@ model Booking {
 }
 
 model Payment {
-  id              String        @id @default(uuid())
+  id              String          @id @default(uuid())
   bookingId       String
-  paymentIntentId String        @unique
-  status          PaymentStatus @default(Pending)
+  paymentIntentId String          @unique
+  status          PaymentStatus   @default(Pending)
   amount          Int
   currency        String
-  
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
+  provider        PaymentProvider @default(STRIPE)
 
-  booking         Booking       @relation(fields: [bookingId], references: [id])
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  booking         Booking         @relation(fields: [bookingId], references: [id])
 
   // ----- v2.2.1 新規追加 -----
   paymentType PaymentType @default(Full)
-  
+
   // リレーション定義 (DesignDepositからの参照用)
   designDeposits DesignDeposit[]
 }
 
 model WebhookEvent {
-  id                   String    @id
+  id                   String          @id
   type                 String
-  receivedAt           DateTime  @default(now())
-  processingStartedAt  DateTime? // 排他制御用ロック
-  lockExpiresAt        DateTime? // ロック有効期限（スタック奪取用）
-  processedAt          DateTime? // 正常処理完了時間
+  source               PaymentProvider @default(STRIPE)
+  receivedAt           DateTime        @default(now())
+  processingStartedAt  DateTime?
+  lockExpiresAt        DateTime?
+  processedAt          DateTime?
   errorJson            Json?
   processingResultJson Json?
 }
@@ -186,9 +196,11 @@ model Studio {
   slug                 String      @unique // tenant boundary
   accountType          AccountType @default(EXPRESS)
   payoutStrategyKey    String      @default("default_express")
-  requiresDeposit      Boolean     @default(false)
-  depositAmount        Int         @default(10000)
-  createdAt            DateTime    @default(now())
+  requiresDeposit         Boolean           @default(false)
+  depositAmount           Int               @default(10000)
+  defaultPaymentProvider  PaymentProvider   @default(STRIPE)
+  acceptedPaymentProviders PaymentProvider[] @default([STRIPE])
+  createdAt               DateTime          @default(now())
   updatedAt            DateTime    @updatedAt
 
   // 登録・プロフィール情報

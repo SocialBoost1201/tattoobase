@@ -44,6 +44,14 @@ export class UserApiController {
     @Post('bookings/:id/cancel')
     cancelBooking(@Param('id') id: string) { return this.userApiService.cancelBookingByUser(id); }
 
+    @Post('bookings/:id/payjp-charge')
+    chargePayjp(
+        @Param('id') bookingId: string,
+        @Body() body: { token: string; amount: number },
+    ) {
+        return this.userApiService.chargeWithPayjp(bookingId, body.token, body.amount);
+    }
+
     @Get('designs/:id')
     getDesign(@Param('id') id: string) { return this.userApiService.getDesignDetail(id); }
 

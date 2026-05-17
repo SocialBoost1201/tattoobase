@@ -4,9 +4,10 @@ import { UserApiBookingController } from './booking/booking.controller';
 import { UserApiService } from './user-api.service';
 import { PrismaModule } from '../prisma/prisma.module';
 import { DomainModule } from '../domain/domain.module';
+import { PaymentsModule } from '../payments/payments.module';
 
 @Module({
-    imports: [PrismaModule, DomainModule],
+    imports: [PrismaModule, DomainModule, PaymentsModule],
     controllers: [UserApiController, UserApiBookingController],
     providers: [UserApiService],
 })
