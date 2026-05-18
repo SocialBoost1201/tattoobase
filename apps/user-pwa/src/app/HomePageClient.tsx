@@ -8,7 +8,9 @@ import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import ArtistCard from '@/components/cards/ArtistCard';
 import PortfolioCard from '@/components/cards/PortfolioCard';
+import DesignCard from '@/components/cards/DesignCard';
 import SplashScreen from '@/components/ui/SplashScreen';
+import { MOCK_DESIGNS } from '@/lib/mock-data';
 
 // 新規コンポーネント
 import HeroSection from '@/components/home/HeroSection';
@@ -110,6 +112,21 @@ export default function HomePageClient({ artists, portfolios }: { artists: any[]
               </div>
             </section>
           )}
+
+          {/* 5.5. Designs (インスピレーション) */}
+          <section className="fade-in-section opacity-0 px-4">
+            <div className="flex items-baseline justify-between mb-5">
+              <h2 className="font-heading font-extrabold text-white text-xl tracking-tight">DESIGNS</h2>
+              <Link href="/designs" className="text-[11px] font-semibold text-neutral-400 hover:text-white transition-colors uppercase tracking-widest">
+                すべてのデザインを見る →
+              </Link>
+            </div>
+            <div className="grid grid-cols-3 gap-2">
+              {MOCK_DESIGNS.slice(0, 6).map((design) => (
+                <DesignCard key={design.id} design={design} />
+              ))}
+            </div>
+          </section>
 
           {/* 6. Tattoo Friendly Cross Sell (温泉・サウナ) */}
           <div className="fade-in-section opacity-0">

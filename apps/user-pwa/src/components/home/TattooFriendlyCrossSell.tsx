@@ -37,6 +37,10 @@ export default function TattooFriendlyCrossSell() {
       <Link href="/facilities" className="block mt-4 w-full py-3.5 bg-white text-black text-center font-bold text-sm rounded-2xl hover:bg-white/90 transition-all font-heading">
         タトゥーOKな施設をすべて見る
       </Link>
+
+      <Link href="/designs" className="block mt-3 w-full py-3.5 glass border border-white/12 text-white text-center font-bold text-sm rounded-2xl hover:bg-white/8 transition-all font-heading">
+        デザインを探す →
+      </Link>
     </section>
   );
 }
