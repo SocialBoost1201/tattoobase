@@ -37,7 +37,15 @@
     "worksSubtitle": "Find inspiration from recent works",
     "artistPlaceholder": "Search by artist or studio name...",
     "worksPlaceholder": "Search by style or title...",
-    "seeAll": "See all →"
+    "seeAll": "See all →",
+    "femaleArtist": "Female Artists",
+    "maleArtist": "Male Artists",
+    "allGenders": "All",
+    "sameDayOK": "Same-Day OK",
+    "sortRecommended": "Recommended",
+    "sortRating": "Top Rated",
+    "sortPriceAsc": "Price: Low to High",
+    "sortPriceDesc": "Price: High to Low"
   },
   "artist": {
     "works": "Works",

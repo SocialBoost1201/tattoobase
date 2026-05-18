@@ -37,7 +37,15 @@
     "worksSubtitle": "直近の作品からインスピレーションを探す",
     "artistPlaceholder": "アーティスト名・スタジオ名で検索...",
     "worksPlaceholder": "スタイル・タイトルで検索...",
-    "seeAll": "すべて見る →"
+    "seeAll": "すべて見る →",
+    "femaleArtist": "女性アーティスト",
+    "maleArtist": "男性アーティスト",
+    "allGenders": "全員",
+    "sameDayOK": "当日予約OK",
+    "sortRecommended": "おすすめ順",
+    "sortRating": "評価順",
+    "sortPriceAsc": "料金：安い順",
+    "sortPriceDesc": "料金：高い順"
   },
   "artist": {
     "works": "作品",

@@ -10,6 +10,8 @@ export const MOCK_ARTISTS = [
     reviewCount: 42,
     prefecture: '東京都',
     priceRange: '¥30,000〜',
+    isFemaleArtist: false,
+    acceptsSameDayBooking: false,
   },
   {
     id: 'mock-artist-2',
@@ -22,6 +24,8 @@ export const MOCK_ARTISTS = [
     reviewCount: 28,
     prefecture: '大阪府',
     priceRange: '¥20,000〜',
+    isFemaleArtist: false,
+    acceptsSameDayBooking: true,
   },
   {
     id: 'mock-artist-3',
@@ -34,6 +38,8 @@ export const MOCK_ARTISTS = [
     reviewCount: 19,
     prefecture: '東京都',
     priceRange: '¥15,000〜',
+    isFemaleArtist: true,
+    acceptsSameDayBooking: true,
   },
   {
     id: 'mock-artist-4',
@@ -46,6 +52,8 @@ export const MOCK_ARTISTS = [
     reviewCount: 31,
     prefecture: '東京都',
     priceRange: '¥25,000〜',
+    isFemaleArtist: false,
+    acceptsSameDayBooking: false,
   },
   {
     id: 'mock-artist-5',
@@ -58,6 +66,8 @@ export const MOCK_ARTISTS = [
     reviewCount: 55,
     prefecture: '愛知県',
     priceRange: '¥18,000〜',
+    isFemaleArtist: true,
+    acceptsSameDayBooking: true,
   },
   {
     id: 'mock-artist-6',
@@ -70,6 +80,8 @@ export const MOCK_ARTISTS = [
     reviewCount: 37,
     prefecture: '京都府',
     priceRange: '¥22,000〜',
+    isFemaleArtist: false,
+    acceptsSameDayBooking: false,
   },
   {
     id: 'mock-artist-7',
@@ -82,6 +94,8 @@ export const MOCK_ARTISTS = [
     reviewCount: 23,
     prefecture: '大阪府',
     priceRange: '¥20,000〜',
+    isFemaleArtist: true,
+    acceptsSameDayBooking: false,
   },
   {
     id: 'mock-artist-8',
@@ -94,6 +108,8 @@ export const MOCK_ARTISTS = [
     reviewCount: 41,
     prefecture: '東京都',
     priceRange: '¥12,000〜',
+    isFemaleArtist: false,
+    acceptsSameDayBooking: true,
   },
 ];
 
