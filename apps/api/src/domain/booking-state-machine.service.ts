@@ -90,4 +90,45 @@ export class BookingStateMachineService {
             return updatedBooking;
         });
     }
+
+    async transitionToCancelledByUser(bookingId: string, requestId: string): Promise<Booking> {
+        return this.prisma.$transaction(async (tx) => {
+            const booking = await tx.booking.findUnique({ where: { id: bookingId } });
+
+            if (!booking) {
+                throw new BadRequestException('BOOKING_NOT_FOUND');
+            }
+
+            const cancellableStatuses: BookingStatus[] = [
+                BookingStatus.Draft,
+                BookingStatus.PendingPayment,
+                BookingStatus.RequireApproval,
+                BookingStatus.Confirmed,
+            ];
+
+            if (!cancellableStatuses.includes(booking.status)) {
+                throw new BadRequestException('INVALID_STATE_TRANSITION');
+            }
+
+            const updatedBooking = await tx.booking.update({
+                where: { id: bookingId },
+                data: { status: BookingStatus.CancelledByUser },
+            });
+
+            await tx.auditLog.create({
+                data: {
+                    actorType: 'User',
+                    actorId: booking.userId,
+                    entityType: 'Booking',
+                    entityId: bookingId,
+                    action: 'STATE_CHANGED_TO_CANCELLED_BY_USER',
+                    beforeJson: booking as unknown as Prisma.InputJsonValue,
+                    afterJson: updatedBooking as unknown as Prisma.InputJsonValue,
+                    requestId,
+                },
+            });
+
+            return updatedBooking;
+        });
+    }
 }

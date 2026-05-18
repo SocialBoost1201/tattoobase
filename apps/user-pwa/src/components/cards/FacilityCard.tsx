@@ -25,11 +25,11 @@ const getTypeName = (type: string) => {
 
 const getAcceptanceInfo = (level: string) => {
   switch (level) {
-    case 'ALLOWED': return { label: '全面許可', color: 'bg-green-100 text-green-800 border-green-200' };
-    case 'COVERED_ONLY': return { label: '隠して許可', color: 'bg-yellow-100 text-yellow-800 border-yellow-200' };
-    case 'PARTIAL_ONLY': return { label: '一部のみ可', color: 'bg-blue-100 text-blue-800 border-blue-200' };
-    case 'BANNED': return { label: '一切禁止', color: 'bg-red-100 text-red-800 border-red-200' };
-    default: return { label: '要確認', color: 'bg-gray-100 text-gray-800 border-gray-200' };
+    case 'ALLOWED': return { label: '全面許可', color: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' };
+    case 'COVERED_ONLY': return { label: '隠して許可', color: 'bg-amber-500/20 text-amber-300 border-amber-500/30' };
+    case 'PARTIAL_ONLY': return { label: '一部のみ可', color: 'bg-blue-500/20 text-blue-300 border-blue-500/30' };
+    case 'BANNED': return { label: '一切禁止', color: 'bg-red-500/20 text-red-300 border-red-500/30' };
+    default: return { label: '要確認', color: 'bg-white/10 text-white/60 border-white/20' };
   }
 };
 
@@ -39,43 +39,40 @@ export default function FacilityCard({ facility }: { facility: Facility }) {
 
   return (
     <Link href={`/facilities/${facility.slug || facility.id}`} className="group block h-full">
-      <div className="bg-white rounded-md overflow-hidden border border-[#e0e0e0] hover:border-[#0a0a0a] transition-all duration-300 hover:-translate-y-1 hover:shadow-lg h-full flex flex-col cursor-pointer">
-        {/* サムネイル画像（ない場合はグレー背景） */}
-        <div className="aspect-[4/3] bg-[#f5f5f5] relative overflow-hidden">
+      <div className="glass glass-hover rounded-2xl overflow-hidden h-full flex flex-col cursor-pointer glow-white">
+        <div className="aspect-[4/3] relative overflow-hidden bg-white/4">
           {imageUrl ? (
-            <img 
-              src={imageUrl} 
-              alt={facility.name} 
+            <img
+              src={imageUrl}
+              alt={facility.name}
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center">
-              <span className="text-3xl font-extrabold text-[#d0d0d0] tracking-tighter">TF</span>
+              <span className="text-3xl font-extrabold text-white/15 tracking-tighter">TF</span>
             </div>
           )}
-          {/* カテゴリバッジ */}
-          <div className="absolute top-2 left-2 bg-[#0a0a0a] text-white text-[10px] font-bold px-2 py-1 rounded-sm tracking-wider">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+          <div className="absolute top-2 left-2 bg-black/60 backdrop-blur-sm text-white text-[10px] font-bold px-2 py-1 rounded-lg tracking-wider border border-white/10">
             {getTypeName(facility.type)}
           </div>
-          {/* 受け入れレベルバッジ */}
-          <div className={`absolute bottom-2 right-2 text-[10px] font-bold px-2 py-1 rounded-sm tracking-widest border ${getAcceptanceInfo(facility.acceptanceLevel).color}`}>
+          <div className={`absolute bottom-2 right-2 text-[10px] font-bold px-2 py-1 rounded-lg tracking-widest border backdrop-blur-sm ${getAcceptanceInfo(facility.acceptanceLevel).color}`}>
             {getAcceptanceInfo(facility.acceptanceLevel).label}
           </div>
         </div>
-        
-        {/* テキスト情報 */}
+
         <div className="p-4 flex flex-col flex-grow">
-          <h3 className="text-[#0a0a0a] font-bold text-sm leading-tight mb-1 group-hover:text-amber-700 transition-colors line-clamp-2">
+          <h3 className="text-white font-bold text-sm leading-tight mb-1 group-hover:text-white/80 transition-colors line-clamp-2">
             {facility.name}
           </h3>
-          <p className="text-[#6b6b6b] text-xs mb-3 flex items-center gap-1">
+          <p className="text-white/40 text-xs mb-3 flex items-center gap-1">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-70"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
             {area}
           </p>
-          
-          <div className="mt-auto pt-3 border-t border-[#f0f0f0]">
-            <p className="text-[#3b3b3b] text-xs font-medium line-clamp-2">
-              <span className="text-amber-700 font-bold mr-1">Tattoo Policy:</span>
+
+          <div className="mt-auto pt-3 border-t border-white/6">
+            <p className="text-white/50 text-xs font-medium line-clamp-2">
+              <span className="text-amber-400/80 font-bold mr-1">Tattoo Policy:</span>
               {facility.tattooPolicy || 'ポリシー未設定（要確認）'}
             </p>
           </div>

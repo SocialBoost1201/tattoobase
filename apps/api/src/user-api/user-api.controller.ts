@@ -41,6 +41,17 @@ export class UserApiController {
     @Get('bookings/:id')
     getBooking(@Param('id') id: string) { return this.userApiService.getBookingDetail(id); }
 
+    @Post('bookings/:id/cancel')
+    cancelBooking(@Param('id') id: string) { return this.userApiService.cancelBookingByUser(id); }
+
+    @Post('bookings/:id/payjp-charge')
+    chargePayjp(
+        @Param('id') bookingId: string,
+        @Body() body: { token: string; amount: number },
+    ) {
+        return this.userApiService.chargeWithPayjp(bookingId, body.token, body.amount);
+    }
+
     @Get('designs/:id')
     getDesign(@Param('id') id: string) { return this.userApiService.getDesignDetail(id); }
 
@@ -51,6 +62,30 @@ export class UserApiController {
         @Body() body: { encryptedFilePath: string, birthDate: string }
     ) {
         return this.userApiService.submitKyc(userId, body);
+    }
+
+    // --- Reviews ---
+    @Get('artists/:id/reviews')
+    getArtistReviews(@Param('id') id: string) {
+        return this.userApiService.getArtistReviews(id);
+    }
+
+    @Get('studios/:id/reviews')
+    getStudioReviews(@Param('id') id: string) {
+        return this.userApiService.getStudioReviews(id);
+    }
+
+    @Post('reviews')
+    createReview(@Body() body: {
+        artistId?: string;
+        studioId?: string;
+        userId: string;
+        bookingId?: string;
+        rating: number;
+        title?: string;
+        body: string;
+    }) {
+        return this.userApiService.createReview(body);
     }
 
     // --- Facilities ---

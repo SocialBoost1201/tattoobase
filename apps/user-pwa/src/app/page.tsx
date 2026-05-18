@@ -1,24 +1,31 @@
 import HomePageClient from './HomePageClient';
-
-const API = 'http://localhost:3000';
+import { API_BASE } from '@/lib/api';
+import { MOCK_ARTISTS, MOCK_PORTFOLIOS } from '@/lib/mock-data';
 
 async function getArtists() {
   try {
-    const res = await fetch(`${API}/user-api/artists`, { cache: 'no-store' });
-    return res.ok ? res.json() : [];
-  } catch (e) {
-    console.warn('Backend API not available:', e);
-    return [];
+    const res = await fetch(`${API_BASE}/user-api/artists`, { cache: 'no-store' });
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data) && data.length > 0) return data;
+    }
+  } catch {
+    // API not available
   }
+  return MOCK_ARTISTS;
 }
 
 async function getPortfolios() {
   try {
-    const res = await fetch(`${API}/user-api/portfolios`, { cache: 'no-store' });
-    return res.ok ? res.json() : [];
-  } catch (e) {
-    return [];
+    const res = await fetch(`${API_BASE}/user-api/portfolios`, { cache: 'no-store' });
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data) && data.length > 0) return data;
+    }
+  } catch {
+    // API not available
   }
+  return MOCK_PORTFOLIOS;
 }
 
 export default async function HomePage() {

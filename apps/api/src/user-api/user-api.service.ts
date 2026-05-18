@@ -1,22 +1,19 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { RiskEngineService } from '../domain/risk-engine.service';
+import { BookingStateMachineService } from '../domain/booking-state-machine.service';
+import { PaymentProviderFactory, ProviderKey } from '../payments/payment-provider.factory';
 import { BookingStatus, ReservationDecision } from '@tattoobase/database';
 import { BookingDraftDto } from './booking/dto/booking-draft.dto';
-import Stripe from 'stripe';
 
 @Injectable()
 export class UserApiService {
-    private stripe: Stripe;
-
     constructor(
         private readonly prisma: PrismaService,
-        private readonly riskEngine: RiskEngineService
-    ) {
-        this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_mock', {
-            apiVersion: '2023-10-16'
-        });
-    }
+        private readonly riskEngine: RiskEngineService,
+        private readonly bookingStateMachine: BookingStateMachineService,
+        private readonly paymentProviderFactory: PaymentProviderFactory,
+    ) {}
 
     // --- Artists ---
     getArtists(params?: { genre?: string; gender?: string }) {
@@ -197,10 +194,11 @@ export class UserApiService {
         // 0. スタジオのデポジット設定を取得
         const studioSettings = await this.prisma.studio.findUnique({
             where: { id: dto.studioId },
-            select: { requiresDeposit: true, depositAmount: true }
+            select: { requiresDeposit: true, depositAmount: true, defaultPaymentProvider: true }
         });
         const studioDepositAmount = studioSettings?.depositAmount || 10000;
         const studioRequiresDeposit = studioSettings?.requiresDeposit || false;
+        const providerKey = (studioSettings?.defaultPaymentProvider || 'STRIPE') as ProviderKey;
 
         // 1. リスク判定エンジンの呼び出し
         const riskResult = await this.riskEngine.evaluateRisk(userId);
@@ -243,19 +241,16 @@ export class UserApiService {
         });
 
         // 3. 承認不要で決済が必要な場合
-        let clientSecret = null;
+        let paymentClientData: Record<string, any> | null = null;
 
         if (targetStatus === BookingStatus.PendingPayment && depositRequired) {
-            const amount = studioDepositAmount; // スタジオ設定から動的取得
-            const paymentIntent = await this.stripe.paymentIntents.create({
-                amount,
-                currency: 'jpy', // 日本円
-                metadata: {
-                    bookingId: booking.id,
-                    userId,
-                },
-            });
-            clientSecret = paymentIntent.client_secret;
+            const provider = this.paymentProviderFactory.get(providerKey);
+            const result = await provider.createPaymentIntent(
+                studioDepositAmount,
+                'jpy',
+                { bookingId: booking.id, userId },
+            );
+            paymentClientData = { provider: providerKey, ...result.clientData };
         }
 
         return {
@@ -264,7 +259,94 @@ export class UserApiService {
             decision: riskResult.decision,
             tier: riskResult.tier,
             depositRequired,
-            clientSecret, // PWAに返却し Stripe.js で決済を完了させる
+            provider: providerKey,
+            paymentClientData, // PWAに返却し各プロバイダーSDKで決済を完了させる
+            // 後方互換：Stripeの場合は clientSecret を維持
+            clientSecret: paymentClientData?.clientSecret ?? null,
         };
+    }
+
+    async cancelBookingByUser(bookingId: string): Promise<{ success: boolean }> {
+        await this.bookingStateMachine.transitionToCancelledByUser(bookingId, `cancel-${Date.now()}`);
+        return { success: true };
+    }
+
+    async chargeWithPayjp(bookingId: string, token: string, amount: number): Promise<{ success: boolean; chargeId: string }> {
+        const { PayjpProvider } = await import('../payments/providers/payjp.provider');
+        const payjp = this.paymentProviderFactory.get('PAYJP') as InstanceType<typeof PayjpProvider>;
+        const chargeId = await payjp.chargeWithToken(token, amount, { bookingId });
+        return { success: true, chargeId };
+    }
+
+    // ========== Reviews ==========
+
+    async getArtistReviews(artistId: string) {
+        const [reviews, agg] = await Promise.all([
+            this.prisma.review.findMany({
+                where: { artistId, status: 'APPROVED' },
+                orderBy: { createdAt: 'desc' },
+                take: 20,
+            }),
+            this.prisma.reviewAggregation.findUnique({ where: { artistId } }),
+        ]);
+        return { reviews, aggregation: agg };
+    }
+
+    async getStudioReviews(studioId: string) {
+        const [reviews, agg] = await Promise.all([
+            this.prisma.review.findMany({
+                where: { studioId, status: 'APPROVED' },
+                orderBy: { createdAt: 'desc' },
+                take: 20,
+            }),
+            this.prisma.reviewAggregation.findUnique({ where: { studioId } }),
+        ]);
+        return { reviews, aggregation: agg };
+    }
+
+    async createReview(dto: {
+        artistId?: string;
+        studioId?: string;
+        userId: string;
+        bookingId?: string;
+        rating: number;
+        title?: string;
+        body: string;
+    }) {
+        if (!dto.artistId && !dto.studioId) {
+            throw new BadRequestException('artistId or studioId is required');
+        }
+        if (dto.rating < 1 || dto.rating > 5) {
+            throw new BadRequestException('rating must be 1-5');
+        }
+
+        const review = await this.prisma.review.create({ data: { ...dto, status: 'APPROVED' } });
+        await this.recalcAggregation(dto.artistId, dto.studioId);
+        return review;
+    }
+
+    private async recalcAggregation(artistId?: string, studioId?: string) {
+        const where = artistId ? { artistId } : { studioId };
+        const reviews = await this.prisma.review.findMany({
+            where: { ...where, status: 'APPROVED' },
+            select: { rating: true },
+        });
+
+        if (reviews.length === 0) return;
+
+        const dist: Record<string, number> = { '1': 0, '2': 0, '3': 0, '4': 0, '5': 0 };
+        let sum = 0;
+        for (const r of reviews) {
+            sum += r.rating;
+            dist[String(r.rating)] = (dist[String(r.rating)] || 0) + 1;
+        }
+        const avg = Math.round((sum / reviews.length) * 10) / 10;
+
+        const uniqueWhere = artistId ? { artistId } : { studioId };
+        await this.prisma.reviewAggregation.upsert({
+            where: uniqueWhere as any,
+            create: { ...uniqueWhere, averageRating: avg, totalReviews: reviews.length, distribution: dist },
+            update: { averageRating: avg, totalReviews: reviews.length, distribution: dist },
+        });
     }
 }

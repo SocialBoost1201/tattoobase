@@ -13,6 +13,7 @@ import { ArtistModule } from './admin-api/artist/artist.module';
 import { UserApiModule } from './user-api/user-api.module';
 import { StudioApiModule } from './studio-api/studio-api.module';
 import { AdminApiModule } from './admin-api/admin-api.module';
+import { AuthModule } from './auth/auth.module';
 import { AuditLogInterceptor } from './common/interceptors/audit-log.interceptor';
 
 @Module({
@@ -22,6 +23,8 @@ import { AuditLogInterceptor } from './common/interceptors/audit-log.interceptor
         RiskModule, DesignModule, PricingModule, SubscriptionModule, ArtistModule,
         // フロントエンド向けドメイン別 API モジュール
         UserApiModule, StudioApiModule, AdminApiModule,
+        // 認証・登録
+        AuthModule,
     ],
     providers: [
         {

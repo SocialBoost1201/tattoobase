@@ -41,6 +41,14 @@ enum PaymentType {
   DesignDeposit
 }
 
+enum PaymentProvider {
+  STRIPE
+  PAYJP
+  SQUARE
+  LINK
+  STERA
+}
+
 enum AccountType {
   EXPRESS
   STANDARD
@@ -114,32 +122,34 @@ model Booking {
 }
 
 model Payment {
-  id              String        @id @default(uuid())
+  id              String          @id @default(uuid())
   bookingId       String
-  paymentIntentId String        @unique
-  status          PaymentStatus @default(Pending)
+  paymentIntentId String          @unique
+  status          PaymentStatus   @default(Pending)
   amount          Int
   currency        String
-  
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
+  provider        PaymentProvider @default(STRIPE)
 
-  booking         Booking       @relation(fields: [bookingId], references: [id])
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  booking         Booking         @relation(fields: [bookingId], references: [id])
 
   // ----- v2.2.1 新規追加 -----
   paymentType PaymentType @default(Full)
-  
+
   // リレーション定義 (DesignDepositからの参照用)
   designDeposits DesignDeposit[]
 }
 
 model WebhookEvent {
-  id                   String    @id
+  id                   String          @id
   type                 String
-  receivedAt           DateTime  @default(now())
-  processingStartedAt  DateTime? // 排他制御用ロック
-  lockExpiresAt        DateTime? // ロック有効期限（スタック奪取用）
-  processedAt          DateTime? // 正常処理完了時間
+  source               PaymentProvider @default(STRIPE)
+  receivedAt           DateTime        @default(now())
+  processingStartedAt  DateTime?
+  lockExpiresAt        DateTime?
+  processedAt          DateTime?
   errorJson            Json?
   processingResultJson Json?
 }
@@ -186,16 +196,30 @@ model Studio {
   slug                 String      @unique // tenant boundary
   accountType          AccountType @default(EXPRESS)
   payoutStrategyKey    String      @default("default_express")
-  requiresDeposit      Boolean     @default(false)
-  depositAmount        Int         @default(10000)
-  createdAt            DateTime    @default(now())
+  requiresDeposit         Boolean           @default(false)
+  depositAmount           Int               @default(10000)
+  defaultPaymentProvider  PaymentProvider   @default(STRIPE)
+  acceptedPaymentProviders PaymentProvider[] @default([STRIPE])
+  createdAt               DateTime          @default(now())
   updatedAt            DateTime    @updatedAt
+
+  // 登録・プロフィール情報
+  email               String?
+  phoneNumber         String?
+  description         String?  @db.Text
+  prefecture          String?
+  city                String?
+  address             String?
+  logoUrl             String?
+  onboardingCompleted Boolean  @default(false)
 
   bookings       Booking[]
   staffs         Staff[]
   artists        ArtistProfile[]
   portfolioWorks PortfolioWork[]
   subscription   Subscription?
+  reviews        Review[]
+  reviewAgg      ReviewAggregation?
 }
 
 model User {
@@ -221,12 +245,15 @@ model Staff {
   id          String   @id @default(uuid())
   studioId    String
   displayName String
+  email       String?  @unique
+  role        String   @default("owner") // owner | manager | artist
+  passwordHash String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   studio  Studio @relation(fields: [studioId], references: [id])
   artists ArtistProfile[]
-  reservationDecisions ReservationPolicyDecision[] 
+  reservationDecisions ReservationPolicyDecision[]
 }
 
 // 2. アーティスト基盤
@@ -250,6 +277,8 @@ model ArtistProfile {
   portfolioWorks PortfolioWork[]
   bookings       Booking[]
   designRequests DesignRequest[]
+  reviews        Review[]
+  reviewAgg      ReviewAggregation?
 
   @@index([studioId])
 }
@@ -462,6 +491,51 @@ enum ReportStatus {
   PENDING    // 承認待ち
   APPROVED   // 承認済み（データ反映済み）
   REJECTED   // 却下
+}
+
+// ========== レビュー・評価システム ==========
+
+enum ReviewStatus {
+  APPROVED
+  PENDING
+  FLAGGED
+  DELETED
+}
+
+model Review {
+  id        String       @id @default(uuid())
+  studioId  String?
+  artistId  String?
+  userId    String
+  bookingId String?
+
+  rating    Int          // 1-5
+  title     String?
+  body      String       @db.Text
+  status    ReviewStatus @default(APPROVED)
+
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  studio Studio?        @relation(fields: [studioId], references: [id])
+  artist ArtistProfile? @relation(fields: [artistId], references: [id])
+
+  @@index([studioId])
+  @@index([artistId])
+  @@index([userId])
+}
+
+model ReviewAggregation {
+  id            String  @id @default(uuid())
+  studioId      String? @unique
+  artistId      String? @unique
+  averageRating Float   @default(0)
+  totalReviews  Int     @default(0)
+  distribution  Json    @default("{\"1\":0,\"2\":0,\"3\":0,\"4\":0,\"5\":0}")
+  updatedAt     DateTime @updatedAt
+
+  studio Studio?        @relation(fields: [studioId], references: [id])
+  artist ArtistProfile? @relation(fields: [artistId], references: [id])
 }
 
 // ユーザーからのタレコミ報告

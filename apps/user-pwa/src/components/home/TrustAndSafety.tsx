@@ -20,21 +20,21 @@ export default function TrustAndSafety() {
   ];
 
   return (
-    <section className="py-8 border-y border-neutral-900 bg-neutral-950/50">
+    <section className="py-8">
       <div className="text-center mb-6">
         <h2 className="font-heading font-extrabold text-white text-lg tracking-widest uppercase">3 Promises</h2>
-        <p className="text-neutral-500 text-xs mt-1">TattooBaseが選ばれる理由</p>
+        <p className="text-white/35 text-xs mt-1">TattooBaseが選ばれる理由</p>
       </div>
-      
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
         {promises.map((p, i) => (
-          <div key={i} className="flex items-start gap-4 p-4 rounded-xl bg-neutral-900/50 border border-neutral-800">
-            <div className="shrink-0 w-12 h-12 bg-neutral-800 rounded-full flex items-center justify-center border border-neutral-700">
+          <div key={i} className="glass rounded-2xl flex items-start gap-4 p-5">
+            <div className="shrink-0 w-11 h-11 bg-white/8 rounded-xl flex items-center justify-center border border-white/10">
               {p.icon}
             </div>
             <div>
               <h3 className="text-white font-bold text-sm mb-1">{p.title}</h3>
-              <p className="text-neutral-400 text-xs leading-relaxed">{p.description}</p>
+              <p className="text-white/45 text-xs leading-relaxed">{p.description}</p>
             </div>
           </div>
         ))}

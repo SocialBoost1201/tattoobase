@@ -5,14 +5,23 @@ type PortfolioWork = {
   id: string;
   mediaUrls: string[];
   artistId: string;
+  styleCategory?: string;
+  title?: string;
 };
 
 export default function PortfolioCard({ work }: { work: PortfolioWork }) {
   const imageUrl = work.mediaUrls[0] ?? null;
   return (
     <Link href={`/portfolio/${work.id}`} className="group block">
-      <div className="aspect-square bg-neutral-900 rounded-xl overflow-hidden border border-neutral-800 hover:border-neutral-600 transition-all duration-500 hover:shadow-2xl relative">
-        <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 pointer-events-none"/>
+      <div className="aspect-square rounded-2xl overflow-hidden border border-white/8 hover:border-white/20 transition-all duration-500 hover:shadow-2xl hover:shadow-black/60 relative glow-white">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 pointer-events-none"/>
+        {work.styleCategory && (
+          <div className="absolute bottom-2 left-2 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <span className="text-[9px] font-bold bg-black/60 backdrop-blur-sm text-white/80 px-1.5 py-0.5 rounded-md">
+              {work.styleCategory}
+            </span>
+          </div>
+        )}
         {imageUrl ? (
           <Image
             src={imageUrl}
@@ -22,8 +31,8 @@ export default function PortfolioCard({ work }: { work: PortfolioWork }) {
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center relative z-0">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#636366" strokeWidth="1.5">
+          <div className="w-full h-full flex items-center justify-center bg-white/4">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5">
               <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
             </svg>
           </div>

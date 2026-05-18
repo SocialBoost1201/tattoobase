@@ -14,42 +14,44 @@ export default async function AccountPage() {
   if (!session?.user) redirect('/login');
 
   return (
-    <div className="space-y-8">
-      {/* プロフィール */}
+    <div className="space-y-7">
+      {/* Profile */}
       <section className="flex items-center gap-4 pt-2">
-        <div className="w-12 h-12 rounded-full bg-[#0a0a0a] flex items-center justify-center shrink-0">
-          <span className="text-white font-heading font-extrabold text-sm">
+        <div className="w-14 h-14 rounded-full bg-white/8 border border-white/15 flex items-center justify-center shrink-0">
+          <span className="text-white/60 font-heading font-extrabold text-base">
             {(session.user.email ?? 'U').slice(0, 1).toUpperCase()}
           </span>
         </div>
         <div className="flex-1 min-w-0">
-          <p className="font-heading font-extrabold text-[#0a0a0a] text-base truncate">
+          <p className="font-heading font-extrabold text-white text-lg truncate">
             {session.user.name ?? session.user.email?.split('@')[0] ?? 'USER'}
           </p>
-          <p className="text-[#6b6b6b] text-xs truncate">{session.user.email}</p>
+          <p className="text-white/40 text-xs truncate">{session.user.email}</p>
         </div>
       </section>
 
-      <div className="h-px bg-[#e0e0e0]" />
+      <div className="h-px bg-white/8" />
 
-      {/* メニュー */}
-      <section className="space-y-1">
+      {/* Menu */}
+      <section className="space-y-2">
         {ACCOUNT_LINKS.map((item) => (
           <Link
             key={item.href}
             href={item.href}
-            className="flex items-center justify-between bg-white border border-[#e0e0e0] hover:border-[#0a0a0a] rounded-sm px-4 py-4 transition-all group"
+            className="group flex items-center justify-between glass glass-hover border border-white/8 hover:border-white/20 rounded-2xl px-4 py-4 transition-all"
           >
             <div>
-              <p className="text-[#0a0a0a] font-semibold text-sm group-hover:underline">{item.label}</p>
-              <p className="text-[#6b6b6b] text-xs mt-0.5">{item.desc}</p>
+              <p className="text-white font-semibold text-sm group-hover:text-white/90">{item.label}</p>
+              <p className="text-white/40 text-xs mt-0.5">{item.desc}</p>
             </div>
-            <span className="text-[#a0a0a0] group-hover:text-[#0a0a0a] transition-colors">→</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.25)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-x-1 transition-transform">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
           </Link>
         ))}
       </section>
 
-      {/* ログアウト */}
+      {/* Logout */}
       <form
         action={async () => {
           'use server';
@@ -58,7 +60,7 @@ export default async function AccountPage() {
       >
         <button
           type="submit"
-          className="w-full border border-[#e0e0e0] hover:border-[#0a0a0a] text-[#6b6b6b] hover:text-[#0a0a0a] font-medium py-3 rounded-sm text-sm transition-colors duration-200"
+          className="w-full glass border border-white/10 hover:border-red-500/30 text-white/40 hover:text-red-400 font-medium py-3.5 rounded-2xl text-sm transition-all duration-200"
         >
           ログアウト
         </button>
