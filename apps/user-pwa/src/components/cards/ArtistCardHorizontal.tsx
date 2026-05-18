@@ -57,7 +57,7 @@ export default function ArtistCardHorizontal({ artist }: { artist: Artist }) {
           )}
           {primaryStyle && (
             <div className="absolute bottom-2 left-2">
-              <span className="text-[9px] font-extrabold uppercase px-1.5 py-0.5 bg-black/60 text-white/70 rounded-full">
+              <span className="text-xs font-extrabold uppercase px-1.5 py-0.5 bg-black/60 text-white/70 rounded-full">
                 {primaryStyle}
               </span>
             </div>
@@ -81,7 +81,7 @@ export default function ArtistCardHorizontal({ artist }: { artist: Artist }) {
             {artist.styles && artist.styles.length > 0 && (
               <div className="flex flex-wrap gap-1 mt-2">
                 {artist.styles.slice(0, 4).map(s => (
-                  <span key={s} className="px-2 py-0.5 text-[10px] font-bold bg-neutral-800 border border-neutral-700 text-neutral-400 rounded-full">
+                  <span key={s} className="px-2 py-0.5 text-xs font-bold bg-neutral-800 border border-neutral-700 text-neutral-400 rounded-full">
                     {s}
                   </span>
                 ))}
@@ -89,7 +89,7 @@ export default function ArtistCardHorizontal({ artist }: { artist: Artist }) {
             )}
 
             {artist.bio && (
-              <p className="text-neutral-500 text-[11px] mt-2 line-clamp-2 leading-relaxed">
+              <p className="text-neutral-500 text-xs mt-2 line-clamp-2 leading-relaxed">
                 {artist.bio}
               </p>
             )}
@@ -101,7 +101,7 @@ export default function ArtistCardHorizontal({ artist }: { artist: Artist }) {
               <Star className="w-3.5 h-3.5 text-amber-500/70 fill-amber-500/70" />
               <span className="text-white font-bold text-xs">{artist.rating ? artist.rating.toFixed(1) : '—'}</span>
               {artist.reviewCount !== undefined && (
-                <span className="text-neutral-600 text-[10px]">({artist.reviewCount}件)</span>
+                <span className="text-neutral-600 text-xs">({artist.reviewCount}件)</span>
               )}
             </div>
             <span className="text-white/70 text-xs font-semibold">{priceLabel}</span>

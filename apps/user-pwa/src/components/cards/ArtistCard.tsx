@@ -60,7 +60,7 @@ export default function ArtistCard({ artist }: { artist: Artist }) {
                 {initials}
               </span>
               {primaryStyle && (
-                <span className="text-[10px] font-bold text-white/30 uppercase tracking-widest">
+                <span className="text-xs font-bold text-white/30 uppercase tracking-widest">
                   {primaryStyle}
                 </span>
               )}
@@ -77,7 +77,7 @@ export default function ArtistCard({ artist }: { artist: Artist }) {
           {/* スタイルバッジ（左上） */}
           {primaryStyle && (
             <div className="absolute top-2.5 left-2.5">
-              <span className="text-[9px] font-extrabold uppercase tracking-widest px-2 py-1 bg-black/60 backdrop-blur-sm text-white/80 rounded-full">
+              <span className="text-xs font-extrabold uppercase tracking-widest px-2 py-1 bg-black/60 backdrop-blur-sm text-white/80 rounded-full">
                 {primaryStyle}
               </span>
             </div>
@@ -97,11 +97,11 @@ export default function ArtistCard({ artist }: { artist: Artist }) {
           {/* エリア */}
           <div className="flex items-center gap-1 text-neutral-400">
             <MapPin className="w-3 h-3 shrink-0" />
-            <span className="text-[11px] truncate">{location}</span>
+            <span className="text-xs truncate">{location}</span>
           </div>
 
           {/* 価格帯 */}
-          <p className="text-[11px] text-neutral-400">
+          <p className="text-xs text-neutral-400">
             <span className="text-white/80 font-semibold">{priceLabel}</span>
           </p>
 
@@ -109,17 +109,17 @@ export default function ArtistCard({ artist }: { artist: Artist }) {
           <div className="flex items-center justify-between pt-1 border-t border-neutral-800">
             <div className="flex items-center gap-1 text-neutral-500">
               <Star className="w-3 h-3 text-amber-500/60" />
-              <span className="text-[10px] font-semibold">
+              <span className="text-xs font-semibold">
                 {artist.rating ? artist.rating.toFixed(1) : '—'}
               </span>
               {artist.reviewCount !== undefined && (
-                <span className="text-[10px] text-neutral-600">({artist.reviewCount}件)</span>
+                <span className="text-xs text-neutral-600">({artist.reviewCount}件)</span>
               )}
             </div>
             {artist.savedCount !== undefined && (
               <div className="flex items-center gap-1 text-neutral-600">
                 <Bookmark className="w-3 h-3" />
-                <span className="text-[10px]">{artist.savedCount.toLocaleString()}</span>
+                <span className="text-xs">{artist.savedCount.toLocaleString()}</span>
               </div>
             )}
           </div>

@@ -53,16 +53,16 @@ export default function AddToHomeScreen() {
 
         <div className="flex-1 min-w-0">
           <p className="text-white font-bold text-sm">TattooBaseをインストール</p>
-          <p className="text-neutral-400 text-[11px] mt-0.5">ホーム画面に追加してアプリとして使えます</p>
+          <p className="text-neutral-400 text-xs mt-0.5">ホーム画面に追加してアプリとして使えます</p>
         </div>
 
         <div className="flex flex-col gap-1.5 shrink-0">
           <button onClick={handleInstall}
-            className="flex items-center gap-1 bg-white text-black text-[11px] font-bold px-3 py-1.5 rounded-full hover:bg-neutral-200 transition-colors">
+            className="flex items-center gap-1 bg-white text-black text-xs font-bold px-3 py-1.5 rounded-full hover:bg-neutral-200 transition-colors">
             <Download className="w-3 h-3" /> 追加
           </button>
           <button onClick={handleDismiss}
-            className="text-[10px] text-neutral-600 hover:text-neutral-400 transition-colors text-center">
+            className="text-xs text-neutral-600 hover:text-neutral-400 transition-colors text-center">
             後で
           </button>
         </div>

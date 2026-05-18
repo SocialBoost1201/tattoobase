@@ -94,7 +94,7 @@ export default function AIStyleAssistant() {
               </div>
               <div>
                 <p className="text-white text-sm font-bold">TattooBase AI</p>
-                <p className="text-neutral-500 text-[10px]">あなたに合うスタイルを提案します</p>
+                <p className="text-neutral-500 text-xs">あなたに合うスタイルを提案します</p>
               </div>
             </div>
             <button onClick={() => setIsOpen(false)} className="text-neutral-500 hover:text-white transition-colors">

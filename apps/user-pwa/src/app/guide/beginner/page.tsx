@@ -104,7 +104,7 @@ export default function BeginnerGuidePage() {
               </div>
             ))}
           </div>
-          <p className="text-neutral-600 text-[11px] px-1">※ デザインの複雑さ・アーティストの経歴により大きく変動します。</p>
+          <p className="text-neutral-600 text-xs px-1">※ デザインの複雑さ・アーティストの経歴により大きく変動します。</p>
         </section>
 
         {/* 注意事項 */}

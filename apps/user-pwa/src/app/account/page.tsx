@@ -87,23 +87,23 @@ export default async function AccountPage() {
             <div className="flex gap-4 pt-2">
               <div className="text-center">
                 <p className="text-white font-extrabold text-xl leading-none">3</p>
-                <p className="text-neutral-500 text-[10px] mt-1 font-semibold uppercase tracking-widest">Bookings</p>
+                <p className="text-neutral-500 text-xs mt-1 font-semibold uppercase tracking-widest">Bookings</p>
               </div>
               <div className="w-px bg-neutral-800" />
               <div className="text-center">
                 <p className="text-white font-extrabold text-xl leading-none">1</p>
-                <p className="text-neutral-500 text-[10px] mt-1 font-semibold uppercase tracking-widest">Design</p>
+                <p className="text-neutral-500 text-xs mt-1 font-semibold uppercase tracking-widest">Design</p>
               </div>
               <div className="w-px bg-neutral-800" />
               <div className="text-center">
                 <p className="text-white font-extrabold text-xl leading-none">0</p>
-                <p className="text-neutral-500 text-[10px] mt-1 font-semibold uppercase tracking-widest">Reviews</p>
+                <p className="text-neutral-500 text-xs mt-1 font-semibold uppercase tracking-widest">Reviews</p>
               </div>
             </div>
 
             <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 rounded-full px-3 py-1.5">
               <Star className="w-3 h-3 text-amber-400 fill-amber-400" />
-              <span className="text-amber-400 text-[10px] font-extrabold uppercase tracking-widest">Free Plan</span>
+              <span className="text-amber-400 text-xs font-extrabold uppercase tracking-widest">Free Plan</span>
             </div>
           </div>
         </section>
@@ -127,7 +127,7 @@ export default async function AccountPage() {
                 </div>
                 <div className="flex items-center gap-3 shrink-0">
                   {item.badge && (
-                    <span className="text-[10px] font-bold px-2 py-1 bg-neutral-700 text-neutral-200 rounded-full">
+                    <span className="text-xs font-bold px-2 py-1 bg-neutral-700 text-neutral-200 rounded-full">
                       {item.badge}
                     </span>
                   )}

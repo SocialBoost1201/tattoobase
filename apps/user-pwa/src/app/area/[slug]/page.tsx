@@ -120,7 +120,7 @@ export default async function AreaPage({ params }: { params: Params }) {
                 <span className="text-xl">{p.emoji}</span>
                 <div>
                   <p className="text-white text-sm font-bold group-hover:text-white">{p.name.replace(/都|府|道|県/, '')}</p>
-                  <p className="text-neutral-600 text-[10px]">{p.artists}名</p>
+                  <p className="text-neutral-600 text-xs">{p.artists}名</p>
                 </div>
               </Link>
             ))}

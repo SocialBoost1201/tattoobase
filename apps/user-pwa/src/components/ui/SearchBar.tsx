@@ -74,7 +74,7 @@ export default function SearchBar({ defaultValue = '' }: { defaultValue?: string
       {open && filtered.length > 0 && (
         <div className="absolute top-full left-0 right-0 mt-2 bg-neutral-900 border border-neutral-800 rounded-2xl overflow-hidden shadow-2xl z-50">
           <div className="px-4 py-2 border-b border-neutral-800">
-            <p className="text-[10px] font-bold text-neutral-600 uppercase tracking-widest">
+            <p className="text-xs font-bold text-neutral-600 uppercase tracking-widest">
               {value ? '候補' : 'よく検索されるキーワード'}
             </p>
           </div>

@@ -72,7 +72,7 @@ export default function HomePageClient({ artists, portfolios }: { artists: any[]
               <section className="fade-in-section opacity-0">
                 <div className="flex items-baseline justify-between mb-5">
                   <h2 className="font-heading font-extrabold text-white text-xl tracking-tight">FEATURED ARTISTS</h2>
-                  <Link href="/search?type=artist" className="text-[11px] font-semibold text-neutral-400 hover:text-white transition-colors uppercase tracking-widest">
+                  <Link href="/search?type=artist" className="text-xs font-semibold text-neutral-400 hover:text-white transition-colors uppercase tracking-widest">
                     すべて見る →
                   </Link>
                 </div>
@@ -89,7 +89,7 @@ export default function HomePageClient({ artists, portfolios }: { artists: any[]
               <section className="fade-in-section opacity-0">
                 <div className="flex items-baseline justify-between mb-5">
                   <h2 className="font-heading font-extrabold text-white text-xl tracking-tight">TRENDING WORKS</h2>
-                  <Link href="/search?type=portfolio" className="text-[11px] font-semibold text-neutral-400 hover:text-white transition-colors uppercase tracking-widest">
+                  <Link href="/search?type=portfolio" className="text-xs font-semibold text-neutral-400 hover:text-white transition-colors uppercase tracking-widest">
                     すべて見る →
                   </Link>
                 </div>
@@ -121,7 +121,7 @@ export default function HomePageClient({ artists, portfolios }: { artists: any[]
 
             {/* エリアリンク */}
             <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-5 space-y-3">
-              <p className="text-[10px] font-extrabold text-neutral-500 uppercase tracking-widest">エリアから探す</p>
+              <p className="text-xs font-extrabold text-neutral-500 uppercase tracking-widest">エリアから探す</p>
               <div className="space-y-1.5">
                 {[
                   { label: '東京', href: '/area/tokyo' },
@@ -141,7 +141,7 @@ export default function HomePageClient({ artists, portfolios }: { artists: any[]
 
             {/* スタイル別タグ */}
             <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-5 space-y-3">
-              <p className="text-[10px] font-extrabold text-neutral-500 uppercase tracking-widest">スタイルから探す</p>
+              <p className="text-xs font-extrabold text-neutral-500 uppercase tracking-widest">スタイルから探す</p>
               <div className="flex flex-wrap gap-1.5">
                 {['和彫', 'ブラックアンドグレー', 'ミニマル', 'ワンポイント', 'レタリング', 'アニメ'].map(style => (
                   <Link key={style} href={`/search?type=artist&genre=${encodeURIComponent(style)}`}

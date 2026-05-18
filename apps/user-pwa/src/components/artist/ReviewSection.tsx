@@ -125,12 +125,12 @@ export default function ReviewSection({ artistId }: { artistId: string }) {
           <div key={r.id} className="bg-neutral-900 border border-neutral-800 rounded-2xl p-4 space-y-2">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-neutral-700 flex items-center justify-center text-[10px] font-bold text-white shrink-0">
+                <div className="w-8 h-8 rounded-full bg-neutral-700 flex items-center justify-center text-xs font-bold text-white shrink-0">
                   {r.avatar}
                 </div>
                 <div>
-                  <p className="text-white text-[11px] font-bold">{r.userName}</p>
-                  <p className="text-neutral-600 text-[10px]">{r.date} · {r.style}</p>
+                  <p className="text-white text-xs font-bold">{r.userName}</p>
+                  <p className="text-neutral-600 text-xs">{r.date} · {r.style}</p>
                 </div>
               </div>
               <div className="flex gap-0.5">
@@ -141,7 +141,7 @@ export default function ReviewSection({ artistId }: { artistId: string }) {
             </div>
             <p className="text-neutral-300 text-[12px] leading-relaxed">{r.body}</p>
             {r.photos > 0 && (
-              <p className="text-neutral-600 text-[10px]">📷 写真 {r.photos}枚</p>
+              <p className="text-neutral-600 text-xs">📷 写真 {r.photos}枚</p>
             )}
           </div>
         ))}
@@ -160,19 +160,19 @@ export default function ReviewSection({ artistId }: { artistId: string }) {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="text-neutral-500 text-[10px] font-bold uppercase tracking-widest block mb-2">
+            <label className="text-neutral-500 text-xs font-bold uppercase tracking-widest block mb-2">
               総合評価 <span className="text-red-500">*</span>
             </label>
             <div className="flex items-center gap-3">
               <StarRating value={rating} onChange={setRating} />
               {rating > 0 && (
-                <span className="text-white text-[11px] font-semibold">{RATING_LABELS[rating]}</span>
+                <span className="text-white text-xs font-semibold">{RATING_LABELS[rating]}</span>
               )}
             </div>
           </div>
 
           <div>
-            <label className="text-neutral-500 text-[10px] font-bold uppercase tracking-widest block mb-2">
+            <label className="text-neutral-500 text-xs font-bold uppercase tracking-widest block mb-2">
               コメント <span className="text-red-500">*</span>
             </label>
             <textarea
@@ -182,7 +182,7 @@ export default function ReviewSection({ artistId }: { artistId: string }) {
               rows={4}
               className="w-full bg-neutral-800 border border-neutral-700 focus:border-neutral-500 rounded-xl px-3 py-2.5 text-sm text-white placeholder:text-neutral-600 outline-none resize-none transition-colors"
             />
-            <p className="text-neutral-700 text-[10px] text-right mt-1">{body.length} / 500</p>
+            <p className="text-neutral-700 text-xs text-right mt-1">{body.length} / 500</p>
           </div>
 
           <button
@@ -203,7 +203,7 @@ export default function ReviewSection({ artistId }: { artistId: string }) {
             )}
           </button>
 
-          <p className="text-neutral-700 text-[10px] text-center">
+          <p className="text-neutral-700 text-xs text-center">
             ※ 本機能は現在モード。DB接続後に実際のレビューとして保存されます。
           </p>
         </form>

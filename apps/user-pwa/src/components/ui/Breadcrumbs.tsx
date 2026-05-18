@@ -32,7 +32,7 @@ export default function Breadcrumbs({ items }: { items: Crumb[] }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <nav aria-label="パンくずリスト" className="hidden md:flex flex-wrap items-center gap-1.5 text-[11px] text-neutral-500 mb-6">
+      <nav aria-label="パンくずリスト" className="hidden md:flex flex-wrap items-center gap-1.5 text-xs text-neutral-500 mb-6">
         <Link href="/" className="flex items-center gap-1 hover:text-white transition-colors">
           <Home className="w-3 h-3" />
           ホーム

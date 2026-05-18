@@ -54,11 +54,11 @@ export default function FacilityCard({ facility }: { facility: Facility }) {
           <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
           
           {/* カテゴリバッジ */}
-          <div className="absolute top-3 left-3 bg-white text-black text-[10px] font-extrabold px-3 py-1.5 rounded-full tracking-widest leading-none shadow-md">
+          <div className="absolute top-3 left-3 bg-white text-black text-xs font-extrabold px-3 py-1.5 rounded-full tracking-widest leading-none shadow-md">
             {getTypeName(facility.type)}
           </div>
           {/* 受け入れレベルバッジ */}
-          <div className={`absolute bottom-3 right-3 text-[10px] font-bold px-2 py-1.5 rounded-sm tracking-widest border backdrop-blur-sm ${getAcceptanceInfo(facility.acceptanceLevel).color}`}>
+          <div className={`absolute bottom-3 right-3 text-xs font-bold px-2 py-1.5 rounded-sm tracking-widest border backdrop-blur-sm ${getAcceptanceInfo(facility.acceptanceLevel).color}`}>
             {getAcceptanceInfo(facility.acceptanceLevel).label}
           </div>
         </div>
@@ -74,7 +74,7 @@ export default function FacilityCard({ facility }: { facility: Facility }) {
           </p>
           
           <div className="mt-auto pt-4 border-t border-neutral-800">
-            <p className="text-neutral-300 text-[11px] font-semibold line-clamp-2 leading-relaxed">
+            <p className="text-neutral-300 text-xs font-semibold line-clamp-2 leading-relaxed">
               <span className="text-brand-400 font-extrabold mr-1.5 uppercase tracking-widest">Policy:</span>
               {facility.tattooPolicy || 'ポリシー未設定（要確認）'}
             </p>

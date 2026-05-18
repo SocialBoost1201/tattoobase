@@ -19,7 +19,7 @@ export default function PopularGenres() {
     <section className="py-6 overflow-hidden">
       <div className="flex items-baseline justify-between mb-4 px-2">
         <h2 className="font-heading font-extrabold text-white text-xl tracking-tight">POPULAR STYLES</h2>
-        <Link href="/search?type=artist" className="text-[11px] font-semibold text-neutral-400 hover:text-white transition-colors uppercase tracking-widest">
+        <Link href="/search?type=artist" className="text-xs font-semibold text-neutral-400 hover:text-white transition-colors uppercase tracking-widest">
           すべて見る →
         </Link>
       </div>
@@ -45,7 +45,7 @@ export default function PopularGenres() {
             <div className="absolute inset-0 bg-linear-to-b from-black/10 via-black/20 to-black/80" />
             <div className="absolute inset-x-0 bottom-0 p-3 flex flex-col justify-end">
               <span className="text-white font-bold text-sm leading-tight drop-shadow-md">{g.name}</span>
-              <span className="text-neutral-300 text-[10px] mt-0.5">{g.count} Artists</span>
+              <span className="text-neutral-300 text-xs mt-0.5">{g.count} Artists</span>
             </div>
           </Link>
         ))}

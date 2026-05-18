@@ -38,7 +38,7 @@ export default function BottomNav() {
                 className={`w-5 h-5 transition-colors ${active ? 'text-white' : 'text-neutral-600'}`}
                 strokeWidth={active ? 2.5 : 1.5}
               />
-              <span className={`text-[10px] font-semibold transition-colors ${active ? 'text-white' : 'text-neutral-600'}`}>
+              <span className={`text-xs font-semibold transition-colors ${active ? 'text-white' : 'text-neutral-600'}`}>
                 {item.label}
               </span>
             </Link>
@@ -54,7 +54,7 @@ export default function BottomNav() {
           >
             <Zap className="w-6 h-6 text-black group-hover:scale-110 transition-transform" />
           </Link>
-          <span className="text-[9px] font-bold text-neutral-500 mt-1 tracking-wider uppercase">今すぐ</span>
+          <span className="text-xs font-bold text-neutral-500 mt-1 tracking-wider uppercase">今すぐ</span>
         </div>
 
         {/* 右2タブ */}
@@ -71,7 +71,7 @@ export default function BottomNav() {
                 className={`w-5 h-5 transition-colors ${active ? 'text-white' : 'text-neutral-600'}`}
                 strokeWidth={active ? 2.5 : 1.5}
               />
-              <span className={`text-[10px] font-semibold transition-colors ${active ? 'text-white' : 'text-neutral-600'}`}>
+              <span className={`text-xs font-semibold transition-colors ${active ? 'text-white' : 'text-neutral-600'}`}>
                 {item.label}
               </span>
             </Link>

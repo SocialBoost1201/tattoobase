@@ -137,7 +137,7 @@ export default async function StudioDashboard() {
                         </div>
                       </div>
                       <div className="flex items-center gap-3">
-                         <span className={`px-2.5 py-1 text-[10px] font-bold rounded-full uppercase tracking-wider ${
+                         <span className={`px-2.5 py-1 text-xs font-bold rounded-full uppercase tracking-wider ${
                            booking.status === 'CONFIRMED' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
                          }`}>
                            {booking.status}
@@ -166,19 +166,19 @@ export default async function StudioDashboard() {
                   <span className="absolute -left-[9px] top-1 w-4 h-4 rounded-full border-2 border-white bg-blue-500"></span>
                   <p className="text-sm font-medium text-neutral-900">新しい予約リクエスト</p>
                   <p className="text-xs text-neutral-500 mt-0.5">佐藤 花子さんが「ワンポイント」を予約しました</p>
-                  <p className="text-[10px] text-neutral-400 mt-1">10分前</p>
+                  <p className="text-xs text-neutral-400 mt-1">10分前</p>
                 </div>
                 <div className="relative pl-6">
                   <span className="absolute -left-[9px] top-1 w-4 h-4 rounded-full border-2 border-white bg-green-500"></span>
                   <p className="text-sm font-medium text-neutral-900">デポジット入金完了</p>
                   <p className="text-xs text-neutral-500 mt-0.5">鈴木 イチローさんの予約が確定しました</p>
-                  <p className="text-[10px] text-neutral-400 mt-1">2時間前</p>
+                  <p className="text-xs text-neutral-400 mt-1">2時間前</p>
                 </div>
                 <div className="relative pl-6">
                   <span className="absolute -left-[9px] top-1 w-4 h-4 rounded-full border-2 border-white bg-purple-500"></span>
                   <p className="text-sm font-medium text-neutral-900">デザイン承認</p>
                   <p className="text-xs text-neutral-500 mt-0.5">「虎の和彫」デザインがクライアントに承認されました</p>
-                  <p className="text-[10px] text-neutral-400 mt-1">昨日</p>
+                  <p className="text-xs text-neutral-400 mt-1">昨日</p>
                 </div>
               </div>
             </div>

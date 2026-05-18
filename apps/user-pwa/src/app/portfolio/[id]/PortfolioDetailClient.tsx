@@ -106,7 +106,7 @@ export default function PortfolioDetailClient({ portfolio }: { portfolio: Portfo
               {/* スタイル & アクション */}
               <div className="flex items-start justify-between gap-4 stagger-fade">
                 {portfolio.styleCategory && (
-                  <span className="px-3 py-1.5 bg-white/10 text-white border border-white/20 rounded-full text-[10px] font-extrabold uppercase tracking-widest shrink-0">
+                  <span className="px-3 py-1.5 bg-white/10 text-white border border-white/20 rounded-full text-xs font-extrabold uppercase tracking-widest shrink-0">
                     {portfolio.styleCategory}
                   </span>
                 )}
@@ -164,7 +164,7 @@ export default function PortfolioDetailClient({ portfolio }: { portfolio: Portfo
               {/* 説明文 */}
               {portfolio.description && (
                 <div className="stagger-fade">
-                  <h4 className="text-white/40 text-[10px] font-bold uppercase tracking-widest mb-3">Description</h4>
+                  <h4 className="text-white/40 text-xs font-bold uppercase tracking-widest mb-3">Description</h4>
                   <p className="text-neutral-300 text-sm leading-relaxed whitespace-pre-wrap">
                     {portfolio.description}
                   </p>

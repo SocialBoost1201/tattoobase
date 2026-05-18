@@ -97,7 +97,7 @@ export default async function SearchPage({
         <aside className="hidden md:block sticky top-24 space-y-6">
           {/* タブ: Artists / Works */}
           <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-4 space-y-1">
-            <p className="text-[9px] font-extrabold text-neutral-600 uppercase tracking-widest mb-3">検索タイプ</p>
+            <p className="text-xs font-extrabold text-neutral-600 uppercase tracking-widest mb-3">検索タイプ</p>
             {[
               { href: `/search?type=artist${genre ? `&genre=${encodeURIComponent(genre)}` : ''}${pref ? `&pref=${encodeURIComponent(pref)}` : ''}`, label: 'アーティスト', active: !isPortfolioSearch },
               { href: `/search?type=portfolio`, label: '作品・ギャラリー', active: isPortfolioSearch },
@@ -115,7 +115,7 @@ export default async function SearchPage({
             <>
               {/* 都道府県フィルター */}
               <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-4 space-y-1">
-                <p className="text-[9px] font-extrabold text-neutral-600 uppercase tracking-widest mb-3">エリア</p>
+                <p className="text-xs font-extrabold text-neutral-600 uppercase tracking-widest mb-3">エリア</p>
                 <Link href={`/search?type=artist${genre ? `&genre=${encodeURIComponent(genre)}` : ''}`}
                   className={`flex items-center justify-between w-full px-3 py-2 rounded-xl text-sm font-semibold transition-all ${
                     !pref ? 'bg-white/10 text-white' : 'text-neutral-400 hover:text-white hover:bg-neutral-800'
@@ -136,7 +136,7 @@ export default async function SearchPage({
 
               {/* スタイルフィルター */}
               <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-4 space-y-1">
-                <p className="text-[9px] font-extrabold text-neutral-600 uppercase tracking-widest mb-3">スタイル</p>
+                <p className="text-xs font-extrabold text-neutral-600 uppercase tracking-widest mb-3">スタイル</p>
                 <Link href={`/search?type=artist${pref ? `&pref=${encodeURIComponent(pref)}` : ''}`}
                   className={`flex items-center justify-between w-full px-3 py-2 rounded-xl text-sm font-semibold transition-all ${
                     !genre ? 'bg-white/10 text-white' : 'text-neutral-400 hover:text-white hover:bg-neutral-800'
@@ -150,7 +150,7 @@ export default async function SearchPage({
                       genre === g ? 'bg-white/10 text-white' : 'text-neutral-400 hover:text-white hover:bg-neutral-800'
                     }`}>
                     <span>{g}</span>
-                    <span className={`text-[10px] font-bold tabular-nums ${
+                    <span className={`text-xs font-bold tabular-nums ${
                       genre === g ? 'text-white/50' : 'text-neutral-600'
                     }`}>{genreCountMap[g] ?? ''}</span>
                   </Link>
@@ -208,29 +208,29 @@ export default async function SearchPage({
               <>
                 <div className="flex overflow-x-auto hide-scrollbar gap-2 pb-1 -mx-4 px-4">
                   <Link href={`/search?type=artist${genre ? `&genre=${encodeURIComponent(genre)}` : ''}`}
-                    className={`px-3 py-1.5 text-[11px] font-bold shrink-0 rounded-full transition-all ${!pref ? 'bg-white text-black' : 'bg-transparent text-neutral-500 border border-neutral-700 hover:border-neutral-400 hover:text-white'}`}>
+                    className={`px-3 py-1.5 text-xs font-bold shrink-0 rounded-full transition-all ${!pref ? 'bg-white text-black' : 'bg-transparent text-neutral-500 border border-neutral-700 hover:border-neutral-400 hover:text-white'}`}>
                     全国
                   </Link>
                   {PREFS.map(p => (
                     <Link key={p} href={`/search?type=artist&pref=${encodeURIComponent(p)}${genre ? `&genre=${encodeURIComponent(genre)}` : ''}`}
-                      className={`px-3 py-1.5 text-[11px] font-bold shrink-0 rounded-full transition-all ${pref === p ? 'bg-white text-black' : 'bg-transparent text-neutral-500 border border-neutral-700 hover:border-neutral-400 hover:text-white'}`}>
+                      className={`px-3 py-1.5 text-xs font-bold shrink-0 rounded-full transition-all ${pref === p ? 'bg-white text-black' : 'bg-transparent text-neutral-500 border border-neutral-700 hover:border-neutral-400 hover:text-white'}`}>
                       {p.replace(/都|道|府|県/, '')}
                     </Link>
                   ))}
                 </div>
                 <div className="flex overflow-x-auto hide-scrollbar gap-2 pb-1 -mx-4 px-4">
                   <Link href={`/search?type=artist${pref ? `&pref=${encodeURIComponent(pref)}` : ''}`}
-                    className={`px-3 py-1.5 text-[11px] font-extrabold shrink-0 border transition-all rounded-full uppercase ${!genre ? 'bg-white text-black border-white' : 'bg-transparent text-neutral-400 border-neutral-700 hover:border-neutral-400 hover:text-white'}`}>
+                    className={`px-3 py-1.5 text-xs font-extrabold shrink-0 border transition-all rounded-full uppercase ${!genre ? 'bg-white text-black border-white' : 'bg-transparent text-neutral-400 border-neutral-700 hover:border-neutral-400 hover:text-white'}`}>
                     ALL
                   </Link>
                   {GENRES.map(g => (
                     <Link key={g} href={`/search?type=artist&genre=${encodeURIComponent(g)}${pref ? `&pref=${encodeURIComponent(pref)}` : ''}`}
-                      className={`px-3 py-1.5 text-[11px] font-extrabold shrink-0 border transition-all rounded-full uppercase flex items-center gap-1.5 ${
+                      className={`px-3 py-1.5 text-xs font-extrabold shrink-0 border transition-all rounded-full uppercase flex items-center gap-1.5 ${
                         genre === g ? 'bg-white text-black border-white' : 'bg-transparent text-neutral-400 border-neutral-700 hover:border-neutral-400 hover:text-white'
                       }`}>
                       {g}
                       {genreCountMap[g] !== undefined && (
-                        <span className={`text-[9px] font-bold ${
+                        <span className={`text-xs font-bold ${
                           genre === g ? 'text-black/50' : 'text-neutral-600'
                         }`}>{genreCountMap[g]}</span>
                       )}
@@ -276,7 +276,7 @@ export default async function SearchPage({
             ) : (
               portfolios.length > 0 ? (
                 <>
-                  <p className="text-neutral-500 text-[10px] uppercase font-bold tracking-widest mb-4">
+                  <p className="text-neutral-500 text-xs uppercase font-bold tracking-widest mb-4">
                     {portfolios.length} artworks found
                   </p>
                   <div className="columns-2 md:columns-3 lg:columns-4 gap-3 space-y-3">
@@ -290,7 +290,7 @@ export default async function SearchPage({
                             className="w-full h-auto object-cover group-hover:opacity-80 transition-opacity"
                             sizes="(max-width: 768px) 50vw, 25vw" />
                           <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black via-black/60 to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                            <span className="text-white text-[10px] font-bold tracking-widest uppercase">View Artist</span>
+                            <span className="text-white text-xs font-bold tracking-widest uppercase">View Artist</span>
                           </div>
                         </Link>
                       );

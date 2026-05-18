@@ -117,7 +117,7 @@ export default function BookingWizardPage() {
             <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-300 ${isActive ? 'bg-white text-black' : 'bg-neutral-900 border border-neutral-800 text-neutral-500'}`}>
               <Icon className="w-4 h-4" />
             </div>
-            <span className={`text-[10px] font-extrabold tracking-widest uppercase ${isActive ? 'text-white' : 'text-neutral-500'}`}>
+            <span className={`text-xs font-extrabold tracking-widest uppercase ${isActive ? 'text-white' : 'text-neutral-500'}`}>
               {s.label}
             </span>
           </div>
@@ -161,19 +161,19 @@ export default function BookingWizardPage() {
               <h2 className="text-lg font-bold text-white mb-2">デザインのご希望と日程</h2>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-extrabold text-neutral-400 uppercase tracking-widest block">希望日</label>
+                <label className="text-xs font-extrabold text-neutral-400 uppercase tracking-widest block">希望日</label>
                 <input type="date" value={date} onChange={e => setDate(e.target.value)}
                   className="w-full bg-black border border-neutral-800 focus:border-white/50 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors appearance-none" required />
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-extrabold text-neutral-400 uppercase tracking-widest block">希望時間 (目安)</label>
+                <label className="text-xs font-extrabold text-neutral-400 uppercase tracking-widest block">希望時間 (目安)</label>
                 <input type="time" value={time} onChange={e => setTime(e.target.value)}
                   className="w-full bg-black border border-neutral-800 focus:border-white/50 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors appearance-none" required />
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-extrabold text-neutral-400 uppercase tracking-widest block">希望部位</label>
+                <label className="text-xs font-extrabold text-neutral-400 uppercase tracking-widest block">希望部位</label>
                 <select value={bodyPart} onChange={e => setBodyPart(e.target.value)}
                   className="w-full bg-black border border-neutral-800 focus:border-white/50 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors appearance-none">
                   <option value="">選択してください</option>
@@ -184,7 +184,7 @@ export default function BookingWizardPage() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-extrabold text-neutral-400 uppercase tracking-widest block">サイズ目安</label>
+                <label className="text-xs font-extrabold text-neutral-400 uppercase tracking-widest block">サイズ目安</label>
                 <div className="grid grid-cols-3 gap-2">
                   {['小 (5cm以下)', '中 (5〜15cm)', '大 (15cm以上)'].map(s => (
                     <button key={s} type="button" onClick={() => setSize(s)}
@@ -196,14 +196,14 @@ export default function BookingWizardPage() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-extrabold text-neutral-400 uppercase tracking-widest block">タトゥーのイメージ・ご要望</label>
+                <label className="text-xs font-extrabold text-neutral-400 uppercase tracking-widest block">タトゥーのイメージ・ご要望</label>
                 <textarea value={notes} onChange={e => setNotes(e.target.value)}
                   placeholder="デザインのイメージ、参考にしたいモチーフ、スタイルなどを記入してください。"
                   rows={3} className="w-full bg-black border border-neutral-800 focus:border-white/50 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors resize-none" />
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-extrabold text-neutral-400 uppercase tracking-widest block">アレルギー・健康上の注意</label>
+                <label className="text-xs font-extrabold text-neutral-400 uppercase tracking-widest block">アレルギー・健康上の注意</label>
                 <input type="text" value={healthNotes} onChange={e => setHealthNotes(e.target.value)}
                   placeholder="特になし / ラテックスアレルギーあり 等"
                   className="w-full bg-black border border-neutral-800 focus:border-white/50 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors" />
@@ -243,7 +243,7 @@ export default function BookingWizardPage() {
                <h2 className="text-lg font-bold text-white mb-2">お客様情報の入力</h2>
                
                <div className="space-y-2">
-                 <label className="text-[10px] font-extrabold text-neutral-400 uppercase tracking-widest block">お名前 (フルネーム)</label>
+                 <label className="text-xs font-extrabold text-neutral-400 uppercase tracking-widest block">お名前 (フルネーム)</label>
                  <input
                    type="text"
                    value={name}
@@ -255,7 +255,7 @@ export default function BookingWizardPage() {
                </div>
 
                <div className="space-y-2">
-                 <label className="text-[10px] font-extrabold text-neutral-400 uppercase tracking-widest block">メールアドレス</label>
+                 <label className="text-xs font-extrabold text-neutral-400 uppercase tracking-widest block">メールアドレス</label>
                  <input
                    type="email"
                    value={email}
@@ -264,11 +264,11 @@ export default function BookingWizardPage() {
                    className="w-full bg-black border border-neutral-800 focus:border-brand-400 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors"
                    required
                  />
-                 <p className="text-[#6b6b6b] text-[10px] mt-1">スタジオからの連絡や予約完了メールが届きます</p>
+                 <p className="text-[#6b6b6b] text-xs mt-1">スタジオからの連絡や予約完了メールが届きます</p>
                </div>
 
                <div className="space-y-2">
-                 <label className="text-[10px] font-extrabold text-neutral-400 uppercase tracking-widest block">電話番号</label>
+                 <label className="text-xs font-extrabold text-neutral-400 uppercase tracking-widest block">電話番号</label>
                  <input
                    type="tel"
                    value={phone}

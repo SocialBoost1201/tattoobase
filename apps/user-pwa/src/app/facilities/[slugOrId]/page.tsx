@@ -77,10 +77,10 @@ export default async function FacilityDetailPage({
         {/* ヘッダー情報（オーバーレイ） */}
         <div className="absolute bottom-0 left-0 w-full p-4 pb-8 text-white">
           <div className="flex gap-2 mb-3">
-            <span className="inline-block bg-white text-black px-3 py-1.5 text-[10px] font-bold tracking-widest rounded-full uppercase">
+            <span className="inline-block bg-white text-black px-3 py-1.5 text-xs font-bold tracking-widest rounded-full uppercase">
               {getTypeName(facility.type)}
             </span>
-            <span className={`inline-block px-3 py-1.5 text-[10px] font-bold tracking-widest rounded-full border backdrop-blur-sm ${getAcceptanceInfo(facility.acceptanceLevel).color}`}>
+            <span className={`inline-block px-3 py-1.5 text-xs font-bold tracking-widest rounded-full border backdrop-blur-sm ${getAcceptanceInfo(facility.acceptanceLevel).color}`}>
               {getAcceptanceInfo(facility.acceptanceLevel).label}
             </span>
           </div>

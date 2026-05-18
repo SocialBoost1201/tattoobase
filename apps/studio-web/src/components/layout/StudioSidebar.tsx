@@ -74,7 +74,7 @@ export default function StudioSidebar() {
           </div>
           <div className="flex-1 min-w-0">
              <p className="text-sm font-bold text-white truncate">Demo Studio</p>
-             <p className="text-[10px] text-neutral-400 truncate">Pro Plan</p>
+             <p className="text-xs text-neutral-400 truncate">Pro Plan</p>
           </div>
         </div>
         

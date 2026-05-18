@@ -62,7 +62,7 @@ export default function PortfolioPage() {
               
               {/* ステータスバッジ */}
               <div className="absolute top-3 left-3 flex gap-2">
-                <span className={`px-2 py-1 text-[10px] font-extrabold rounded-md uppercase tracking-wider backdrop-blur-md ${
+                <span className={`px-2 py-1 text-xs font-extrabold rounded-md uppercase tracking-wider backdrop-blur-md ${
                   work.status === 'PUBLISHED' ? 'bg-black/60 text-white' : 'bg-neutral-200/90 text-neutral-700'
                 }`}>
                   {work.status}

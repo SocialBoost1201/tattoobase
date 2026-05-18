@@ -108,7 +108,7 @@ export default function CalendarPage() {
                 <div key={date}
                   className={`p-3 text-center border-r border-neutral-100 last:border-r-0 cursor-pointer hover:bg-neutral-50 transition-colors ${isToday ? 'bg-neutral-900' : ''}`}
                   onClick={() => setSelectedDay(date)}>
-                  <p className={`text-[10px] font-bold uppercase tracking-widest mb-1 ${isToday ? 'text-neutral-400' : 'text-neutral-400'}`}>{DAYS[i]}</p>
+                  <p className={`text-xs font-bold uppercase tracking-widest mb-1 ${isToday ? 'text-neutral-400' : 'text-neutral-400'}`}>{DAYS[i]}</p>
                   <p className={`text-lg font-extrabold ${isToday ? 'text-white' : 'text-neutral-800'}`}>{date}</p>
                   {hasBookings && (
                     <div className="flex justify-center gap-0.5 mt-1">
@@ -126,7 +126,7 @@ export default function CalendarPage() {
           <div className="overflow-y-auto max-h-[400px]">
             {HOURS.map(hour => (
               <div key={hour} className="grid border-b border-neutral-50" style={{ gridTemplateColumns: '60px repeat(7, 1fr)', minHeight: '56px' }}>
-                <div className="p-2 text-right text-[11px] font-bold text-neutral-400 border-r border-neutral-100 pt-3 shrink-0">
+                <div className="p-2 text-right text-xs font-bold text-neutral-400 border-r border-neutral-100 pt-3 shrink-0">
                   {hour}:00
                 </div>
                 {WEEK.map(date => {
@@ -138,7 +138,7 @@ export default function CalendarPage() {
                     <div key={date} className="border-r border-neutral-50 last:border-r-0 p-1 relative">
                       {bookingsAtHour.map(b => (
                         <Link key={b.id} href={`/studio/bookings/${b.id}`}
-                          className={`block text-[10px] font-semibold px-2 py-1.5 rounded-md border mb-1 truncate hover:opacity-80 transition-opacity ${b.color}`}>
+                          className={`block text-xs font-semibold px-2 py-1.5 rounded-md border mb-1 truncate hover:opacity-80 transition-opacity ${b.color}`}>
                           <span className="block font-bold truncate">{b.clientName}</span>
                           <span className="opacity-70">{b.time} · {b.type}</span>
                         </Link>
@@ -162,7 +162,7 @@ export default function CalendarPage() {
                 <div className="px-5 py-3 border-b border-neutral-100 flex items-center justify-between bg-neutral-50">
                   <div className="flex items-center gap-2">
                     <span className="font-bold text-neutral-900 text-sm">3月{date}日 ({DAYS[WEEK.indexOf(date)]})</span>
-                    {date === 18 && <span className="text-[9px] bg-neutral-900 text-white font-bold px-2 py-0.5 rounded-full">TODAY</span>}
+                    {date === 18 && <span className="text-xs bg-neutral-900 text-white font-bold px-2 py-0.5 rounded-full">TODAY</span>}
                   </div>
                   <span className="text-xs text-neutral-500">{dayBookings.length}件</span>
                 </div>
@@ -179,7 +179,7 @@ export default function CalendarPage() {
                             <p className="text-xs text-neutral-500">{b.time} · {b.type} · {b.duration}h</p>
                           </div>
                         </div>
-                        <span className={`text-[10px] font-bold px-2 py-1 rounded-full border ${b.color}`}>{STATUS_LABEL[b.status]}</span>
+                        <span className={`text-xs font-bold px-2 py-1 rounded-full border ${b.color}`}>{STATUS_LABEL[b.status]}</span>
                       </Link>
                     ))}
                   </div>
@@ -195,7 +195,7 @@ export default function CalendarPage() {
         <div className="bg-white border border-neutral-200 rounded-xl shadow-sm overflow-hidden">
           <div className="grid grid-cols-7 border-b border-neutral-200">
             {DAYS.map(d => (
-              <div key={d} className="py-3 text-center text-[11px] font-bold text-neutral-500 uppercase border-r border-neutral-100 last:border-r-0">{d}</div>
+              <div key={d} className="py-3 text-center text-xs font-bold text-neutral-500 uppercase border-r border-neutral-100 last:border-r-0">{d}</div>
             ))}
           </div>
           <div className="grid grid-cols-7 divide-x divide-y divide-neutral-100">
@@ -215,9 +215,9 @@ export default function CalendarPage() {
                       {count > 0 && (
                         <div className="space-y-0.5">
                           {(MOCK_BOOKINGS[dayNum] ?? []).slice(0, 2).map(b => (
-                            <div key={b.id} className={`text-[9px] font-bold px-1 py-0.5 rounded truncate border ${b.color}`}>{b.clientName}</div>
+                            <div key={b.id} className={`text-xs font-bold px-1 py-0.5 rounded truncate border ${b.color}`}>{b.clientName}</div>
                           ))}
-                          {count > 2 && <div className="text-[9px] text-neutral-400 font-medium">+{count - 2}件</div>}
+                          {count > 2 && <div className="text-xs text-neutral-400 font-medium">+{count - 2}件</div>}
                         </div>
                       )}
                     </>

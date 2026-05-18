@@ -28,7 +28,7 @@ export default function AreaAndStyleDiscovery() {
             <MapPin className="w-4 h-4 text-neutral-400" />
             <h2 className="font-heading font-extrabold text-white text-base tracking-tight">エリアから探す</h2>
           </div>
-          <Link href="/search" className="text-[10px] font-semibold text-neutral-500 hover:text-white transition-colors uppercase tracking-widest">
+          <Link href="/search" className="text-xs font-semibold text-neutral-500 hover:text-white transition-colors uppercase tracking-widest">
             すべて →
           </Link>
         </div>
@@ -43,7 +43,7 @@ export default function AreaAndStyleDiscovery() {
               <div className="w-16 h-16 rounded-2xl bg-neutral-900 border border-neutral-800 group-hover:border-neutral-600 flex items-center justify-center text-2xl transition-all duration-300 group-hover:scale-105 group-hover:bg-neutral-800">
                 {area.emoji}
               </div>
-              <span className="text-[11px] font-semibold text-neutral-400 group-hover:text-white transition-colors">
+              <span className="text-xs font-semibold text-neutral-400 group-hover:text-white transition-colors">
                 {area.label}
               </span>
             </Link>
@@ -58,7 +58,7 @@ export default function AreaAndStyleDiscovery() {
             <Palette className="w-4 h-4 text-neutral-400" />
             <h2 className="font-heading font-extrabold text-white text-base tracking-tight">スタイルから探す</h2>
           </div>
-          <Link href="/search?type=portfolio" className="text-[10px] font-semibold text-neutral-500 hover:text-white transition-colors uppercase tracking-widest">
+          <Link href="/search?type=portfolio" className="text-xs font-semibold text-neutral-500 hover:text-white transition-colors uppercase tracking-widest">
             作品を見る →
           </Link>
         </div>
@@ -81,7 +81,7 @@ export default function AreaAndStyleDiscovery() {
               {/* テキスト */}
               <div className="absolute inset-x-0 bottom-0 p-3">
                 <p className="text-white font-extrabold text-sm leading-tight">{tile.style}</p>
-                <p className="text-white/60 text-[10px] mt-0.5">{tile.desc}</p>
+                <p className="text-white/60 text-xs mt-0.5">{tile.desc}</p>
               </div>
             </Link>
           ))}

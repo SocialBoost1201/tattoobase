@@ -44,7 +44,7 @@ export default function RecentlyViewedArtists({ allArtists }: { allArtists: any[
           <Clock className="w-4 h-4 text-neutral-400" />
           <h2 className="font-heading font-extrabold text-white text-base tracking-tight">最近見たアーティスト</h2>
         </div>
-        <Link href="/search" className="text-[10px] font-semibold text-neutral-500 hover:text-white transition-colors uppercase tracking-widest flex items-center gap-1">
+        <Link href="/search" className="text-xs font-semibold text-neutral-500 hover:text-white transition-colors uppercase tracking-widest flex items-center gap-1">
           すべて <ChevronRight className="w-3 h-3" />
         </Link>
       </div>

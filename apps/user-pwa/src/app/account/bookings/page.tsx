@@ -100,19 +100,19 @@ export default async function AccountBookingsPage() {
               {/* 日付エリア */}
               <div className="w-14 h-14 rounded-xl bg-neutral-800 group-hover:bg-neutral-700 transition-colors flex flex-col items-center justify-center shrink-0">
                 <CalendarDays className="w-5 h-5 text-neutral-400" />
-                <span className="text-white text-[10px] font-bold mt-1">{b.date?.slice(5)}</span>
+                <span className="text-white text-xs font-bold mt-1">{b.date?.slice(5)}</span>
               </div>
 
               {/* 予約情報 */}
               <div className="flex-1 min-w-0">
                 <p className="text-white font-bold text-sm truncate">{b.artistName}</p>
                 <p className="text-neutral-500 text-xs mt-0.5 truncate">{b.type}</p>
-                <p className="text-neutral-600 text-[10px] mt-1 truncate">{b.studioName}</p>
+                <p className="text-neutral-600 text-xs mt-1 truncate">{b.studioName}</p>
               </div>
 
               {/* ステータス + 矢印 */}
               <div className="flex flex-col items-end gap-2 shrink-0">
-                <span className={`flex items-center gap-1 px-2 py-1 rounded-full border text-[10px] font-bold ${cfg.color}`}>
+                <span className={`flex items-center gap-1 px-2 py-1 rounded-full border text-xs font-bold ${cfg.color}`}>
                   <StatusIcon className="w-3 h-3" />{cfg.label}
                 </span>
                 <ChevronRight className="w-4 h-4 text-neutral-600 group-hover:text-neutral-300 transition-colors" />

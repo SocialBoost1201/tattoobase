@@ -23,7 +23,7 @@ export default function SeoFooter() {
 
         {/* エリア別 */}
         <div>
-          <h3 className="text-[10px] font-extrabold text-neutral-500 uppercase tracking-widest mb-3">エリアから探す</h3>
+          <h3 className="text-xs font-extrabold text-neutral-500 uppercase tracking-widest mb-3">エリアから探す</h3>
           <div className="flex flex-wrap gap-2">
             {PREFS.map(pref => (
               <Link key={pref} href={`/area/${PREF_SLUGS[pref] ?? pref}`}
@@ -39,7 +39,7 @@ export default function SeoFooter() {
 
         {/* スタイル別 */}
         <div>
-          <h3 className="text-[10px] font-extrabold text-neutral-500 uppercase tracking-widest mb-3">スタイルから探す</h3>
+          <h3 className="text-xs font-extrabold text-neutral-500 uppercase tracking-widest mb-3">スタイルから探す</h3>
           <div className="flex flex-wrap gap-2">
             {STYLES.map(style => (
               <Link key={style} href={`/search?type=artist&genre=${encodeURIComponent(style)}`}
@@ -52,7 +52,7 @@ export default function SeoFooter() {
 
         {/* エリア × スタイル（SEO内部リンク） */}
         <div>
-          <h3 className="text-[10px] font-extrabold text-neutral-500 uppercase tracking-widest mb-3">エリア×スタイルで探す</h3>
+          <h3 className="text-xs font-extrabold text-neutral-500 uppercase tracking-widest mb-3">エリア×スタイルで探す</h3>
           <div className="flex flex-wrap gap-2">
             {['東京都', '大阪府', '愛知県', '福岡県'].flatMap(pref =>
               ['和彫', 'ブラックアンドグレー', 'ミニマル'].map(style => (
@@ -68,7 +68,7 @@ export default function SeoFooter() {
 
         {/* ガイド */}
         <div>
-          <h3 className="text-[10px] font-extrabold text-neutral-500 uppercase tracking-widest mb-3">ガイド・読み物</h3>
+          <h3 className="text-xs font-extrabold text-neutral-500 uppercase tracking-widest mb-3">ガイド・読み物</h3>
           <div className="flex flex-col gap-1.5">
             {GUIDES.map(({ label, href }) => (
               <Link key={href} href={href} className="text-xs text-neutral-400 hover:text-white transition-colors underline underline-offset-2 w-fit">
@@ -80,7 +80,7 @@ export default function SeoFooter() {
 
         {/* コピーライト */}
         <div className="pt-4 border-t border-neutral-900">
-          <div className="flex items-center justify-between text-[10px] text-neutral-700">
+          <div className="flex items-center justify-between text-xs text-neutral-700">
             <span>© 2026 TattooBase. All rights reserved.</span>
             <div className="flex gap-3">
               <Link href="/terms" className="hover:text-neutral-400 transition-colors">利用規約</Link>

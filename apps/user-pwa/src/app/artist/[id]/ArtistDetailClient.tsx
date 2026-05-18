@@ -117,7 +117,7 @@ export default function ArtistDetailClient({ artist, works }: { artist: any; wor
                 <div className="flex flex-wrap gap-2 pt-1">
                   {styles.map(s => (
                     <Link key={s} href={`/search?type=artist&genre=${encodeURIComponent(s)}`}
-                      className="px-3 py-1 text-[10px] font-bold bg-neutral-900 border border-neutral-700 text-neutral-300 rounded-full hover:border-neutral-400 transition-colors uppercase tracking-wider">
+                      className="px-3 py-1 text-xs font-bold bg-neutral-900 border border-neutral-700 text-neutral-300 rounded-full hover:border-neutral-400 transition-colors uppercase tracking-wider">
                       {s}
                     </Link>
                   ))}
@@ -180,7 +180,7 @@ export default function ArtistDetailClient({ artist, works }: { artist: any; wor
             <div className="flex gap-2">
               {AVAILABILITY_MOCK.map(({ day, available }) => (
                 <Link key={day} href={available ? `/booking/start?artistId=${artist.id}` : '#'}
-                  className={`flex-1 flex flex-col items-center gap-1.5 py-2.5 rounded-xl border text-[11px] font-bold transition-all ${
+                  className={`flex-1 flex flex-col items-center gap-1.5 py-2.5 rounded-xl border text-xs font-bold transition-all ${
                     available ? 'border-green-800 bg-green-950/30 text-green-400 hover:bg-green-900/40'
                               : 'border-neutral-800 bg-neutral-900/20 text-neutral-700 cursor-default'
                   }`}>
@@ -202,7 +202,7 @@ export default function ArtistDetailClient({ artist, works }: { artist: any; wor
                 </div>
               ))}
             </div>
-            <p className="text-neutral-600 text-[10px] mt-2 px-1">※ デザインの複雑さやサイズにより変動します。</p>
+            <p className="text-neutral-600 text-xs mt-2 px-1">※ デザインの複雑さやサイズにより変動します。</p>
           </section>
 
           {/* キャンセルポリシー（C-4） */}
@@ -227,7 +227,7 @@ export default function ArtistDetailClient({ artist, works }: { artist: any; wor
           <section className="stagger-fade relative z-10 px-1">
             <div className="flex items-baseline justify-between mb-4 px-1">
               <h2 className="font-heading font-extrabold text-lg text-white tracking-tight">WORKS</h2>
-              <span className="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">{works.length} pieces</span>
+              <span className="text-xs font-bold text-neutral-400 uppercase tracking-widest">{works.length} pieces</span>
             </div>
 
             {works.length > 0 ? (

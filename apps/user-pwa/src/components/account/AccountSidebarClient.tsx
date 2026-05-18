@@ -62,7 +62,7 @@ export default function AccountSidebarClient({ session }: { session: any }) {
         
         <div className="mt-4 inline-flex items-center gap-1.5 bg-amber-500/10 border border-amber-500/20 rounded-full px-3 py-1">
           <Star className="w-3 h-3 text-amber-500 fill-amber-500" />
-          <span className="text-amber-500 text-[10px] font-extrabold uppercase tracking-widest">Free Plan</span>
+          <span className="text-amber-500 text-xs font-extrabold uppercase tracking-widest">Free Plan</span>
         </div>
       </div>
 

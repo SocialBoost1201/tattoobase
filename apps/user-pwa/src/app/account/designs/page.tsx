@@ -99,7 +99,7 @@ export default async function AccountDesignsPage() {
                       <p className="text-white font-bold text-sm truncate">{d.type}</p>
                       <p className="text-neutral-500 text-xs mt-0.5 truncate">担当: {d.artistName}</p>
                     </div>
-                    <span className={`flex items-center gap-1 px-2 py-1 rounded-full border text-[10px] font-bold whitespace-nowrap shrink-0 ${cfg.color}`}>
+                    <span className={`flex items-center gap-1 px-2 py-1 rounded-full border text-xs font-bold whitespace-nowrap shrink-0 ${cfg.color}`}>
                       <StatusIcon className="w-3 h-3" />{cfg.label}
                     </span>
                   </div>
@@ -112,8 +112,8 @@ export default async function AccountDesignsPage() {
                   )}
 
                   <div className="mt-3 flex items-center justify-between">
-                    <span className="text-neutral-600 text-[10px]">最終更新: {d.updatedAt}</span>
-                    <span className="flex items-center gap-1 text-[10px] font-bold text-neutral-500 group-hover:text-white transition-colors">
+                    <span className="text-neutral-600 text-xs">最終更新: {d.updatedAt}</span>
+                    <span className="flex items-center gap-1 text-xs font-bold text-neutral-500 group-hover:text-white transition-colors">
                       詳細を見る <ArrowRight className="w-3 h-3" />
                     </span>
                   </div>

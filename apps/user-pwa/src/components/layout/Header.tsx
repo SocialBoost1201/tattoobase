@@ -70,20 +70,20 @@ export default async function Header() {
         <div className="max-w-7xl mx-auto px-6 h-9 flex items-center gap-6 border-t border-neutral-900/60 overflow-x-auto hide-scrollbar">
           {['東京', '大阪', '愛知', '福岡', '北海道'].map(area => (
             <Link key={area} href={`/area/${area === '東京' ? 'tokyo' : area === '大阪' ? 'osaka' : area === '愛知' ? 'aichi' : area === '福岡' ? 'fukuoka' : 'hokkaido'}`}
-              className="flex items-center gap-1 text-[11px] font-bold text-neutral-500 hover:text-white whitespace-nowrap transition-colors">
+              className="flex items-center gap-1 text-xs font-bold text-neutral-500 hover:text-white whitespace-nowrap transition-colors">
               <MapPin className="w-2.5 h-2.5" />{area}
             </Link>
           ))}
           <div className="w-px h-3 bg-neutral-800 mx-1" />
           {['和彫', 'ブラックアンドグレー', 'ミニマル', 'ワンポイント', 'レタリング'].map(style => (
             <Link key={style} href={`/search?type=artist&genre=${encodeURIComponent(style)}`}
-              className="text-[11px] font-bold text-neutral-500 hover:text-white whitespace-nowrap transition-colors">
+              className="text-xs font-bold text-neutral-500 hover:text-white whitespace-nowrap transition-colors">
               {style}
             </Link>
           ))}
           <div className="flex-1" />
           <Link href="/guide/beginner"
-            className="flex items-center gap-1 text-[11px] font-bold text-neutral-500 hover:text-white whitespace-nowrap transition-colors">
+            className="flex items-center gap-1 text-xs font-bold text-neutral-500 hover:text-white whitespace-nowrap transition-colors">
             <BookOpen className="w-2.5 h-2.5" />初めての方
           </Link>
         </div>

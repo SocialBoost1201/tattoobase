@@ -24,7 +24,7 @@ function createArtistIcon(rating?: number) {
       background: #fff;
       color: #000;
       font-weight: 900;
-      font-size: 11px;
+      font-size: 12px;
       padding: 4px 8px;
       border-radius: 999px;
       box-shadow: 0 2px 12px rgba(0,0,0,0.4);
@@ -106,12 +106,12 @@ export default function ArtistMap({ artists, center = [35.6762, 139.6503], heigh
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-bold text-white text-sm truncate">{artist.displayName}</p>
-                    <p className="text-neutral-400 text-[10px] truncate">{artist.prefecture ?? '東京'}</p>
+                    <p className="text-neutral-400 text-xs truncate">{artist.prefecture ?? '東京'}</p>
                     {/* スタイルタグ */}
                     {artist.styles && artist.styles.length > 0 && (
                       <div className="flex flex-wrap gap-1 mt-1">
                         {artist.styles.slice(0, 2).map(s => (
-                          <span key={s} className="px-1.5 py-0.5 bg-neutral-800 text-neutral-300 text-[9px] rounded font-bold">{s}</span>
+                          <span key={s} className="px-1.5 py-0.5 bg-neutral-800 text-neutral-300 text-xs rounded font-bold">{s}</span>
                         ))}
                       </div>
                     )}

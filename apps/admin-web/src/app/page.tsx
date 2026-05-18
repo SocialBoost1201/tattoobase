@@ -23,7 +23,7 @@ export default function AdminDashboard() {
           </a>
           <a href="#" className="flex items-center gap-3 px-3 py-2 text-dark-400 hover:text-white hover:bg-dark-800/50 rounded-lg transition-colors flex justify-between">
             <span>KYC Review Queue</span>
-            <span className="bg-red-500/20 text-red-400 text-[10px] font-bold px-2 py-0.5 rounded-full">12</span>
+            <span className="bg-red-500/20 text-red-400 text-xs font-bold px-2 py-0.5 rounded-full">12</span>
           </a>
           <a href="#" className="flex items-center gap-3 px-3 py-2 text-dark-400 hover:text-white hover:bg-dark-800/50 rounded-lg transition-colors">
             Financials & Payouts

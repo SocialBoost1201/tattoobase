@@ -93,7 +93,7 @@ export default function BookingsPage() {
                 </td>
                 <td className="px-6 py-4">{b.type}</td>
                 <td className="px-6 py-4">
-                  <span className={`px-2.5 py-1 text-[10px] font-bold rounded-full border tracking-wider uppercase ${getStatusColor(b.status)}`}>
+                  <span className={`px-2.5 py-1 text-xs font-bold rounded-full border tracking-wider uppercase ${getStatusColor(b.status)}`}>
                     {b.status}
                   </span>
                 </td>

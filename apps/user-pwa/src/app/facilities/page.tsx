@@ -53,7 +53,7 @@ export default async function FacilitiesSearchPage({
         {/* ===== PC 左サイドバー ===== */}
         <aside className="hidden md:block sticky top-24 space-y-4">
           <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-4 space-y-1">
-            <p className="text-[9px] font-extrabold text-neutral-600 uppercase tracking-widest mb-3">カテゴリ</p>
+            <p className="text-xs font-extrabold text-neutral-600 uppercase tracking-widest mb-3">カテゴリ</p>
 
             <Link href={`/facilities?includeBanned=${includeBanned}`}
               className={`flex items-center gap-2 w-full px-3 py-2.5 rounded-xl text-sm font-semibold transition-all ${
@@ -76,7 +76,7 @@ export default async function FacilitiesSearchPage({
 
           {/* オプション：禁止施設トグル */}
           <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-4 space-y-2">
-            <p className="text-[9px] font-extrabold text-neutral-600 uppercase tracking-widest mb-2">表示オプション</p>
+            <p className="text-xs font-extrabold text-neutral-600 uppercase tracking-widest mb-2">表示オプション</p>
             {includeBanned === 'true' ? (
               <Link href={`/facilities?type=${type}&includeBanned=false`}
                 className="flex items-center justify-between w-full px-3 py-2 rounded-xl text-sm font-semibold text-white bg-white/10 transition-all">
@@ -84,7 +84,7 @@ export default async function FacilitiesSearchPage({
                   <span className="w-2 h-2 rounded-full bg-red-500" />
                   禁止施設を含む
                 </span>
-                <span className="text-[10px] text-neutral-400">ON</span>
+                <span className="text-xs text-neutral-400">ON</span>
               </Link>
             ) : (
               <Link href={`/facilities?type=${type}&includeBanned=true`}
@@ -93,7 +93,7 @@ export default async function FacilitiesSearchPage({
                   <span className="w-2 h-2 rounded-full bg-neutral-600" />
                   禁止施設を含む
                 </span>
-                <span className="text-[10px]">OFF</span>
+                <span className="text-xs">OFF</span>
               </Link>
             )}
           </div>
@@ -115,14 +115,14 @@ export default async function FacilitiesSearchPage({
           <section className="md:hidden space-y-3 sticky top-16 bg-black/80 backdrop-blur-xl z-30 pt-2 pb-4 -mx-4 px-4 border-b border-neutral-900">
             <div className="flex overflow-x-auto [&::-webkit-scrollbar]:hidden =[scrollbar-width:none] gap-2 pb-1">
               <a href={`/facilities?includeBanned=${includeBanned}`}
-                className={`px-4 py-2 text-[11px] font-extrabold shrink-0 border transition-all rounded-full uppercase ${
+                className={`px-4 py-2 text-xs font-extrabold shrink-0 border transition-all rounded-full uppercase ${
                   !type ? 'bg-white text-black border-white' : 'bg-transparent text-neutral-400 border-neutral-700 hover:border-neutral-400 hover:text-white'
                 }`}>
                 ALL
               </a>
               {CATEGORIES.map(c => (
                 <a key={c.value} href={`/facilities?type=${c.value}&includeBanned=${includeBanned}`}
-                  className={`px-4 py-2 text-[11px] font-extrabold shrink-0 border transition-all rounded-full ${
+                  className={`px-4 py-2 text-xs font-extrabold shrink-0 border transition-all rounded-full ${
                     type === c.value ? 'bg-white text-black border-white' : 'bg-transparent text-neutral-400 border-neutral-700 hover:border-neutral-400 hover:text-white'
                   }`}>
                   {c.icon} {c.label}
@@ -133,12 +133,12 @@ export default async function FacilitiesSearchPage({
             <div className="flex items-center gap-3">
               {includeBanned === 'true' ? (
                 <a href={`/facilities?type=${type}&includeBanned=false`}
-                  className="px-3 py-1.5 text-[10px] font-bold bg-neutral-900 text-neutral-300 rounded-full border border-neutral-800 flex items-center gap-2">
+                  className="px-3 py-1.5 text-xs font-bold bg-neutral-900 text-neutral-300 rounded-full border border-neutral-800 flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-red-500" /> 禁止施設を隠す
                 </a>
               ) : (
                 <a href={`/facilities?type=${type}&includeBanned=true`}
-                  className="px-3 py-1.5 text-[10px] font-bold bg-transparent text-neutral-500 rounded-full border border-neutral-800 flex items-center gap-2">
+                  className="px-3 py-1.5 text-xs font-bold bg-transparent text-neutral-500 rounded-full border border-neutral-800 flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-neutral-600" /> 禁止施設を含める
                 </a>
               )}
@@ -147,7 +147,7 @@ export default async function FacilitiesSearchPage({
 
           {/* 施設一覧 */}
           <section className="pt-2">
-            <p className="text-neutral-500 text-[10px] uppercase font-bold tracking-widest mb-4">
+            <p className="text-neutral-500 text-xs uppercase font-bold tracking-widest mb-4">
               {facilities.length} listings found
             </p>
             {facilities.length > 0 ? (

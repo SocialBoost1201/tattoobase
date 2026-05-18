@@ -58,7 +58,7 @@ export default function SearchViewToggle({ artists, pref, genre }: Props) {
     <div className="space-y-4">
       {/* リスト/マップ切り替えバー */}
       <div className="flex items-center justify-between">
-        <p className="text-neutral-500 text-[10px] uppercase font-bold tracking-widest">
+        <p className="text-neutral-500 text-xs uppercase font-bold tracking-widest">
           {artists.length} artists found
           {pref && <span className="ml-2 text-neutral-600">({pref})</span>}
         </p>
@@ -98,7 +98,7 @@ export default function SearchViewToggle({ artists, pref, genre }: Props) {
       {view === 'map' && (
         <div className="space-y-3">
           <ArtistMap artists={pins} center={mapCenter} height="65vh" />
-          <p className="text-neutral-600 text-[10px] text-center">
+          <p className="text-neutral-600 text-xs text-center">
             ピンをタップするとアーティスト情報が表示されます
           </p>
         </div>
