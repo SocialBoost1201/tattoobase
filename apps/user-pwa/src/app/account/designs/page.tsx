@@ -69,7 +69,7 @@ export default async function AccountDesignsPage() {
       <div className="space-y-4">
         {designs.map((d: any) => {
           const cfg = STATUS_CONFIG[d.status] ?? STATUS_CONFIG.IN_PROGRESS;
-          const StatusIcon = cfg.icon;
+          const StatusIcon = cfg.icon as React.ComponentType<{ className?: string }>;
 
           return (
             <Link

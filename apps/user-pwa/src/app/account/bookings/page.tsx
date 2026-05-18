@@ -89,7 +89,7 @@ export default async function AccountBookingsPage() {
       <div className="space-y-3">
         {bookings.map((b: any) => {
           const cfg = STATUS_CONFIG[b.status] ?? STATUS_CONFIG.Completed;
-          const StatusIcon = cfg.icon;
+          const StatusIcon = cfg.icon as React.ComponentType<{ className?: string }>;
 
           return (
             <Link

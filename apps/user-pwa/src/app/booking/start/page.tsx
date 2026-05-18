@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { UserApiClient } from '@/lib/user-api-client';
@@ -15,7 +15,7 @@ import { CheckoutForm } from '@/components/booking/CheckoutForm';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || 'pk_test_mock');
 
-export default function BookingWizardPage() {
+function BookingWizardInner() {
   const searchParams = useSearchParams();
   const artistId = searchParams.get('artistId') || '';
 
@@ -391,5 +391,13 @@ export default function BookingWizardPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function BookingWizardPage() {
+  return (
+    <Suspense fallback={<div className="max-w-xl mx-auto pb-24 min-h-screen" />}>
+      <BookingWizardInner />
+    </Suspense>
   );
 }
