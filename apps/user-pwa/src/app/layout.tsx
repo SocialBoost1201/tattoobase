@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
@@ -38,6 +38,14 @@ export const metadata: Metadata = {
     statusBarStyle: "black-translucent",
     title: "TattooBase",
   },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#000000",
+  interactiveWidget: "resizes-content",
 };
 
 

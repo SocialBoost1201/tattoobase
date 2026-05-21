@@ -58,15 +58,15 @@ export default function ArtistDetailClient({ artist, works }: { artist: any; wor
     <div ref={containerRef} className="pb-32 md:pb-8">
       {/* 戻るボタン */}
       <div className="absolute top-4 left-4 z-40 flex gap-2">
-        <Link href="/search" className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-md flex items-center justify-center text-white border border-white/10 hover:bg-black/70 transition-colors">
+        <Link href="/search" aria-label="検索に戻る" className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-md flex items-center justify-center text-white border border-white/10 hover:bg-black/70 transition-colors">
           <ChevronLeft className="w-6 h-6" />
         </Link>
       </div>
       <div className="absolute top-4 right-4 z-40 flex gap-2">
-        <button onClick={() => setSaved(v => !v)} className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-md flex items-center justify-center text-white border border-white/10 hover:bg-black/70 transition-colors">
+        <button onClick={() => setSaved(v => !v)} aria-label={saved ? '保存を解除' : '保存する'} aria-pressed={saved} className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-md flex items-center justify-center text-white border border-white/10 hover:bg-black/70 transition-colors">
           <Bookmark className={`w-5 h-5 ${saved ? 'fill-white' : ''}`} />
         </button>
-        <button className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-md flex items-center justify-center text-white border border-white/10 hover:bg-black/70 transition-colors">
+        <button aria-label="共有" className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-md flex items-center justify-center text-white border border-white/10 hover:bg-black/70 transition-colors">
           <Share2 className="w-5 h-5" />
         </button>
       </div>
@@ -263,7 +263,7 @@ export default function ArtistDetailClient({ artist, works }: { artist: any; wor
       {/* フローティング予約ボタン（モバイルのみ） */}
       <div className="md:hidden fixed bottom-[calc(env(safe-area-inset-bottom)+64px)] left-0 right-0 p-4 bg-linear-to-t from-black via-black/80 to-transparent pointer-events-none z-30 flex justify-center">
         <div className="w-full max-w-xl mx-auto pointer-events-auto flex gap-3">
-          <button className="w-12 h-12 bg-neutral-900 border border-neutral-700 rounded-full flex items-center justify-center text-white hover:bg-neutral-800 transition-colors shrink-0">
+          <button aria-label="共有" className="w-12 h-12 bg-neutral-900 border border-neutral-700 rounded-full flex items-center justify-center text-white hover:bg-neutral-800 transition-colors shrink-0">
             <Share2 className="w-5 h-5" />
           </button>
           <Link href={`/booking/start?artistId=${artist.id}`}
@@ -278,6 +278,7 @@ export default function ArtistDetailClient({ artist, works }: { artist: any; wor
       {selectedWorkIndex !== null && (
         <div className="fixed inset-0 z-50 bg-black/95 flex flex-col items-center justify-center backdrop-blur-xl">
           <button onClick={() => setSelectedWorkIndex(null)}
+            aria-label="閉じる"
             className="absolute top-6 right-6 w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors z-60">
             <X className="w-6 h-6" />
           </button>
@@ -288,6 +289,7 @@ export default function ArtistDetailClient({ artist, works }: { artist: any; wor
           </div>
           <div className="absolute bottom-12 left-0 right-0 flex justify-center items-center gap-12 z-60">
             <button onClick={() => setSelectedWorkIndex(prev => prev! > 0 ? prev! - 1 : works.length - 1)}
+              aria-label="前の作品"
               className="p-3 font-bold text-white/50 hover:text-white transition-colors bg-white/5 rounded-full">
               <ChevronLeft className="w-6 h-6" />
             </button>
@@ -295,6 +297,7 @@ export default function ArtistDetailClient({ artist, works }: { artist: any; wor
               {selectedWorkIndex + 1} / {works.length}
             </span>
             <button onClick={() => setSelectedWorkIndex(prev => prev! < works.length - 1 ? prev! + 1 : 0)}
+              aria-label="次の作品"
               className="p-3 font-bold text-white/50 hover:text-white transition-colors bg-white/5 rounded-full">
               <ChevronLeft className="w-6 h-6 rotate-180" />
             </button>

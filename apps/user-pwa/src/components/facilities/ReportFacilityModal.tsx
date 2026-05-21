@@ -69,7 +69,7 @@ export default function ReportFacilityModal({ facilityId, facilityName, isOpen, 
               <select 
                 value={level} 
                 onChange={(e) => setLevel(e.target.value)}
-                className="w-full border p-2 rounded focus:ring-2 focus:ring-amber-500"
+                className="w-full border p-2 rounded focus:ring-2 focus:ring-amber-500 text-base md:text-sm"
                 required
               >
                 <option value="UNKNOWN">-- 選択してください --</option>
@@ -87,7 +87,7 @@ export default function ReportFacilityModal({ facilityId, facilityName, isOpen, 
                 onChange={(e) => setEvidenceText(e.target.value)}
                 rows={3}
                 placeholder="例：入口に「タトゥーお断り」と書いてあり、受付でも確認されました。 / シールで隠せばOKとのことでした。"
-                className="w-full border p-2 rounded focus:ring-2 focus:ring-amber-500"
+                className="w-full border p-2 rounded focus:ring-2 focus:ring-amber-500 text-base md:text-sm"
                 required
               />
             </div>
@@ -99,7 +99,7 @@ export default function ReportFacilityModal({ facilityId, facilityName, isOpen, 
                 value={evidenceUrl}
                 onChange={(e) => setEvidenceUrl(e.target.value)}
                 placeholder="https://example.com/faq"
-                className="w-full border p-2 rounded focus:ring-2 focus:ring-amber-500"
+                className="w-full border p-2 rounded focus:ring-2 focus:ring-amber-500 text-base md:text-sm"
               />
             </div>
 

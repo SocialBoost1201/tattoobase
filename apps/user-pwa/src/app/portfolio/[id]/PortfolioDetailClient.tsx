@@ -45,7 +45,7 @@ export default function PortfolioDetailClient({ portfolio }: { portfolio: Portfo
       
       {/* モバイルヘッダー */}
       <header className="md:hidden fixed top-0 left-0 right-0 h-14 bg-black/50 backdrop-blur-xl z-40 border-b border-white/10 flex items-center justify-between px-4">
-        <button onClick={() => window.history.back()} className="w-10 h-10 -ml-2 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors">
+        <button onClick={() => window.history.back()} aria-label="戻る" className="w-10 h-10 -ml-2 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors">
           <ChevronLeft className="w-6 h-6 text-white" />
         </button>
         <span className="font-heading font-extrabold text-sm tracking-widest text-white/50">WORK DETAILS</span>
@@ -78,7 +78,7 @@ export default function PortfolioDetailClient({ portfolio }: { portfolio: Portfo
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
-              <button className="absolute bottom-4 right-4 w-10 h-10 bg-black/50 backdrop-blur-md rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+              <button aria-label="全画面表示" className="absolute bottom-4 right-4 w-10 h-10 bg-black/50 backdrop-blur-md rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                 <Maximize2 className="w-4 h-4 text-white" />
               </button>
             </div>
@@ -111,7 +111,7 @@ export default function PortfolioDetailClient({ portfolio }: { portfolio: Portfo
                   </span>
                 )}
                 <div className="flex items-center gap-2">
-                  <button className="w-10 h-10 flex items-center justify-center rounded-full bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-500 transition-colors">
+                  <button aria-label="共有" className="w-10 h-10 flex items-center justify-center rounded-full bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-500 transition-colors">
                     <Share2 className="w-4 h-4" />
                   </button>
                   <SaveButton artistId={portfolio.id} size="md" className="w-10 h-10 border-neutral-800 bg-neutral-900" />
@@ -200,7 +200,7 @@ export default function PortfolioDetailClient({ portfolio }: { portfolio: Portfo
       {/* ライトボックス */}
       {isLightboxOpen && (
         <div className="fixed inset-0 z-100 bg-black/95 flex items-center justify-center backdrop-blur-xl">
-          <button onClick={() => setIsLightboxOpen(false)} className="absolute top-6 right-6 w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors z-50">
+          <button onClick={() => setIsLightboxOpen(false)} aria-label="閉じる" className="absolute top-6 right-6 w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors z-50">
             <X className="w-6 h-6" />
           </button>
           <div className="relative w-full h-[80vh] max-w-5xl px-4">
@@ -214,8 +214,9 @@ export default function PortfolioDetailClient({ portfolio }: { portfolio: Portfo
           </div>
           {portfolio.mediaUrls?.length > 1 && (
             <div className="absolute bottom-12 left-0 right-0 flex justify-center items-center gap-8">
-              <button 
+              <button
                 onClick={() => setCurrentImageIndex(p => p > 0 ? p - 1 : portfolio.mediaUrls.length - 1)}
+                aria-label="前の画像"
                 className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20"
               >
                 <ChevronLeft className="w-6 h-6" />
@@ -223,8 +224,9 @@ export default function PortfolioDetailClient({ portfolio }: { portfolio: Portfo
               <span className="text-white/50 font-heading font-bold text-sm tracking-widest">
                 {currentImageIndex + 1} / {portfolio.mediaUrls.length}
               </span>
-              <button 
+              <button
                 onClick={() => setCurrentImageIndex(p => p < portfolio.mediaUrls.length - 1 ? p + 1 : 0)}
+                aria-label="次の画像"
                 className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20"
               >
                 <ChevronLeft className="w-6 h-6 rotate-180" />

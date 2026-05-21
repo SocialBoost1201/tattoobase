@@ -59,7 +59,7 @@ export default function SearchBar({ defaultValue = '' }: { defaultValue?: string
             onChange={e => { setValue(e.target.value); setOpen(true); }}
             onFocus={() => setOpen(true)}
             placeholder="アーティスト・スタイルを検索..."
-            className="flex-1 bg-transparent text-sm text-white placeholder:text-neutral-500 outline-none"
+            className="flex-1 bg-transparent text-base md:text-sm text-white placeholder:text-neutral-500 outline-none"
           />
           {value && (
             <button type="button" onClick={handleClear}

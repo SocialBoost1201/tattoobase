@@ -163,19 +163,19 @@ function BookingWizardInner() {
               <div className="space-y-2">
                 <label className="text-xs font-extrabold text-neutral-400 uppercase tracking-widest block">希望日</label>
                 <input type="date" value={date} onChange={e => setDate(e.target.value)}
-                  className="w-full bg-black border border-neutral-800 focus:border-white/50 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors appearance-none" required />
+                  className="w-full bg-black border border-neutral-800 focus:border-white/50 rounded-xl px-4 py-3 text-white text-base md:text-sm outline-none transition-colors appearance-none" required />
               </div>
 
               <div className="space-y-2">
                 <label className="text-xs font-extrabold text-neutral-400 uppercase tracking-widest block">希望時間 (目安)</label>
                 <input type="time" value={time} onChange={e => setTime(e.target.value)}
-                  className="w-full bg-black border border-neutral-800 focus:border-white/50 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors appearance-none" required />
+                  className="w-full bg-black border border-neutral-800 focus:border-white/50 rounded-xl px-4 py-3 text-white text-base md:text-sm outline-none transition-colors appearance-none" required />
               </div>
 
               <div className="space-y-2">
                 <label className="text-xs font-extrabold text-neutral-400 uppercase tracking-widest block">希望部位</label>
                 <select value={bodyPart} onChange={e => setBodyPart(e.target.value)}
-                  className="w-full bg-black border border-neutral-800 focus:border-white/50 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors appearance-none">
+                  className="w-full bg-black border border-neutral-800 focus:border-white/50 rounded-xl px-4 py-3 text-white text-base md:text-sm outline-none transition-colors appearance-none">
                   <option value="">選択してください</option>
                   {['腕（内側）', '腕（外側）', '前腕', '上腕', '肩', '背中', '胸', '脇腹', '太もも', '足首', '手・指', 'その他'].map(p => (
                     <option key={p} value={p}>{p}</option>
@@ -199,14 +199,14 @@ function BookingWizardInner() {
                 <label className="text-xs font-extrabold text-neutral-400 uppercase tracking-widest block">タトゥーのイメージ・ご要望</label>
                 <textarea value={notes} onChange={e => setNotes(e.target.value)}
                   placeholder="デザインのイメージ、参考にしたいモチーフ、スタイルなどを記入してください。"
-                  rows={3} className="w-full bg-black border border-neutral-800 focus:border-white/50 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors resize-none" />
+                  rows={3} className="w-full bg-black border border-neutral-800 focus:border-white/50 rounded-xl px-4 py-3 text-white text-base md:text-sm outline-none transition-colors resize-none" />
               </div>
 
               <div className="space-y-2">
                 <label className="text-xs font-extrabold text-neutral-400 uppercase tracking-widest block">アレルギー・健康上の注意</label>
                 <input type="text" value={healthNotes} onChange={e => setHealthNotes(e.target.value)}
                   placeholder="特になし / ラテックスアレルギーあり 等"
-                  className="w-full bg-black border border-neutral-800 focus:border-white/50 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors" />
+                  className="w-full bg-black border border-neutral-800 focus:border-white/50 rounded-xl px-4 py-3 text-white text-base md:text-sm outline-none transition-colors" />
               </div>
             </div>
 
@@ -249,7 +249,7 @@ function BookingWizardInner() {
                    value={name}
                    onChange={e => setName(e.target.value)}
                    placeholder="山田 太郎"
-                   className="w-full bg-black border border-neutral-800 focus:border-brand-400 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors"
+                   className="w-full bg-black border border-neutral-800 focus:border-brand-400 rounded-xl px-4 py-3 text-white text-base md:text-sm outline-none transition-colors"
                    required
                  />
                </div>
@@ -261,7 +261,7 @@ function BookingWizardInner() {
                    value={email}
                    onChange={e => setEmail(e.target.value)}
                    placeholder="tattoo@example.com"
-                   className="w-full bg-black border border-neutral-800 focus:border-brand-400 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors"
+                   className="w-full bg-black border border-neutral-800 focus:border-brand-400 rounded-xl px-4 py-3 text-white text-base md:text-sm outline-none transition-colors"
                    required
                  />
                  <p className="text-[#6b6b6b] text-xs mt-1">スタジオからの連絡や予約完了メールが届きます</p>
@@ -274,7 +274,7 @@ function BookingWizardInner() {
                    value={phone}
                    onChange={e => setPhone(e.target.value)}
                    placeholder="090-1234-5678"
-                   className="w-full bg-black border border-neutral-800 focus:border-brand-400 rounded-xl px-4 py-3 text-white text-sm outline-none transition-colors"
+                   className="w-full bg-black border border-neutral-800 focus:border-brand-400 rounded-xl px-4 py-3 text-white text-base md:text-sm outline-none transition-colors"
                  />
                </div>
             </div>

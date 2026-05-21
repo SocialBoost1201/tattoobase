@@ -135,6 +135,23 @@
   .animate-slide-up {
     animation: slideUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
+
+  /* Mobile UX Audit P0-1: Safe area bottom padding for fixed BottomNav etc. */
+  .safe-area-pb {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Mobile UX Audit P1-2: Respect prefers-reduced-motion (WCAG 2.3.3) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 @keyframes fadeIn {
