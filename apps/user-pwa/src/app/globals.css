@@ -60,6 +60,27 @@
     --input: #1c1c1e;
     --ring: #f5f5f7;
     --radius: 0.375rem;
+
+    /* Mobile UX Audit P2-2: Sticky offsets (固定ヘッダ高さの集約) */
+    --header-h-mobile: 88px;   /* モバイル: ロゴ行 + 検索バー行 */
+    --header-h-desktop: 100px; /* PC: メインナビ + サブナビ */
+
+    /* Mobile UX Audit P2-1: z-index tokens
+     * 運用ルール: 新規/改修コードは z-[var(--z-*)] を使用すること。
+     * 既存の z-50 等は段階的に移行（全置換は中リスク独立タスク）。
+     * スタッキング順（小→大）: content < sticky < nav < fab < overlay
+     *   < modal < lightbox < toast < splash
+     */
+    --z-base: 0;
+    --z-content: 10;
+    --z-sticky: 30;
+    --z-nav: 40;
+    --z-fab: 45;
+    --z-overlay: 50;
+    --z-modal: 60;
+    --z-lightbox: 70;
+    --z-toast: 80;
+    --z-splash: 90;
   }
 }
 

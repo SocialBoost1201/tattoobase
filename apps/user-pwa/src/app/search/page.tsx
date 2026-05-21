@@ -185,7 +185,7 @@ export default async function SearchPage({
           </div>
 
           {/* ===== モバイル専用: スティッキーチップフィルター ===== */}
-          <section className="md:hidden space-y-3 sticky top-[88px] bg-black/90 backdrop-blur-xl z-30 pt-2 pb-4 -mx-4 px-4 border-b border-neutral-900">
+          <section className="md:hidden space-y-3 sticky top-[var(--header-h-mobile)] bg-black/90 backdrop-blur-xl z-30 pt-2 pb-4 -mx-4 px-4 border-b border-neutral-900">
             <div className="flex items-center justify-between gap-4">
               <div className="flex gap-6">
                 <Link href={`/search?type=artist${genre ? `&genre=${encodeURIComponent(genre)}` : ''}${pref ? `&pref=${encodeURIComponent(pref)}` : ''}`}
