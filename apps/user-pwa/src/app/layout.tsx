@@ -53,6 +53,7 @@ import SmoothScroller from "@/components/layout/SmoothScroller";
 import AIStyleAssistant from "@/components/ui/AIStyleAssistant";
 import SeoFooter from "@/components/layout/SeoFooter";
 import AddToHomeScreen from "@/components/ui/AddToHomeScreen";
+import OfflineBanner from "@/components/ui/OfflineBanner";
 
 // (中略)
 
@@ -63,6 +64,7 @@ export default function RootLayout({
     <html lang="ja">
       <body className={`${inter.variable} ${poppins.variable} bg-black text-white`}>
         <SmoothScroller>
+          <OfflineBanner />
           <Header />
           {/* モバイル: max-w-xl / PC: max-w-7xl */}
           <main className="mx-auto px-4 pt-6 pb-24 min-h-screen
