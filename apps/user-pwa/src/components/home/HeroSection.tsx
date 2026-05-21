@@ -12,14 +12,23 @@ export default function HeroSection() {
   const [searchQuery, setSearchQuery] = useState('');
 
   useGSAP(() => {
-    // ヒーローテキストと検索バーの出現アニメーション
-    gsap.from('.hero-elem', {
-      y: 30,
-      opacity: 0,
-      duration: 1.2,
-      stagger: 0.15,
-      ease: 'power3.out',
-      delay: 0.2
+    const mm = gsap.matchMedia();
+
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      // ヒーローテキストと検索バーの出現アニメーション
+      gsap.from('.hero-elem', {
+        y: 30,
+        opacity: 0,
+        duration: 1.2,
+        stagger: 0.15,
+        ease: 'power3.out',
+        delay: 0.2
+      });
+    });
+
+    // Mobile UX Audit P1-2: モーション抑制時は最終状態へ即固定
+    mm.add('(prefers-reduced-motion: reduce)', () => {
+      gsap.set('.hero-elem', { opacity: 1, y: 0 });
     });
   }, { scope: container });
 

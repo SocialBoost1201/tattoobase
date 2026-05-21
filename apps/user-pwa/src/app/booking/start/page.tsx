@@ -55,12 +55,18 @@ function BookingWizardInner() {
 
   // ステップ切り替え時のアニメーション
   useGSAP(() => {
-    if (wizardRef.current) {
-      gsap.fromTo(wizardRef.current, 
-        { opacity: 0, x: 20 }, 
+    if (!wizardRef.current) return;
+    const mm = gsap.matchMedia();
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      gsap.fromTo(wizardRef.current,
+        { opacity: 0, x: 20 },
         { opacity: 1, x: 0, duration: 0.4, ease: 'power2.out' }
       );
-    }
+    });
+    // Mobile UX Audit P1-2: モーション抑制時は最終状態へ即固定
+    mm.add('(prefers-reduced-motion: reduce)', () => {
+      gsap.set(wizardRef.current, { opacity: 1, x: 0 });
+    });
   }, { dependencies: [step], scope: containerRef });
 
   const nextStep = () => {

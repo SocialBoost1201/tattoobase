@@ -10,28 +10,37 @@ export default function SplashScreen({ onComplete }: { onComplete: () => void })
   const [isVisible, setIsVisible] = useState(true);
 
   useGSAP(() => {
-    const tl = gsap.timeline({
-      onComplete: () => {
-        setIsVisible(false);
-        onComplete();
-      }
+    const mm = gsap.matchMedia();
+
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      const tl = gsap.timeline({
+        onComplete: () => {
+          setIsVisible(false);
+          onComplete();
+        }
+      });
+
+      // 少し待ってからロゴをフェードイン
+      tl.to('.splash-logo', {
+        opacity: 1,
+        duration: 0.8,
+        ease: 'power2.out',
+        delay: 0.2
+      })
+      // 1.5秒ほど表示してから背景ごとフェードアウト
+      .to(container.current, {
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power2.inOut',
+        delay: 1.2
+      });
     });
 
-    // 少し待ってからロゴをフェードイン
-    tl.to('.splash-logo', {
-      opacity: 1,
-      duration: 0.8,
-      ease: 'power2.out',
-      delay: 0.2
-    })
-    // 1.5秒ほど表示してから背景ごとフェードアウト
-    .to(container.current, {
-      opacity: 0,
-      duration: 0.8,
-      ease: 'power2.inOut',
-      delay: 1.2
+    // Mobile UX Audit P1-2: モーション抑制時はスプラッシュをスキップして即完了
+    mm.add('(prefers-reduced-motion: reduce)', () => {
+      setIsVisible(false);
+      onComplete();
     });
-
   }, { scope: container });
 
   if (!isVisible) return null;

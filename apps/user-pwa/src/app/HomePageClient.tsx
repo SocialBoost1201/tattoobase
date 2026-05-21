@@ -27,12 +27,21 @@ export default function HomePageClient({ artists, portfolios }: { artists: any[]
 
   useGSAP(() => {
     if (!isSplashDone) return;
-    const fadeElems = gsap.utils.toArray('.fade-in-section');
-    fadeElems.forEach((elem: any) => {
-      gsap.from(elem, {
-        scrollTrigger: { trigger: elem, start: 'top 85%', toggleActions: 'play none none reverse' },
-        y: 40, opacity: 0, duration: 0.8, ease: 'power3.out'
+    const mm = gsap.matchMedia();
+
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      const fadeElems = gsap.utils.toArray('.fade-in-section');
+      fadeElems.forEach((elem: any) => {
+        gsap.from(elem, {
+          scrollTrigger: { trigger: elem, start: 'top 85%', toggleActions: 'play none none reverse' },
+          y: 40, opacity: 0, duration: 0.8, ease: 'power3.out'
+        });
       });
+    });
+
+    // Mobile UX Audit P1-2: モーション抑制時は opacity-0 を打ち消して即可視化
+    mm.add('(prefers-reduced-motion: reduce)', () => {
+      gsap.set('.fade-in-section', { opacity: 1, y: 0 });
     });
   }, { scope: container, dependencies: [isSplashDone] });
 

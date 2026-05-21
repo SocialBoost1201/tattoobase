@@ -44,8 +44,15 @@ export default function ArtistDetailClient({ artist, works }: { artist: any; wor
   }, [artist.id]);
 
   useGSAP(() => {
-    gsap.from('.stagger-fade', {
-      y: 20, opacity: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out',
+    const mm = gsap.matchMedia();
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      gsap.from('.stagger-fade', {
+        y: 20, opacity: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out',
+      });
+    });
+    // Mobile UX Audit P1-2: モーション抑制時は即可視化
+    mm.add('(prefers-reduced-motion: reduce)', () => {
+      gsap.set('.stagger-fade', { opacity: 1, y: 0 });
     });
   }, { scope: containerRef });
 
