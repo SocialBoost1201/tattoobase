@@ -54,6 +54,7 @@ import AIStyleAssistant from "@/components/ui/AIStyleAssistant";
 import SeoFooter from "@/components/layout/SeoFooter";
 import AddToHomeScreen from "@/components/ui/AddToHomeScreen";
 import OfflineBanner from "@/components/ui/OfflineBanner";
+import { SerwistProvider } from "@serwist/next/react";
 
 // (中略)
 
@@ -63,6 +64,7 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body className={`${inter.variable} ${poppins.variable} bg-black text-white`}>
+        <SerwistProvider swUrl="/sw.js" />
         <SmoothScroller>
           <OfflineBanner />
           <Header />

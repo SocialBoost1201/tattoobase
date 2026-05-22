@@ -53,6 +53,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000'}/user-api/artists`, {
       next: { revalidate: 3600 },
+      signal: AbortSignal.timeout(5000), // ビルド時に API 未起動でも 5 秒でフォールバック
     });
     if (res.ok) {
       const artists: { id: string; updatedAt?: string }[] = await res.json();

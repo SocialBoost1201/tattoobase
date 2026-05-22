@@ -4,18 +4,28 @@ import { ReactLenis } from '@studio-freight/react-lenis';
 import { useEffect, useState } from 'react';
 
 export default function SmoothScroller({ children }: { children: React.ReactNode }) {
-    const [reduced, setReduced] = useState(false);
+    const [useLenis, setUseLenis] = useState(false);
 
-    // Mobile UX Audit P1-2/P1-3: reduce-motion 時は Lenis を使わずネイティブスクロール
     useEffect(() => {
-        const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-        setReduced(mq.matches);
-        const onChange = (e: MediaQueryListEvent) => setReduced(e.matches);
-        mq.addEventListener('change', onChange);
-        return () => mq.removeEventListener('change', onChange);
+        // Mobile UX Audit #12: モバイル (<768px) は常にネイティブスクロール
+        // Mobile UX Audit P1-2/P1-3: prefers-reduced-motion: reduce 時も無効
+        const isMobile = window.matchMedia('(max-width: 767px)');
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+        const evaluate = () => {
+            setUseLenis(!isMobile.matches && !reducedMotion.matches);
+        };
+
+        evaluate();
+        isMobile.addEventListener('change', evaluate);
+        reducedMotion.addEventListener('change', evaluate);
+        return () => {
+            isMobile.removeEventListener('change', evaluate);
+            reducedMotion.removeEventListener('change', evaluate);
+        };
     }, []);
 
-    if (reduced) {
+    if (!useLenis) {
         return <>{children}</>;
     }
 

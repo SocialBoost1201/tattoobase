@@ -24,17 +24,18 @@ const fetchArtistsByPrefecture = async (prefectureName: string) => {
 }
 
 type Props = {
-  params: {
+  params: Promise<{
     prefecture: string;
-  };
+  }>;
 };
 
-export async function generateStaticParams() {
-  return PREFECTURES.map(p => ({ prefecture: p.id }));
-}
+// Header が auth() → headers() を使うため静的プリレンダリング不可。
+// ISR (revalidate: 3600) でオンデマンドレンダリング + キャッシュを使用。
+export const revalidate = 3600;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const pref = getPrefectureById(params.prefecture);
+  const { prefecture } = await params;
+  const pref = getPrefectureById(prefecture);
   if (!pref) return { title: 'Not Found' };
 
   const title = `${pref.name}のタトゥースタジオ・彫り師一覧 | TattooBase`;
@@ -51,7 +52,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function PrefectureAreaPage({ params }: Props) {
-  const pref = getPrefectureById(params.prefecture);
+  const { prefecture } = await params;
+  const pref = getPrefectureById(prefecture);
   if (!pref) {
     notFound();
   }
