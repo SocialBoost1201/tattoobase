@@ -8,6 +8,7 @@ import { useGSAP } from '@gsap/react';
 import { ChevronLeft, MapPin, Star, CalendarHeart, X, Bookmark, Share2, BadgeCheck, Zap, Clock, Languages, Instagram } from 'lucide-react';
 import { recordArtistView } from '@/components/home/RecentlyViewedArtists';
 import ReviewSection from '@/components/artist/ReviewSection';
+import Modal from '@/components/ui/Modal';
 
 // キャンセルポリシー
 const CANCEL_POLICY = [
@@ -56,10 +57,7 @@ export default function ArtistDetailClient({ artist, works }: { artist: any; wor
     });
   }, { scope: containerRef });
 
-  useEffect(() => {
-    document.body.style.overflow = selectedWorkIndex !== null ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [selectedWorkIndex]);
+  // スクロールロックは Modal コンポーネントが担うため手動管理不要
 
   return (
     <div ref={containerRef} className="pb-32 md:pb-8">
@@ -282,35 +280,44 @@ export default function ArtistDetailClient({ artist, works }: { artist: any; wor
       </div>
 
       {/* Lightbox */}
-      {selectedWorkIndex !== null && (
-        <div className="fixed inset-0 z-50 bg-black/95 flex flex-col items-center justify-center backdrop-blur-xl">
-          <button onClick={() => setSelectedWorkIndex(null)}
-            aria-label="閉じる"
-            className="absolute top-6 right-6 w-11 h-11 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors z-60">
-            <X className="w-6 h-6" />
-          </button>
-          <div className="relative w-full max-w-2xl flex-1 flex items-center justify-center px-4 py-20">
-            {works[selectedWorkIndex].mediaUrls?.[0] && (
-              <Image src={works[selectedWorkIndex].mediaUrls[0]} alt="Selected Work" fill className="object-contain" sizes="100vw" priority />
-            )}
-          </div>
-          <div className="absolute bottom-12 left-0 right-0 flex justify-center items-center gap-12 z-60">
-            <button onClick={() => setSelectedWorkIndex(prev => prev! > 0 ? prev! - 1 : works.length - 1)}
-              aria-label="前の作品"
-              className="p-3 font-bold text-white/50 hover:text-white transition-colors bg-white/5 rounded-full">
-              <ChevronLeft className="w-6 h-6" />
-            </button>
-            <span className="text-white/50 text-xs font-bold tracking-widest font-heading">
-              {selectedWorkIndex + 1} / {works.length}
-            </span>
-            <button onClick={() => setSelectedWorkIndex(prev => prev! < works.length - 1 ? prev! + 1 : 0)}
-              aria-label="次の作品"
-              className="p-3 font-bold text-white/50 hover:text-white transition-colors bg-white/5 rounded-full">
-              <ChevronLeft className="w-6 h-6 rotate-180" />
-            </button>
-          </div>
-        </div>
-      )}
+      <Modal
+        isOpen={selectedWorkIndex !== null}
+        onClose={() => setSelectedWorkIndex(null)}
+        ariaLabel="作品ライトボックス"
+        overlayClassName=""
+        contentClassName="fixed inset-0 z-50 bg-black/95 flex flex-col items-center justify-center backdrop-blur-xl outline-none"
+        closeOnBackdrop={false}
+      >
+        <button onClick={() => setSelectedWorkIndex(null)}
+          aria-label="閉じる"
+          className="absolute top-6 right-6 w-11 h-11 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors z-60">
+          <X className="w-6 h-6" />
+        </button>
+        {selectedWorkIndex !== null && (
+          <>
+            <div className="relative w-full max-w-2xl flex-1 flex items-center justify-center px-4 py-20">
+              {works[selectedWorkIndex].mediaUrls?.[0] && (
+                <Image src={works[selectedWorkIndex].mediaUrls[0]} alt="Selected Work" fill className="object-contain" sizes="100vw" priority />
+              )}
+            </div>
+            <div className="absolute bottom-12 left-0 right-0 flex justify-center items-center gap-12 z-60">
+              <button onClick={() => setSelectedWorkIndex(prev => prev! > 0 ? prev! - 1 : works.length - 1)}
+                aria-label="前の作品"
+                className="p-3 font-bold text-white/50 hover:text-white transition-colors bg-white/5 rounded-full">
+                <ChevronLeft className="w-6 h-6" />
+              </button>
+              <span className="text-white/50 text-xs font-bold tracking-widest font-heading">
+                {selectedWorkIndex + 1} / {works.length}
+              </span>
+              <button onClick={() => setSelectedWorkIndex(prev => prev! < works.length - 1 ? prev! + 1 : 0)}
+                aria-label="次の作品"
+                className="p-3 font-bold text-white/50 hover:text-white transition-colors bg-white/5 rounded-full">
+                <ChevronLeft className="w-6 h-6 rotate-180" />
+              </button>
+            </div>
+          </>
+        )}
+      </Modal>
     </div>
   );
 }

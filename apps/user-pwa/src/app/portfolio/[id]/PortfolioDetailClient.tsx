@@ -7,6 +7,7 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ChevronLeft, Share2, MapPin, CalendarHeart, Maximize2, X } from 'lucide-react';
 import SaveButton from '@/components/ui/SaveButton';
+import Modal from '@/components/ui/Modal';
 
 type Portfolio = {
   id: string;
@@ -205,43 +206,48 @@ export default function PortfolioDetailClient({ portfolio }: { portfolio: Portfo
       </div>
 
       {/* ライトボックス */}
-      {isLightboxOpen && (
-        <div className="fixed inset-0 z-100 bg-black/95 flex items-center justify-center backdrop-blur-xl">
-          <button onClick={() => setIsLightboxOpen(false)} aria-label="閉じる" className="absolute top-6 right-6 w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors z-50">
-            <X className="w-6 h-6" />
-          </button>
-          <div className="relative w-full h-[80vh] max-w-5xl px-4">
-            <Image 
-              src={portfolio.mediaUrls?.[currentImageIndex] || mainImage}
-              alt="fullscreen view"
-              fill
-              className="object-contain"
-              sizes="100vw"
-            />
-          </div>
-          {portfolio.mediaUrls?.length > 1 && (
-            <div className="absolute bottom-12 left-0 right-0 flex justify-center items-center gap-8">
-              <button
-                onClick={() => setCurrentImageIndex(p => p > 0 ? p - 1 : portfolio.mediaUrls.length - 1)}
-                aria-label="前の画像"
-                className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20"
-              >
-                <ChevronLeft className="w-6 h-6" />
-              </button>
-              <span className="text-white/50 font-heading font-bold text-sm tracking-widest">
-                {currentImageIndex + 1} / {portfolio.mediaUrls.length}
-              </span>
-              <button
-                onClick={() => setCurrentImageIndex(p => p < portfolio.mediaUrls.length - 1 ? p + 1 : 0)}
-                aria-label="次の画像"
-                className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20"
-              >
-                <ChevronLeft className="w-6 h-6 rotate-180" />
-              </button>
-            </div>
-          )}
+      <Modal
+        isOpen={isLightboxOpen}
+        onClose={() => setIsLightboxOpen(false)}
+        ariaLabel="全画面ライトボックス"
+        overlayClassName=""
+        contentClassName="fixed inset-0 z-50 bg-black/95 flex items-center justify-center backdrop-blur-xl outline-none"
+        closeOnBackdrop={false}
+      >
+        <button onClick={() => setIsLightboxOpen(false)} aria-label="閉じる" className="absolute top-6 right-6 w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors z-50">
+          <X className="w-6 h-6" />
+        </button>
+        <div className="relative w-full h-[80vh] max-w-5xl px-4">
+          <Image
+            src={portfolio.mediaUrls?.[currentImageIndex] || mainImage}
+            alt="全画面表示"
+            fill
+            className="object-contain"
+            sizes="100vw"
+          />
         </div>
-      )}
+        {portfolio.mediaUrls?.length > 1 && (
+          <div className="absolute bottom-12 left-0 right-0 flex justify-center items-center gap-8">
+            <button
+              onClick={() => setCurrentImageIndex(p => p > 0 ? p - 1 : portfolio.mediaUrls.length - 1)}
+              aria-label="前の画像"
+              className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+            <span className="text-white/50 font-heading font-bold text-sm tracking-widest">
+              {currentImageIndex + 1} / {portfolio.mediaUrls.length}
+            </span>
+            <button
+              onClick={() => setCurrentImageIndex(p => p < portfolio.mediaUrls.length - 1 ? p + 1 : 0)}
+              aria-label="次の画像"
+              className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20"
+            >
+              <ChevronLeft className="w-6 h-6 rotate-180" />
+            </button>
+          </div>
+        )}
+      </Modal>
 
     </div>
   );

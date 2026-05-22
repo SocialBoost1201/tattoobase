@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Modal from '@/components/ui/Modal';
 
 export default function ReportFacilityModal({ facilityId, facilityName, isOpen, onClose }: { facilityId: string; facilityName: string; isOpen: boolean; onClose: () => void }) {
   const [level, setLevel] = useState('UNKNOWN');
@@ -40,11 +41,15 @@ export default function ReportFacilityModal({ facilityId, facilityName, isOpen, 
     }
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 overflow-y-auto">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-lg p-6 my-8">
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      ariaLabel="施設のタトゥーポリシーを報告"
+      overlayClassName="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 overflow-y-auto"
+      contentClassName="bg-white rounded-lg shadow-xl w-full max-w-lg p-6 my-8 outline-none"
+    >
+      <div>
         <div className="flex justify-between items-center mb-4 border-b pb-3">
           <h2 className="text-xl font-bold">施設のタトゥーポリシーを報告</h2>
           <button onClick={onClose} className="text-gray-500 hover:text-black">
@@ -124,6 +129,6 @@ export default function ReportFacilityModal({ facilityId, facilityName, isOpen, 
           </form>
         )}
       </div>
-    </div>
+    </Modal>
   );
 }
