@@ -52,7 +52,7 @@ export default function PortfolioDetailClient({ portfolio }: { portfolio: Portfo
       
       {/* モバイルヘッダー */}
       <header className="md:hidden fixed top-0 left-0 right-0 h-14 bg-black/50 backdrop-blur-xl z-40 border-b border-white/10 flex items-center justify-between px-4">
-        <button onClick={() => window.history.back()} aria-label="戻る" className="w-10 h-10 -ml-2 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors">
+        <button onClick={() => window.history.back()} aria-label="戻る" className="w-11 h-11 -ml-2 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors">
           <ChevronLeft className="w-6 h-6 text-white" />
         </button>
         <span className="font-heading font-extrabold text-sm tracking-widest text-white/50">WORK DETAILS</span>
@@ -85,7 +85,7 @@ export default function PortfolioDetailClient({ portfolio }: { portfolio: Portfo
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
-              <button aria-label="全画面表示" className="absolute bottom-4 right-4 w-10 h-10 bg-black/50 backdrop-blur-md rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+              <button aria-label="全画面表示" className="absolute bottom-4 right-4 w-11 h-11 bg-black/50 backdrop-blur-md rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                 <Maximize2 className="w-4 h-4 text-white" />
               </button>
             </div>
@@ -118,10 +118,10 @@ export default function PortfolioDetailClient({ portfolio }: { portfolio: Portfo
                   </span>
                 )}
                 <div className="flex items-center gap-2">
-                  <button aria-label="共有" className="w-10 h-10 flex items-center justify-center rounded-full bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-500 transition-colors">
+                  <button aria-label="共有" className="w-11 h-11 flex items-center justify-center rounded-full bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-500 transition-colors">
                     <Share2 className="w-4 h-4" />
                   </button>
-                  <SaveButton artistId={portfolio.id} size="md" className="w-10 h-10 border-neutral-800 bg-neutral-900" />
+                  <SaveButton artistId={portfolio.id} size="md" className="w-11 h-11 border-neutral-800 bg-neutral-900" />
                 </div>
               </div>
 

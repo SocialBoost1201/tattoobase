@@ -104,17 +104,17 @@ export default async function Header() {
             />
           </Link>
           <nav className="flex items-center gap-3">
-            <Link href="/facilities" className="text-neutral-400 hover:text-white transition-colors text-xs font-semibold tracking-widest uppercase">
+            <Link href="/facilities" className="min-h-[44px] flex items-center text-neutral-400 hover:text-white transition-colors text-xs font-semibold tracking-widest uppercase">
               施設
             </Link>
             {isLoggedIn ? (
               <Link href="/account"
-                className="text-xs font-bold text-black bg-white rounded-full px-3 py-1.5 hover:bg-neutral-200 transition-colors">
+                className="min-h-[44px] flex items-center text-xs font-bold text-black bg-white rounded-full px-3 hover:bg-neutral-200 transition-colors">
                 {session?.user?.email?.split('@')[0] || 'User'}
               </Link>
             ) : (
               <Link href="/login"
-                className="text-xs font-bold text-black bg-white rounded-full px-3 py-1.5 hover:bg-neutral-200 transition-colors">
+                className="min-h-[44px] flex items-center text-xs font-bold text-black bg-white rounded-full px-3 hover:bg-neutral-200 transition-colors">
                 ログイン
               </Link>
             )}

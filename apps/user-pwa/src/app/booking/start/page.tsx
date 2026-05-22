@@ -135,7 +135,7 @@ function BookingWizardInner() {
   return (
     <div className="max-w-xl mx-auto pb-24" ref={containerRef}>
       <div className="flex items-center gap-4 mb-6">
-        <Link href={`/artist/${artistId}`} className="w-10 h-10 rounded-full bg-neutral-900 flex items-center justify-center text-white border border-neutral-800 hover:bg-neutral-800 transition-colors">
+        <Link href={`/artist/${artistId}`} className="w-11 h-11 rounded-full bg-neutral-900 flex items-center justify-center text-white border border-neutral-800 hover:bg-neutral-800 transition-colors">
           <ChevronLeft className="w-5 h-5" />
         </Link>
         <div>

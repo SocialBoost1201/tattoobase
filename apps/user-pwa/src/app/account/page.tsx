@@ -79,7 +79,7 @@ export default async function AccountPage() {
                 <p className="text-neutral-500 text-xs truncate mt-0.5">{session.user.email}</p>
               </div>
 
-              <Link href="/account/settings" className="w-9 h-9 rounded-full bg-neutral-800 border border-neutral-700 flex items-center justify-center text-neutral-400 hover:text-white hover:bg-neutral-700 transition-colors shrink-0">
+              <Link href="/account/settings" className="w-11 h-11 rounded-full bg-neutral-800 border border-neutral-700 flex items-center justify-center text-neutral-400 hover:text-white hover:bg-neutral-700 transition-colors shrink-0">
                 <Settings className="w-4 h-4" />
               </Link>
             </div>

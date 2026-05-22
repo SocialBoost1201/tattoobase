@@ -57,7 +57,7 @@ export default async function FacilityDetailPage({
     <article className="pb-24">
       {/* 画面上部の戻るボタン */}
       <div className="absolute top-4 left-4 z-40">
-         <Link href="/facilities" className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-md flex items-center justify-center text-white border border-white/10 hover:bg-black/70 transition-colors">
+         <Link href="/facilities" className="w-11 h-11 rounded-full bg-black/50 backdrop-blur-md flex items-center justify-center text-white border border-white/10 hover:bg-black/70 transition-colors">
            <ChevronLeft className="w-6 h-6" />
          </Link>
       </div>

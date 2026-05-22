@@ -65,15 +65,15 @@ export default function ArtistDetailClient({ artist, works }: { artist: any; wor
     <div ref={containerRef} className="pb-32 md:pb-8">
       {/* 戻るボタン */}
       <div className="absolute top-4 left-4 z-40 flex gap-2">
-        <Link href="/search" aria-label="検索に戻る" className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-md flex items-center justify-center text-white border border-white/10 hover:bg-black/70 transition-colors">
+        <Link href="/search" aria-label="検索に戻る" className="w-11 h-11 rounded-full bg-black/50 backdrop-blur-md flex items-center justify-center text-white border border-white/10 hover:bg-black/70 transition-colors">
           <ChevronLeft className="w-6 h-6" />
         </Link>
       </div>
       <div className="absolute top-4 right-4 z-40 flex gap-2">
-        <button onClick={() => setSaved(v => !v)} aria-label={saved ? '保存を解除' : '保存する'} aria-pressed={saved} className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-md flex items-center justify-center text-white border border-white/10 hover:bg-black/70 transition-colors">
+        <button onClick={() => setSaved(v => !v)} aria-label={saved ? '保存を解除' : '保存する'} aria-pressed={saved} className="w-11 h-11 rounded-full bg-black/50 backdrop-blur-md flex items-center justify-center text-white border border-white/10 hover:bg-black/70 transition-colors">
           <Bookmark className={`w-5 h-5 ${saved ? 'fill-white' : ''}`} />
         </button>
-        <button aria-label="共有" className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-md flex items-center justify-center text-white border border-white/10 hover:bg-black/70 transition-colors">
+        <button aria-label="共有" className="w-11 h-11 rounded-full bg-black/50 backdrop-blur-md flex items-center justify-center text-white border border-white/10 hover:bg-black/70 transition-colors">
           <Share2 className="w-5 h-5" />
         </button>
       </div>
@@ -286,7 +286,7 @@ export default function ArtistDetailClient({ artist, works }: { artist: any; wor
         <div className="fixed inset-0 z-50 bg-black/95 flex flex-col items-center justify-center backdrop-blur-xl">
           <button onClick={() => setSelectedWorkIndex(null)}
             aria-label="閉じる"
-            className="absolute top-6 right-6 w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors z-60">
+            className="absolute top-6 right-6 w-11 h-11 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors z-60">
             <X className="w-6 h-6" />
           </button>
           <div className="relative w-full max-w-2xl flex-1 flex items-center justify-center px-4 py-20">
