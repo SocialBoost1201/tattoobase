@@ -1,7 +1,8 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
-  "buildCommand": "npx --no-install prisma generate --schema=../../packages/database/prisma/schema.prisma && next build",
+  "buildCommand": "npx --no-install prisma generate --schema=../../packages/database/prisma/schema.prisma && next build --webpack",
+  "installCommand": "pnpm install",
   "headers": [
     {
       "source": "/(.*)",
